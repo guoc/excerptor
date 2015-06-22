@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AppForOpenPDF</key>
+	<integer>0</integer>
+	<key>SelectionLinkPlainText</key>
+	<string>{{SelectionLink_FilePath}}</string>
+	<key>SelectionLinkRichTextSameAsPlainText</key>
+	<false/>
+	<key>SelectionLinkRichText</key>
+	<string>[{{SelectionText}}]({{SelectionLink_FilePath}})</string>
+	<key>ShowNotificationWhenFileNotFoundInDNtpForSelectionLink</key>
+	<true/>
+	<key>SelectionFilesLocation</key>
+	<string>~/Documents/Selections/{{PDFFileName_NoExtension}}/</string>
+	<key>SelectionFileName</key>
+	<string>{{SelectionText}}</string>
+	<key>SelectionFileExtension</key>
+	<string>md</string>
+	<key>SelectionFileTags</key>
+	<string>Excerpt</string>
+	<key>SelectionFileContent</key>
+	<string>&gt; {{SelectionText}}
+
+[{{PDFFileName}}]({{SelectionLink_FilePath}})
+
+{{CreationDate}} excerpted by {{UserName}}
+</string>
+	<key>ShowNotificationWhenFileNotFoundInDNtpForSelectionFile</key>
+	<true/>
+	<key>AnnotationFilesLocation</key>
+	<string>~/Documents/Annotations/{{PDFFileName_NoExtension}}/</string>
+	<key>AnnotationFileName</key>
+	<string>{{AnnotationText}}</string>
+	<key>AnnotationFileExtension</key>
+	<string>md</string>
+	<key>AnnotationFileTags</key>
+	<string>{{Type}}</string>
+	<key>AnnotationFileContent</key>
+	<string>&gt; {{AnnotationText}}
+
+{{NoteText}}
+
+[{{PDFFileName}}]({{AnnotationLink_FilePath}})
+
+{{AnnotationDate}} annotated by {{Author}}
+</string>
+	<key>ShowNotificationWhenFileNotFoundInDNtpForAnnotationFile</key>
+	<true/>
+</dict>
+</plist>

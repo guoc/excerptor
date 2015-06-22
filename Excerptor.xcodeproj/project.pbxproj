@@ -1,0 +1,820 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BD00B54E1B1051F40000EA36 /* PreferencesDefaultValues.plist in Resources */ = {isa = PBXBuildFile; fileRef = BD25DAD41B0C5EF300A653F3 /* PreferencesDefaultValues.plist */; };
+		BD00B54F1B1051F40000EA36 /* PreferencesDefaultValues(DNtp).plist in Resources */ = {isa = PBXBuildFile; fileRef = BD25DAE41B0DB89300A653F3 /* PreferencesDefaultValues(DNtp).plist */; };
+		BD00B5511B1068C80000EA36 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD00B5501B1068C80000EA36 /* Preferences.swift */; };
+		BD0AAB451B10460900329D96 /* PrefsPaneDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = BD0AAB441B10460900329D96 /* PrefsPaneDelegate.h */; };
+		BD23B8921B1DBC7A002EC025 /* SkimNotes.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BD9A58A31B16D9DE00D45D6D /* SkimNotes.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BD23B8941B1DBC7A002EC025 /* CLIKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BD25DB2D1B0E155800A653F3 /* CLIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BD23B8961B1DBC7A002EC025 /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BD25DB291B0E14B100A653F3 /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BD23B8991B1DBF78002EC025 /* SkimNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD9A58A31B16D9DE00D45D6D /* SkimNotes.framework */; };
+		BD23B89A1B1DBF78002EC025 /* CLIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD25DB2D1B0E155800A653F3 /* CLIKit.framework */; };
+		BD23B89B1B1DBF78002EC025 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD25DB291B0E14B100A653F3 /* SwiftyJSON.framework */; };
+		BD25DAD91B0C818600A653F3 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD25DAD81B0C818600A653F3 /* main.swift */; };
+		BD25DB221B0E085900A653F3 /* CGPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD25DB1D1B0E085900A653F3 /* CGPoint.swift */; };
+		BD25DB231B0E085900A653F3 /* PDFAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD25DB1E1B0E085900A653F3 /* PDFAnnotation.swift */; };
+		BD25DB241B0E085900A653F3 /* PDFAnnotationMarkup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD25DB1F1B0E085900A653F3 /* PDFAnnotationMarkup.swift */; };
+		BD25DB261B0E085900A653F3 /* PDFPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD25DB211B0E085900A653F3 /* PDFPage.swift */; };
+		BD25DB281B0E0F0500A653F3 /* PDFDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD25DB271B0E0F0500A653F3 /* PDFDocument.swift */; };
+		BD25DB311B0EEC5000A653F3 /* nscolor-helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD25DB301B0EEC5000A653F3 /* nscolor-helper.swift */; };
+		BD25DB331B0F558300A653F3 /* global-functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD25DB321B0F558300A653F3 /* global-functions.swift */; };
+		BD4C71581B0B690700F44B6C /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4C71561B0B690700F44B6C /* PreferencesWindowController.swift */; };
+		BD4C71591B0B690700F44B6C /* PreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD4C71571B0B690700F44B6C /* PreferencesWindow.xib */; };
+		BD4C715B1B0B77CC00F44B6C /* delay-helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4C715A1B0B77CC00F44B6C /* delay-helper.swift */; };
+		BD7E6D621B08CE4700AD083A /* Selection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7E6D611B08CE4700AD083A /* Selection.swift */; };
+		BD93E67D1B0AFD98006457ED /* PrefsPane.h in Headers */ = {isa = PBXBuildFile; fileRef = BD93E67C1B0AFD98006457ED /* PrefsPane.h */; };
+		BD93E67F1B0AFD98006457ED /* PrefsPane.m in Sources */ = {isa = PBXBuildFile; fileRef = BD93E67E1B0AFD98006457ED /* PrefsPane.m */; };
+		BD93E6811B0AFD98006457ED /* PrefsPane.tiff in Resources */ = {isa = PBXBuildFile; fileRef = BD93E6801B0AFD98006457ED /* PrefsPane.tiff */; };
+		BD93E6841B0AFD98006457ED /* PrefsPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD93E6821B0AFD98006457ED /* PrefsPane.xib */; };
+		BD93E68A1B0AFDB0006457ED /* PrefsPane.prefPane in Copy PrefsPane */ = {isa = PBXBuildFile; fileRef = BD93E6781B0AFD98006457ED /* PrefsPane.prefPane */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BDAE4EF01B363BCA0050CAA7 /* HelpWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = BDAE4EED1B363BCA0050CAA7 /* HelpWindowController.h */; };
+		BDAE4EF11B363BCA0050CAA7 /* HelpWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = BDAE4EEE1B363BCA0050CAA7 /* HelpWindowController.m */; };
+		BDAE4EF21B363BCA0050CAA7 /* HelpWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDAE4EEF1B363BCA0050CAA7 /* HelpWindowController.xib */; };
+		BDBF90EF1B089B690022A375 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDBF90ED1B089B690022A375 /* MainMenu.xib */; };
+		BDBF910D1B089B850022A375 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBF91051B089B850022A375 /* AppDelegate.swift */; };
+		BDBF910F1B089B850022A375 /* ServicesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBF91071B089B850022A375 /* ServicesProvider.swift */; };
+		BDBF91101B089B850022A375 /* Annotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBF91081B089B850022A375 /* Annotation.swift */; };
+		BDBF91111B089B850022A375 /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBF91091B089B850022A375 /* Link.swift */; };
+		BDBF91121B089B850022A375 /* AnnotationLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBF910A1B089B850022A375 /* AnnotationLink.swift */; };
+		BDBF91131B089B850022A375 /* SelectionLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBF910B1B089B850022A375 /* SelectionLink.swift */; };
+		BDBF91141B089B850022A375 /* FileTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBF910C1B089B850022A375 /* FileTemplate.swift */; };
+		BDBF911B1B089BA90022A375 /* PasteboardHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBF91161B089BA90022A375 /* PasteboardHelper.swift */; };
+		BDBF911C1B089BA90022A375 /* FileID.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBF91171B089BA90022A375 /* FileID.swift */; };
+		BDBF911D1B089BA90022A375 /* string-helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBF91181B089BA90022A375 /* string-helper.swift */; };
+		BDBF911E1B089BA90022A375 /* error-helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBF91191B089BA90022A375 /* error-helper.swift */; };
+		BDBF911F1B089BA90022A375 /* nsdate-helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBF911A1B089BA90022A375 /* nsdate-helper.swift */; };
+		BDBF912D1B089BE80022A375 /* PDFReaderPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = BDBF912C1B089BE80022A375 /* PDFReaderPlugin.m */; };
+		BDBF91351B089BFE0022A375 /* PasteboardHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = BDBF91301B089BFE0022A375 /* PasteboardHelper.m */; };
+		BDBF91361B089BFE0022A375 /* NSArray+Map.m in Sources */ = {isa = PBXBuildFile; fileRef = BDBF91321B089BFE0022A375 /* NSArray+Map.m */; };
+		BDBF91371B089BFE0022A375 /* PDFSelection+BoundsDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = BDBF91341B089BFE0022A375 /* PDFSelection+BoundsDescription.m */; };
+		BDBF91431B089C1F0022A375 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = BDBF913A1B089C1F0022A375 /* Location.m */; };
+		BDBF91441B089C1F0022A375 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = BDBF913A1B089C1F0022A375 /* Location.m */; };
+		BDBF91451B089C1F0022A375 /* AnnotationLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = BDBF913C1B089C1F0022A375 /* AnnotationLocation.m */; };
+		BDBF91461B089C1F0022A375 /* AnnotationLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = BDBF913C1B089C1F0022A375 /* AnnotationLocation.m */; };
+		BDBF91471B089C1F0022A375 /* SelectionLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = BDBF913E1B089C1F0022A375 /* SelectionLocation.m */; };
+		BDBF91481B089C1F0022A375 /* SelectionLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = BDBF913E1B089C1F0022A375 /* SelectionLocation.m */; };
+		BDBF91491B089C1F0022A375 /* SelectionLineLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = BDBF91401B089C1F0022A375 /* SelectionLineLocation.m */; };
+		BDBF914A1B089C1F0022A375 /* SelectionLineLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = BDBF91401B089C1F0022A375 /* SelectionLineLocation.m */; };
+		BDBF914C1B089C940022A375 /* DEVONthinkPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBF914B1B089C940022A375 /* DEVONthinkPro.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BD93E6881B0AFDA5006457ED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BDBF90DC1B089B690022A375 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BD93E6771B0AFD98006457ED;
+			remoteInfo = PrefsPane;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		BD23B8971B1DBC7A002EC025 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				BD23B8941B1DBC7A002EC025 /* CLIKit.framework in Embed Frameworks */,
+				BD23B8921B1DBC7A002EC025 /* SkimNotes.framework in Embed Frameworks */,
+				BD23B8961B1DBC7A002EC025 /* SwiftyJSON.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BD93E66F1B0ABD97006457ED /* Copy PrefsPane */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = PreferencePanes;
+			dstSubfolderSpec = 7;
+			files = (
+				BD93E68A1B0AFDB0006457ED /* PrefsPane.prefPane in Copy PrefsPane */,
+			);
+			name = "Copy PrefsPane";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		BD00B5501B1068C80000EA36 /* Preferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		BD0AAB441B10460900329D96 /* PrefsPaneDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefsPaneDelegate.h; sourceTree = "<group>"; };
+		BD25DAD41B0C5EF300A653F3 /* PreferencesDefaultValues.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PreferencesDefaultValues.plist; sourceTree = "<group>"; };
+		BD25DAD71B0C7B6500A653F3 /* NSUserNotification-Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserNotification-Private.h"; sourceTree = "<group>"; };
+		BD25DAD81B0C818600A653F3 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		BD25DAE41B0DB89300A653F3 /* PreferencesDefaultValues(DNtp).plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "PreferencesDefaultValues(DNtp).plist"; sourceTree = "<group>"; };
+		BD25DB1D1B0E085900A653F3 /* CGPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGPoint.swift; sourceTree = "<group>"; };
+		BD25DB1E1B0E085900A653F3 /* PDFAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFAnnotation.swift; sourceTree = "<group>"; };
+		BD25DB1F1B0E085900A653F3 /* PDFAnnotationMarkup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFAnnotationMarkup.swift; sourceTree = "<group>"; };
+		BD25DB211B0E085900A653F3 /* PDFPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFPage.swift; sourceTree = "<group>"; };
+		BD25DB271B0E0F0500A653F3 /* PDFDocument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFDocument.swift; sourceTree = "<group>"; };
+		BD25DB291B0E14B100A653F3 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/Mac/SwiftyJSON.framework; sourceTree = "<group>"; };
+		BD25DB2D1B0E155800A653F3 /* CLIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CLIKit.framework; path = Carthage/Build/Mac/CLIKit.framework; sourceTree = "<group>"; };
+		BD25DB301B0EEC5000A653F3 /* nscolor-helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "nscolor-helper.swift"; sourceTree = "<group>"; };
+		BD25DB321B0F558300A653F3 /* global-functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "global-functions.swift"; sourceTree = "<group>"; };
+		BD4C71561B0B690700F44B6C /* PreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
+		BD4C71571B0B690700F44B6C /* PreferencesWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferencesWindow.xib; sourceTree = "<group>"; };
+		BD4C715A1B0B77CC00F44B6C /* delay-helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "delay-helper.swift"; sourceTree = "<group>"; };
+		BD7E6D611B08CE4700AD083A /* Selection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Selection.swift; sourceTree = "<group>"; };
+		BD93E6781B0AFD98006457ED /* PrefsPane.prefPane */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PrefsPane.prefPane; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD93E67B1B0AFD98006457ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BD93E67C1B0AFD98006457ED /* PrefsPane.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefsPane.h; sourceTree = "<group>"; };
+		BD93E67E1B0AFD98006457ED /* PrefsPane.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PrefsPane.m; sourceTree = "<group>"; };
+		BD93E6801B0AFD98006457ED /* PrefsPane.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = PrefsPane.tiff; sourceTree = "<group>"; };
+		BD93E6831B0AFD98006457ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PrefsPane.xib; sourceTree = "<group>"; };
+		BD9A58A31B16D9DE00D45D6D /* SkimNotes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SkimNotes.framework; path = Frameworks/SkimNotes.framework; sourceTree = "<group>"; };
+		BDAE4EED1B363BCA0050CAA7 /* HelpWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpWindowController.h; sourceTree = "<group>"; };
+		BDAE4EEE1B363BCA0050CAA7 /* HelpWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpWindowController.m; sourceTree = "<group>"; };
+		BDAE4EEF1B363BCA0050CAA7 /* HelpWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HelpWindowController.xib; sourceTree = "<group>"; };
+		BDBF90E41B089B690022A375 /* Excerptor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Excerptor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BDBF90E81B089B690022A375 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BDBF90EE1B089B690022A375 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		BDBF91041B089B850022A375 /* Excerptor-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Excerptor-Bridging-Header.h"; sourceTree = "<group>"; };
+		BDBF91051B089B850022A375 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		BDBF91071B089B850022A375 /* ServicesProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServicesProvider.swift; sourceTree = "<group>"; };
+		BDBF91081B089B850022A375 /* Annotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Annotation.swift; sourceTree = "<group>"; };
+		BDBF91091B089B850022A375 /* Link.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
+		BDBF910A1B089B850022A375 /* AnnotationLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotationLink.swift; sourceTree = "<group>"; };
+		BDBF910B1B089B850022A375 /* SelectionLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionLink.swift; sourceTree = "<group>"; };
+		BDBF910C1B089B850022A375 /* FileTemplate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileTemplate.swift; sourceTree = "<group>"; };
+		BDBF91161B089BA90022A375 /* PasteboardHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasteboardHelper.swift; sourceTree = "<group>"; };
+		BDBF91171B089BA90022A375 /* FileID.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileID.swift; sourceTree = "<group>"; };
+		BDBF91181B089BA90022A375 /* string-helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "string-helper.swift"; sourceTree = "<group>"; };
+		BDBF91191B089BA90022A375 /* error-helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "error-helper.swift"; sourceTree = "<group>"; };
+		BDBF911A1B089BA90022A375 /* nsdate-helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "nsdate-helper.swift"; sourceTree = "<group>"; };
+		BDBF91241B089BC70022A375 /* PDFReaderPlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PDFReaderPlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		BDBF91271B089BC70022A375 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BDBF912B1B089BE80022A375 /* PDFReaderPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFReaderPlugin.h; sourceTree = "<group>"; };
+		BDBF912C1B089BE80022A375 /* PDFReaderPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFReaderPlugin.m; sourceTree = "<group>"; };
+		BDBF912F1B089BFE0022A375 /* PasteboardHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PasteboardHelper.h; sourceTree = "<group>"; };
+		BDBF91301B089BFE0022A375 /* PasteboardHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PasteboardHelper.m; sourceTree = "<group>"; };
+		BDBF91311B089BFE0022A375 /* NSArray+Map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Map.h"; sourceTree = "<group>"; };
+		BDBF91321B089BFE0022A375 /* NSArray+Map.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Map.m"; sourceTree = "<group>"; };
+		BDBF91331B089BFE0022A375 /* PDFSelection+BoundsDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PDFSelection+BoundsDescription.h"; sourceTree = "<group>"; };
+		BDBF91341B089BFE0022A375 /* PDFSelection+BoundsDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PDFSelection+BoundsDescription.m"; sourceTree = "<group>"; };
+		BDBF91391B089C1F0022A375 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
+		BDBF913A1B089C1F0022A375 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
+		BDBF913B1B089C1F0022A375 /* AnnotationLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnnotationLocation.h; sourceTree = "<group>"; };
+		BDBF913C1B089C1F0022A375 /* AnnotationLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnnotationLocation.m; sourceTree = "<group>"; };
+		BDBF913D1B089C1F0022A375 /* SelectionLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectionLocation.h; sourceTree = "<group>"; };
+		BDBF913E1B089C1F0022A375 /* SelectionLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectionLocation.m; sourceTree = "<group>"; };
+		BDBF913F1B089C1F0022A375 /* SelectionLineLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectionLineLocation.h; sourceTree = "<group>"; };
+		BDBF91401B089C1F0022A375 /* SelectionLineLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectionLineLocation.m; sourceTree = "<group>"; };
+		BDBF91411B089C1F0022A375 /* Preview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Preview.h; sourceTree = "<group>"; };
+		BDBF91421B089C1F0022A375 /* Skim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Skim.h; sourceTree = "<group>"; };
+		BDBF914B1B089C940022A375 /* DEVONthinkPro.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DEVONthinkPro.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BD23B8981B1DBF59002EC025 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BD23B89A1B1DBF78002EC025 /* CLIKit.framework in Frameworks */,
+				BD23B8991B1DBF78002EC025 /* SkimNotes.framework in Frameworks */,
+				BD23B89B1B1DBF78002EC025 /* SwiftyJSON.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BD93E6741B0AFD98006457ED /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BDBF91211B089BC70022A375 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BD25DB1C1B0E085900A653F3 /* PDFKit Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				BD25DB1D1B0E085900A653F3 /* CGPoint.swift */,
+				BD25DB1E1B0E085900A653F3 /* PDFAnnotation.swift */,
+				BD25DB1F1B0E085900A653F3 /* PDFAnnotationMarkup.swift */,
+				BD25DB211B0E085900A653F3 /* PDFPage.swift */,
+				BD25DB271B0E0F0500A653F3 /* PDFDocument.swift */,
+			);
+			path = "PDFKit Extensions";
+			sourceTree = "<group>";
+		};
+		BD93E6791B0AFD98006457ED /* PrefsPane */ = {
+			isa = PBXGroup;
+			children = (
+				BD0AAB441B10460900329D96 /* PrefsPaneDelegate.h */,
+				BD93E67C1B0AFD98006457ED /* PrefsPane.h */,
+				BD93E67E1B0AFD98006457ED /* PrefsPane.m */,
+				BD93E6801B0AFD98006457ED /* PrefsPane.tiff */,
+				BD93E6821B0AFD98006457ED /* PrefsPane.xib */,
+				BDAE4EED1B363BCA0050CAA7 /* HelpWindowController.h */,
+				BDAE4EEE1B363BCA0050CAA7 /* HelpWindowController.m */,
+				BDAE4EEF1B363BCA0050CAA7 /* HelpWindowController.xib */,
+				BD93E67A1B0AFD98006457ED /* Supporting Files */,
+			);
+			path = PrefsPane;
+			sourceTree = "<group>";
+		};
+		BD93E67A1B0AFD98006457ED /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BD93E67B1B0AFD98006457ED /* Info.plist */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BD9A58A71B16DA4000D45D6D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BD9A58A31B16D9DE00D45D6D /* SkimNotes.framework */,
+				BD25DB2D1B0E155800A653F3 /* CLIKit.framework */,
+				BD25DB291B0E14B100A653F3 /* SwiftyJSON.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BDBF90DB1B089B690022A375 = {
+			isa = PBXGroup;
+			children = (
+				BDBF91381B089C0D0022A375 /* Shared Files */,
+				BD25DB1C1B0E085900A653F3 /* PDFKit Extensions */,
+				BDBF90E61B089B690022A375 /* Excerptor */,
+				BDBF91251B089BC70022A375 /* PDFReaderPlugin */,
+				BD93E6791B0AFD98006457ED /* PrefsPane */,
+				BD9A58A71B16DA4000D45D6D /* Frameworks */,
+				BDBF90E51B089B690022A375 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BDBF90E51B089B690022A375 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BDBF90E41B089B690022A375 /* Excerptor.app */,
+				BDBF91241B089BC70022A375 /* PDFReaderPlugin.bundle */,
+				BD93E6781B0AFD98006457ED /* PrefsPane.prefPane */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BDBF90E61B089B690022A375 /* Excerptor */ = {
+			isa = PBXGroup;
+			children = (
+				BD25DAD81B0C818600A653F3 /* main.swift */,
+				BD25DB321B0F558300A653F3 /* global-functions.swift */,
+				BDBF91051B089B850022A375 /* AppDelegate.swift */,
+				BDBF91071B089B850022A375 /* ServicesProvider.swift */,
+				BD7E6D611B08CE4700AD083A /* Selection.swift */,
+				BDBF91081B089B850022A375 /* Annotation.swift */,
+				BDBF91091B089B850022A375 /* Link.swift */,
+				BDBF910A1B089B850022A375 /* AnnotationLink.swift */,
+				BDBF910B1B089B850022A375 /* SelectionLink.swift */,
+				BDBF910C1B089B850022A375 /* FileTemplate.swift */,
+				BD00B5501B1068C80000EA36 /* Preferences.swift */,
+				BD4C71561B0B690700F44B6C /* PreferencesWindowController.swift */,
+				BD4C71571B0B690700F44B6C /* PreferencesWindow.xib */,
+				BD25DAD41B0C5EF300A653F3 /* PreferencesDefaultValues.plist */,
+				BD25DAE41B0DB89300A653F3 /* PreferencesDefaultValues(DNtp).plist */,
+				BDBF91151B089B980022A375 /* Helpers */,
+				BDBF90E71B089B690022A375 /* Supporting Files */,
+			);
+			path = Excerptor;
+			sourceTree = "<group>";
+		};
+		BDBF90E71B089B690022A375 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BDBF90ED1B089B690022A375 /* MainMenu.xib */,
+				BDBF914B1B089C940022A375 /* DEVONthinkPro.swift */,
+				BD25DAD71B0C7B6500A653F3 /* NSUserNotification-Private.h */,
+				BDBF91041B089B850022A375 /* Excerptor-Bridging-Header.h */,
+				BDBF90E81B089B690022A375 /* Info.plist */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BDBF91151B089B980022A375 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				BDBF91161B089BA90022A375 /* PasteboardHelper.swift */,
+				BDBF91171B089BA90022A375 /* FileID.swift */,
+				BDBF91181B089BA90022A375 /* string-helper.swift */,
+				BDBF91191B089BA90022A375 /* error-helper.swift */,
+				BDBF911A1B089BA90022A375 /* nsdate-helper.swift */,
+				BD4C715A1B0B77CC00F44B6C /* delay-helper.swift */,
+				BD25DB301B0EEC5000A653F3 /* nscolor-helper.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		BDBF91251B089BC70022A375 /* PDFReaderPlugin */ = {
+			isa = PBXGroup;
+			children = (
+				BDBF912B1B089BE80022A375 /* PDFReaderPlugin.h */,
+				BDBF912C1B089BE80022A375 /* PDFReaderPlugin.m */,
+				BDBF912E1B089BF00022A375 /* Helpers */,
+				BDBF91261B089BC70022A375 /* Supporting Files */,
+			);
+			path = PDFReaderPlugin;
+			sourceTree = "<group>";
+		};
+		BDBF91261B089BC70022A375 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BDBF91271B089BC70022A375 /* Info.plist */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BDBF912E1B089BF00022A375 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				BDBF912F1B089BFE0022A375 /* PasteboardHelper.h */,
+				BDBF91301B089BFE0022A375 /* PasteboardHelper.m */,
+				BDBF91311B089BFE0022A375 /* NSArray+Map.h */,
+				BDBF91321B089BFE0022A375 /* NSArray+Map.m */,
+				BDBF91331B089BFE0022A375 /* PDFSelection+BoundsDescription.h */,
+				BDBF91341B089BFE0022A375 /* PDFSelection+BoundsDescription.m */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		BDBF91381B089C0D0022A375 /* Shared Files */ = {
+			isa = PBXGroup;
+			children = (
+				BDBF91391B089C1F0022A375 /* Location.h */,
+				BDBF913A1B089C1F0022A375 /* Location.m */,
+				BDBF913B1B089C1F0022A375 /* AnnotationLocation.h */,
+				BDBF913C1B089C1F0022A375 /* AnnotationLocation.m */,
+				BDBF913D1B089C1F0022A375 /* SelectionLocation.h */,
+				BDBF913E1B089C1F0022A375 /* SelectionLocation.m */,
+				BDBF913F1B089C1F0022A375 /* SelectionLineLocation.h */,
+				BDBF91401B089C1F0022A375 /* SelectionLineLocation.m */,
+				BDBF91411B089C1F0022A375 /* Preview.h */,
+				BDBF91421B089C1F0022A375 /* Skim.h */,
+			);
+			path = "Shared Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		BD93E6751B0AFD98006457ED /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BDAE4EF01B363BCA0050CAA7 /* HelpWindowController.h in Headers */,
+				BD0AAB451B10460900329D96 /* PrefsPaneDelegate.h in Headers */,
+				BD93E67D1B0AFD98006457ED /* PrefsPane.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		BD93E6771B0AFD98006457ED /* PrefsPane */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BD93E6851B0AFD98006457ED /* Build configuration list for PBXNativeTarget "PrefsPane" */;
+			buildPhases = (
+				BD93E6731B0AFD98006457ED /* Sources */,
+				BD93E6741B0AFD98006457ED /* Frameworks */,
+				BD93E6751B0AFD98006457ED /* Headers */,
+				BD93E6761B0AFD98006457ED /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PrefsPane;
+			productName = PrefsPane;
+			productReference = BD93E6781B0AFD98006457ED /* PrefsPane.prefPane */;
+			productType = "com.apple.product-type.bundle";
+		};
+		BDBF90E31B089B690022A375 /* Excerptor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BDBF90FE1B089B690022A375 /* Build configuration list for PBXNativeTarget "Excerptor" */;
+			buildPhases = (
+				BDBF90E01B089B690022A375 /* Sources */,
+				BD23B8971B1DBC7A002EC025 /* Embed Frameworks */,
+				BD23B8981B1DBF59002EC025 /* Frameworks */,
+				BDBF90E21B089B690022A375 /* Resources */,
+				BD93E66F1B0ABD97006457ED /* Copy PrefsPane */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BD93E6891B0AFDA5006457ED /* PBXTargetDependency */,
+			);
+			name = Excerptor;
+			productName = Excerptor;
+			productReference = BDBF90E41B089B690022A375 /* Excerptor.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BDBF91231B089BC70022A375 /* PDFReaderPlugin */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BDBF91281B089BC70022A375 /* Build configuration list for PBXNativeTarget "PDFReaderPlugin" */;
+			buildPhases = (
+				BDBF91201B089BC70022A375 /* Sources */,
+				BDBF91211B089BC70022A375 /* Frameworks */,
+				BDBF91221B089BC70022A375 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PDFReaderPlugin;
+			productName = PDFReaderPlugin;
+			productReference = BDBF91241B089BC70022A375 /* PDFReaderPlugin.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BDBF90DC1B089B690022A375 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0630;
+				ORGANIZATIONNAME = guoc;
+				TargetAttributes = {
+					BD93E6771B0AFD98006457ED = {
+						CreatedOnToolsVersion = 6.3.1;
+					};
+					BDBF90E31B089B690022A375 = {
+						CreatedOnToolsVersion = 6.3.1;
+					};
+					BDBF91231B089BC70022A375 = {
+						CreatedOnToolsVersion = 6.3.1;
+					};
+				};
+			};
+			buildConfigurationList = BDBF90DF1B089B690022A375 /* Build configuration list for PBXProject "Excerptor" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = BDBF90DB1B089B690022A375;
+			productRefGroup = BDBF90E51B089B690022A375 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BDBF90E31B089B690022A375 /* Excerptor */,
+				BD93E6771B0AFD98006457ED /* PrefsPane */,
+				BDBF91231B089BC70022A375 /* PDFReaderPlugin */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BD93E6761B0AFD98006457ED /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BD93E6841B0AFD98006457ED /* PrefsPane.xib in Resources */,
+				BD93E6811B0AFD98006457ED /* PrefsPane.tiff in Resources */,
+				BDAE4EF21B363BCA0050CAA7 /* HelpWindowController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BDBF90E21B089B690022A375 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BD00B54E1B1051F40000EA36 /* PreferencesDefaultValues.plist in Resources */,
+				BD00B54F1B1051F40000EA36 /* PreferencesDefaultValues(DNtp).plist in Resources */,
+				BD4C71591B0B690700F44B6C /* PreferencesWindow.xib in Resources */,
+				BDBF90EF1B089B690022A375 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BDBF91221B089BC70022A375 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BD93E6731B0AFD98006457ED /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BDAE4EF11B363BCA0050CAA7 /* HelpWindowController.m in Sources */,
+				BD93E67F1B0AFD98006457ED /* PrefsPane.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BDBF90E01B089B690022A375 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BDBF91121B089B850022A375 /* AnnotationLink.swift in Sources */,
+				BD4C715B1B0B77CC00F44B6C /* delay-helper.swift in Sources */,
+				BD25DB261B0E085900A653F3 /* PDFPage.swift in Sources */,
+				BDBF911B1B089BA90022A375 /* PasteboardHelper.swift in Sources */,
+				BD25DB231B0E085900A653F3 /* PDFAnnotation.swift in Sources */,
+				BDBF91141B089B850022A375 /* FileTemplate.swift in Sources */,
+				BDBF914C1B089C940022A375 /* DEVONthinkPro.swift in Sources */,
+				BD25DB281B0E0F0500A653F3 /* PDFDocument.swift in Sources */,
+				BDBF911C1B089BA90022A375 /* FileID.swift in Sources */,
+				BDBF91131B089B850022A375 /* SelectionLink.swift in Sources */,
+				BD7E6D621B08CE4700AD083A /* Selection.swift in Sources */,
+				BDBF91451B089C1F0022A375 /* AnnotationLocation.m in Sources */,
+				BDBF911F1B089BA90022A375 /* nsdate-helper.swift in Sources */,
+				BDBF911D1B089BA90022A375 /* string-helper.swift in Sources */,
+				BD4C71581B0B690700F44B6C /* PreferencesWindowController.swift in Sources */,
+				BDBF91431B089C1F0022A375 /* Location.m in Sources */,
+				BDBF910F1B089B850022A375 /* ServicesProvider.swift in Sources */,
+				BDBF911E1B089BA90022A375 /* error-helper.swift in Sources */,
+				BD25DB221B0E085900A653F3 /* CGPoint.swift in Sources */,
+				BD25DB311B0EEC5000A653F3 /* nscolor-helper.swift in Sources */,
+				BDBF91491B089C1F0022A375 /* SelectionLineLocation.m in Sources */,
+				BDBF91101B089B850022A375 /* Annotation.swift in Sources */,
+				BD00B5511B1068C80000EA36 /* Preferences.swift in Sources */,
+				BD25DB331B0F558300A653F3 /* global-functions.swift in Sources */,
+				BD25DB241B0E085900A653F3 /* PDFAnnotationMarkup.swift in Sources */,
+				BD25DAD91B0C818600A653F3 /* main.swift in Sources */,
+				BDBF91471B089C1F0022A375 /* SelectionLocation.m in Sources */,
+				BDBF910D1B089B850022A375 /* AppDelegate.swift in Sources */,
+				BDBF91111B089B850022A375 /* Link.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BDBF91201B089BC70022A375 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BDBF91361B089BFE0022A375 /* NSArray+Map.m in Sources */,
+				BDBF914A1B089C1F0022A375 /* SelectionLineLocation.m in Sources */,
+				BDBF91441B089C1F0022A375 /* Location.m in Sources */,
+				BDBF91351B089BFE0022A375 /* PasteboardHelper.m in Sources */,
+				BDBF91461B089C1F0022A375 /* AnnotationLocation.m in Sources */,
+				BDBF91371B089BFE0022A375 /* PDFSelection+BoundsDescription.m in Sources */,
+				BDBF912D1B089BE80022A375 /* PDFReaderPlugin.m in Sources */,
+				BDBF91481B089C1F0022A375 /* SelectionLocation.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BD93E6891B0AFDA5006457ED /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BD93E6771B0AFD98006457ED /* PrefsPane */;
+			targetProxy = BD93E6881B0AFDA5006457ED /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		BD93E6821B0AFD98006457ED /* PrefsPane.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BD93E6831B0AFD98006457ED /* Base */,
+			);
+			name = PrefsPane.xib;
+			path = .;
+			sourceTree = "<group>";
+		};
+		BDBF90ED1B089B690022A375 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BDBF90EE1B089B690022A375 /* Base */,
+			);
+			name = MainMenu.xib;
+			path = .;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		BD93E6861B0AFD98006457ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "PrefsPane/Supporting Files/Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/PreferencePanes";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = prefPane;
+			};
+			name = Debug;
+		};
+		BD93E6871B0AFD98006457ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "PrefsPane/Supporting Files/Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/PreferencePanes";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = prefPane;
+			};
+			name = Release;
+		};
+		BDBF90FC1B089B690022A375 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		BDBF90FD1B089B690022A375 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		BDBF90FF1B089B690022A375 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
+				INFOPLIST_FILE = "Excerptor/Supporting Files/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Excerptor/Supporting Files/Excerptor-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		BDBF91001B089B690022A375 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
+				INFOPLIST_FILE = "Excerptor/Supporting Files/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Excerptor/Supporting Files/Excerptor-Bridging-Header.h";
+			};
+			name = Release;
+		};
+		BDBF91291B089BC70022A375 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "PDFReaderPlugin/Supporting Files/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		BDBF912A1B089BC70022A375 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "PDFReaderPlugin/Supporting Files/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BD93E6851B0AFD98006457ED /* Build configuration list for PBXNativeTarget "PrefsPane" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BD93E6861B0AFD98006457ED /* Debug */,
+				BD93E6871B0AFD98006457ED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BDBF90DF1B089B690022A375 /* Build configuration list for PBXProject "Excerptor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BDBF90FC1B089B690022A375 /* Debug */,
+				BDBF90FD1B089B690022A375 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BDBF90FE1B089B690022A375 /* Build configuration list for PBXNativeTarget "Excerptor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BDBF90FF1B089B690022A375 /* Debug */,
+				BDBF91001B089B690022A375 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BDBF91281B089BC70022A375 /* Build configuration list for PBXNativeTarget "PDFReaderPlugin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BDBF91291B089BC70022A375 /* Debug */,
+				BDBF912A1B089BC70022A375 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BDBF90DC1B089B690022A375 /* Project object */;
+}
