@@ -40,8 +40,8 @@ You can click an excerpt link in QuickLook views to open the corresponding PDF f
 
 1. Install [EasySIMBL](https://github.com/norio-nomura/EasySIMBL)
 2. Download [excerptor.zip](https://github.com/guoc/excerptor/releases) and unzip it.
-3. Launch EasySIMBL and drag PDFReaderPlugin.bundle to EasySIMBL's window.
-4. Drag Excerptor.app to your Applications folder, right click it and click open.
+3. Launch EasySIMBL, ~~and drag PDFReaderPlugin.bundle to EasySIMBL's window.~~ Control-click PDFReaderPlugin.bundle and Open With EasySIMBL.
+4. Drag Excerptor.app to your Applications folder, Control-click it and click open.
 5. Now you are ready to use Excerptor. Open a PDF file, select some text and type Command-Shift-E, you'll get an excerpt link in your pasteboard. Paste it to Safari's address bar and type Return key.
 
 ## Bug report and feature request
