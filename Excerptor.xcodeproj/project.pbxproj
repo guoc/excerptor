@@ -118,6 +118,9 @@
 		BD25DB2D1B0E155800A653F3 /* CLIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CLIKit.framework; path = Carthage/Build/Mac/CLIKit.framework; sourceTree = "<group>"; };
 		BD25DB301B0EEC5000A653F3 /* nscolor-helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "nscolor-helper.swift"; sourceTree = "<group>"; };
 		BD25DB321B0F558300A653F3 /* global-functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "global-functions.swift"; sourceTree = "<group>"; };
+		BD28EBDF1B399D8C00025253 /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
+		BD28EBE01B399D8C00025253 /* excerptor.popclipextz */ = {isa = PBXFileReference; lastKnownFileType = file; path = excerptor.popclipextz; sourceTree = "<group>"; };
+		BD28EBE11B399D8C00025253 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		BD4C71561B0B690700F44B6C /* PreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
 		BD4C71571B0B690700F44B6C /* PreferencesWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferencesWindow.xib; sourceTree = "<group>"; };
 		BD4C715A1B0B77CC00F44B6C /* delay-helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "delay-helper.swift"; sourceTree = "<group>"; };
@@ -211,6 +214,16 @@
 			path = "PDFKit Extensions";
 			sourceTree = "<group>";
 		};
+		BD28EBDE1B399D8C00025253 /* PopClipExtension */ = {
+			isa = PBXGroup;
+			children = (
+				BD28EBDF1B399D8C00025253 /* Config.plist */,
+				BD28EBE01B399D8C00025253 /* excerptor.popclipextz */,
+				BD28EBE11B399D8C00025253 /* Makefile */,
+			);
+			path = PopClipExtension;
+			sourceTree = "<group>";
+		};
 		BD93E6791B0AFD98006457ED /* PrefsPane */ = {
 			isa = PBXGroup;
 			children = (
@@ -253,6 +266,7 @@
 				BDBF90E61B089B690022A375 /* Excerptor */,
 				BDBF91251B089BC70022A375 /* PDFReaderPlugin */,
 				BD93E6791B0AFD98006457ED /* PrefsPane */,
+				BD28EBDE1B399D8C00025253 /* PopClipExtension */,
 				BD9A58A71B16DA4000D45D6D /* Frameworks */,
 				BDBF90E51B089B690022A375 /* Products */,
 			);

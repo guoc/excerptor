@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Extension Identifier</key>
+	<string>name.guoc.excerptor.PopClipExtension</string>
+	<key>Extension Name</key>
+	<string>Excerptor</string>
+	<key>Required Apps</key>
+	<array>
+		<string>com.apple.Preview</string>
+		<string>net.sourceforge.skim-app.skim</string>
+	</array>
+	<key>Apps</key>
+	<array>
+		<dict>
+			<key>Name</key>
+			<string>Excerptor</string>
+			<key>Check Installed</key>
+			<true/>
+			<key>Link</key>
+			<string>https://github.com/guoc/excerptor</string>
+			<key>Bundle Identifier</key>
+			<string>name.guoc.excerptor.Excerptor</string>
+		</dict>
+	</array>
+	<key>Actions</key>
+	<array>
+		<dict>
+			<key>Title</key>
+			<string>Excerpt To Pasteboard</string>
+			<key>Service Name</key>
+			<string>Excerptor: Excerpt Selection To Pasteboard</string>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Excerpt To File</string>
+			<key>Service Name</key>
+			<string>Excerptor: Excerpt Selection To File</string>
+		</dict>
+	</array>
+</dict>
+</plist>
