@@ -15,6 +15,10 @@ When you read a PDF file, you may want to take some excerpts, like excerpting on
 
 * Excerpt file format is plain text.
 * Excerptor links contain all information to locate excerpts. It is possible to find your excerpts by following the information in an excerpt link itself.
+A typical excerptor link is as follows (The part in square brackets may be repeated and delimited by "-").
+  ```
+  excerptor://FilePathOrDEVONthinkUUID:PercentEncodingExcerptText:[pPageNumber_ExcerptTextLocation_ExcerptTextLength]
+  ```
 
 ### Fully customizable
 
