@@ -3,7 +3,9 @@
 Quickly take and locate excerpts in PDF files.
 
 Support Preview / Skim (1.4.11) in OS X (>= 10.10)
-Dependencies: [EasySIMBL](https://github.com/norio-nomura/EasySIMBL)
+Dependencies: [SIMBL](http://www.culater.net/software/SIMBL/SIMBL.php) / ~~[EasySIMBL](https://github.com/norio-nomura/EasySIMBL)~~ (EasySIMBL is not compitable with OS X 10.10.4)
+
+see [How to transition from EasySIMBL to SIMBL](https://gist.github.com/hetima/51b71091aedf622f61f7) by [hetima] (https://github.com/hetima)
 
 When you read a PDF file, you may want to take some excerpts, like excerpting on physical books (including article name, page number etc.). Via Excerptor, you can take excerpts easily: select text in Preview/[Skim](http://skim-app.sourceforge.net) and type a shortcut. An excerpt will be stored in pasteboard or a file. The excerpt includes a special link. By clicking the link, Excerptor will open the corresponding file by Preview/Skim, go to the page you want and highlight the excerpt you made, automatically.
 
@@ -42,11 +44,13 @@ You can click an excerpt link in QuickLook views to open the corresponding PDF f
 
 ## Installation
 
-1. Install [EasySIMBL](https://github.com/norio-nomura/EasySIMBL)
+1. Install [EasySIMBL](https://github.com/norio-nomura/EasySIMBL) (For OS X >= 10.10.4, install SIMBL instead)
 2. Download [excerptor.zip](https://github.com/guoc/excerptor/releases) and unzip it.
-3. Launch EasySIMBL, ~~and drag PDFReaderPlugin.bundle to EasySIMBL's window.~~ Control-click PDFReaderPlugin.bundle and Open With EasySIMBL.
-4. Drag Excerptor.app to your Applications folder, Control-click it and click open.
-5. Now you are ready to use Excerptor. Open a PDF file, select some text and type Command-Shift-E, you'll get an excerpt link in your pasteboard. Paste it to Safari's address bar and type Return key.
+3. Launch EasySIMBL, ~~and drag PDFReaderPlugin.bundle to EasySIMBL's window.~~ Control-click PDFReaderPlugin.bundle and Open With EasySIMBL. (For OS X >= 10.10.4, copy PDFReaderPlugin.bundle in /Library/Application Support/SIMBL/Plugins)
+4. Reopen Preview.app and Skim.app if applicable.
+5. Drag Excerptor.app to your Applications folder, Control-click it and click open.
+
+Now you are ready to use Excerptor. Open a PDF file, select some text and type Command-Shift-E, you'll get an excerpt link in your pasteboard. Paste it to Safari's address bar and type Return key.
 
 ## Bug report and feature request
 are very welcome. Create an issue or email me guochenFORTYTWO AT gmail.com (replace FORTYTWO with 42)
