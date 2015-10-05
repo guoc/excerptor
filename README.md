@@ -2,7 +2,7 @@
 
 Quickly take and locate excerpts in PDF files.
 
-Support Preview / Skim (1.4.11) in OS X (>= 10.10)
+Support Preview / Skim (1.4.11) in OS X (>= 10.10, not test on 10.11)
 Dependencies: [SIMBL](http://www.culater.net/software/SIMBL/SIMBL.php) / ~~[EasySIMBL](https://github.com/norio-nomura/EasySIMBL)~~ (EasySIMBL is not compitable with OS X 10.10.4)
 
 see [How to transition from EasySIMBL to SIMBL](https://gist.github.com/hetima/51b71091aedf622f61f7) by [hetima] (https://github.com/hetima)
@@ -44,7 +44,7 @@ You can click an excerpt link in QuickLook views to open the corresponding PDF f
 
 ## Installation
 
-1. Install [EasySIMBL](https://github.com/norio-nomura/EasySIMBL) (For OS X >= 10.10.4, install SIMBL instead)
+1. Install [EasySIMBL](https://github.com/norio-nomura/EasySIMBL) (For OS X >= 10.10.4, install [SIMBL](http://www.culater.net/software/SIMBL/SIMBL.php) instead)
 2. Download [excerptor.zip](https://github.com/guoc/excerptor/releases) and unzip it.
 3. Launch EasySIMBL, ~~and drag PDFReaderPlugin.bundle to EasySIMBL's window.~~ Control-click PDFReaderPlugin.bundle and Open With EasySIMBL. (For OS X >= 10.10.4, copy PDFReaderPlugin.bundle in /Library/Application Support/SIMBL/Plugins)
 4. Reopen Preview.app and Skim.app if applicable.
