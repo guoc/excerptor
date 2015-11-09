@@ -4,7 +4,7 @@ Quickly take and locate excerpts in PDF files.
 
 Support Preview / Skim (1.4.11) in OS X (>= 10.10, not test on 10.11)
 
-Dependencies: [SIMBL](http://www.culater.net/software/SIMBL/SIMBL.php) / ~~[EasySIMBL](https://github.com/norio-nomura/EasySIMBL)~~ (EasySIMBL is not compitable with OS X 10.10.4)
+Dependencies: [SIMBL](http://www.culater.net/software/SIMBL/SIMBL.php)
 
 When you read a PDF file, you may want to take some excerpts, like excerpting on physical books (including article name, page number etc.). Via Excerptor, you can take excerpts easily: select text in Preview/[Skim](http://skim-app.sourceforge.net) and type a shortcut. An excerpt will be stored in pasteboard or a file. The excerpt includes a special link. By clicking the link, Excerptor will open the corresponding file by Preview/Skim, go to the page you want and highlight the excerpt you made, automatically.
 
@@ -44,12 +44,6 @@ You can click an excerpt link in QuickLook views to open the corresponding PDF f
 ## Installation
 
 See Wiki page [Excerptor Installation](https://github.com/guoc/excerptor/wiki/Excerptor-Installation)
-
-## Update OS X
-
-If update OS X from < 10.10 to > 10.10, see [How to transition from EasySIMBL to SIMBL](https://gist.github.com/hetima/51b71091aedf622f61f7) by [hetima] (https://github.com/hetima)
-
-If update OS X to 10.11, also see [SIMBL Installation for OS X 10.11](https://github.com/guoc/excerptor/wiki/SIMBL-Installation-for-OS-X-10.11)
 
 ## Bug report and feature request
 are very welcome. Create an issue or email me guochen42+excerptor@gmail.com
