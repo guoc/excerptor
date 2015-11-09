@@ -11,7 +11,7 @@ import PreferencePanes
 
 class AppDelegate: NSObject, NSApplicationDelegate {
     
-    lazy var preferencesWindowController = PreferencesWindowController(windowNibName: "PreferencesWindow")
+    lazy var preferencesWindowController: PreferencesWindowController = PreferencesWindowController(windowNibName: "PreferencesWindow")
     
     func applicationWillFinishLaunching(notification: NSNotification) {
 
@@ -20,7 +20,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let servicesProvider = ServicesProvider()
         NSApplication.sharedApplication().servicesProvider = servicesProvider
 
-        var appleEventManager:NSAppleEventManager = NSAppleEventManager.sharedAppleEventManager()
+        let appleEventManager:NSAppleEventManager = NSAppleEventManager.sharedAppleEventManager()
         appleEventManager.setEventHandler(self, andSelector: "handleGetURLEvent:withReplyEvent:", forEventClass: AEEventClass(kInternetEventClass), andEventID: AEEventID(kAEGetURL))
     }
     

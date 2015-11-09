@@ -50,7 +50,7 @@ extension PDFAnnotation {
     
     var pdfFileName: String {
         get {
-            return pdfFilePath.lastPathComponent
+            return NSURL(fileURLWithPath: pdfFilePath).lastPathComponent!
         }
     }
 

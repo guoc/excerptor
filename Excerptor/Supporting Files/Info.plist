@@ -9,7 +9,7 @@
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
-	<string>name.guoc.excerptor.$(PRODUCT_NAME:rfc1034identifier)</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -46,15 +46,15 @@
 	<key>NSServices</key>
 	<array>
 		<dict>
-			<key>NSMenuItem</key>
-			<dict>
-				<key>default</key>
-				<string>Excerptor: Excerpt Selection To Pasteboard</string>
-			</dict>
 			<key>NSKeyEquivalent</key>
 			<dict>
 				<key>default</key>
 				<string>E</string>
+			</dict>
+			<key>NSMenuItem</key>
+			<dict>
+				<key>default</key>
+				<string>Excerptor: Excerpt Selection To Pasteboard</string>
 			</dict>
 			<key>NSMessage</key>
 			<string>getSelectionLink</string>
@@ -126,16 +126,16 @@
 			<string>Excerptor</string>
 			<key>NSReturnTypes</key>
 			<array/>
-			<key>NSSendTypes</key>
-			<array>
-				<string>NSFilenamesPboardType</string>
-			</array>
 			<key>NSSendFileTypes</key>
 			<array>
 				<string>com.adobe.pdf</string>
 			</array>
+			<key>NSSendTypes</key>
+			<array>
+				<string>NSFilenamesPboardType</string>
+			</array>
 			<key>NSServiceDescription</key>
-			<string>Create annotation files containing current PDF file&apos;s annotations in a specified location (configure in Excerptor).</string>
+			<string>Create annotation files containing current PDF file's annotations in a specified location (configure in Excerptor).</string>
 		</dict>
 	</array>
 </dict>

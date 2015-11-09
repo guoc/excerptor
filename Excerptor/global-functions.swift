@@ -28,7 +28,7 @@ func printAnnotationsFrom(pdfFileUrl: NSURL, withFormat outputFormat: OutputForm
     var skimNotes = NSArray()
     let document = PDFDocument(URL: pdfFileUrl, readSkimNotes: AutoreleasingUnsafeMutablePointer<NSArray?>(&skimNotes))
     if document == nil {
-        println("File not recognized")
+        print("File not recognized")
         exit(1)
     }
     // Calling of page() on PDFAnnotation should in current scope, rather than it will fail because its property page(PDFPage) will be released caused by the release of document(PDFDocument)
@@ -37,18 +37,22 @@ func printAnnotationsFrom(pdfFileUrl: NSURL, withFormat outputFormat: OutputForm
     switch outputFormat {
     case .JSON:
         let json = jsonFromAnnotations(validAnnotations)
-        println(json.rawString()!)
+        print(json.rawString()!)
     case .Text:
         let text = textFromAnnotations(validAnnotations)
-        println(text)
+        print(text)
     }
 }
 
 func writePDFAnnotationsFromFilesIn(folderUrl: NSURL) {
-    let dirEnumerator = NSFileManager.defaultManager().enumeratorAtURL(folderUrl.URLByStandardizingPath!, includingPropertiesForKeys: [NSURLIsDirectoryKey], options: nil, errorHandler: nil)
+    let dirEnumerator = NSFileManager.defaultManager().enumeratorAtURL(folderUrl.URLByStandardizingPath!, includingPropertiesForKeys: [NSURLIsDirectoryKey], options: [], errorHandler: nil)
     while let theURL:NSURL = dirEnumerator?.nextObject() as? NSURL {
         var isDirectory: AnyObject?
-        theURL.getResourceValue(&isDirectory, forKey: NSURLIsDirectoryKey, error: nil)
+        do {
+            try theURL.getResourceValue(&isDirectory, forKey: NSURLIsDirectoryKey)
+        } catch {
+            exitWithError("Could not test whether the url is a directory or not: " + theURL.description)
+        }
         if let isDirectory = (isDirectory as? NSNumber)?.boolValue where !isDirectory {
             writePDFAnnotationsIfNecessaryFrom(theURL)
         }
@@ -62,7 +66,7 @@ func writePDFAnnotationsIfNecessaryFrom(fileUrl: NSURL) {
 }
 
 func writePDFAnnotationsFrom(pdfFileUrl: NSURL) {
-    writePDFAnnotationsFrom(pdfFileUrl, toTargetFolder: NSURL(fileURLWithPath: Preferences.sharedPreferences.stringForAnnotationFilesLocation.stringByStandardizingPath, isDirectory: true)!)
+    writePDFAnnotationsFrom(pdfFileUrl, toTargetFolder: NSURL(fileURLWithPath: Preferences.sharedPreferences.stringForAnnotationFilesLocation, isDirectory: true).URLByStandardizingPath!)
 }
 
 func writePDFAnnotationsFrom(pdfFileUrl: NSURL, toTargetFolder targetFolderUrl: NSURL) {
@@ -77,7 +81,7 @@ func writePDFAnnotationsFrom(pdfFileUrl: NSURL, toTargetFolder targetFolderUrl: 
     
     let fileName = Preferences.sharedPreferences.stringForAnnotationFileName
     let fileExtension = Preferences.sharedPreferences.stringForAnnotationFileExtension
-    let folderPath = Preferences.sharedPreferences.stringForAnnotationFilesLocation.stringByExpandingTildeInPath
+    let folderPath = NSString(string: Preferences.sharedPreferences.stringForAnnotationFilesLocation).stringByExpandingTildeInPath
     let tags = Preferences.sharedPreferences.stringForAnnotationFileTags.componentsSeparatedByString(",").map { $0.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) }.filter { !$0.isEmpty }
     let content = Preferences.sharedPreferences.stringForAnnotationFileContent
     let fileTemplate = FileTemplate(folderPath: folderPath, fileName: fileName, fileExtension: fileExtension, tags: tags, content: content, creationDate: Preferences.AnnotationPlaceholders.AnnotationDate, modificationDate: Preferences.AnnotationPlaceholders.ExportDate)
@@ -103,11 +107,11 @@ func jsonFromAnnotations(annotations: [PDFAnnotation]) -> JSON {
 }
 
 func textFromAnnotation(annotation: PDFAnnotation) -> String {
-    return "\t".join([annotation.annotationText, annotation.noteText, Annotation.AnnotationType(string: annotation.typeName).string(), annotation.color().hexDescription, annotation.author, "\(annotation.pageIndex + 1)", annotation.date.ISO8601String()])
+    return [annotation.annotationText, annotation.noteText, Annotation.AnnotationType(string: annotation.typeName).string(), annotation.color().hexDescription, annotation.author, "\(annotation.pageIndex + 1)", annotation.date.ISO8601String()].joinWithSeparator("\t")
 }
 
 func textFromAnnotations(annotations: [PDFAnnotation]) -> String {
-    return "\n".join(annotations.map { textFromAnnotation($0) })
+    return annotations.map { textFromAnnotation($0) }.joinWithSeparator("\n")
 }
 
 extension Annotation {
@@ -121,8 +125,8 @@ extension Annotation {
         let pageIndex = pdfAnnotation.page().pageIndex
         let pdfFilePath = pdfAnnotation.page().document().documentURL().path!
         let pdfFileID = FileID(filePathOrDNtpUuid: pdfFilePath)
-        let pdfFileName = pdfFilePath.lastPathComponent
-        self.init(annotationText: annotationText, noteText: noteText, annotationType: annotationType, markupColor: markupColor, author: author, date: date, pageIndex: pageIndex, pdfFileID: pdfFileID, pdfFileName: pdfFileName)
+        let pdfFileName = NSURL(fileURLWithPath: pdfFilePath, isDirectory: false).lastPathComponent
+        self.init(annotationText: annotationText, noteText: noteText, annotationType: annotationType, markupColor: markupColor, author: author, date: date, pageIndex: pageIndex, pdfFileID: pdfFileID, pdfFileName: pdfFileName!)
     }
 }
 

@@ -19,7 +19,7 @@ class PreferencesWindowController: NSWindowController {
             prefBundle = NSBundle(path: pathToPrefPaneBundle),
             prefPaneClass = prefBundle.principalClass as? NSPreferencePane.Type
         {
-            var prefPane = prefPaneClass(bundle: prefBundle)
+            var prefPane = prefPaneClass.init(bundle: prefBundle)
             (prefPane as PrefsPane).setDelegate!(Preferences.sharedPreferences)
             return prefPane
         } else {
@@ -40,14 +40,13 @@ class PreferencesWindowController: NSWindowController {
             return
         }
 
-        if window!.contentView.subviews.count == 0 {
-            if (prefPane.loadMainView() != nil) {
-                prefPane.willSelect()
-                let prefView = prefPane.mainView
-                window!.setContentSize(prefView.frame.size)
-                window!.contentView.addSubview(prefView)
-                prefPane.didSelect()
-            }
+        if window!.contentView!.subviews.count == 0 {
+            prefPane.loadMainView()
+            prefPane.willSelect()
+            let prefView = prefPane.mainView
+            window!.setContentSize(prefView.frame.size)
+            window!.contentView!.addSubview(prefView)
+            prefPane.didSelect()
         }
 
         NSApp.activateIgnoringOtherApps(true)

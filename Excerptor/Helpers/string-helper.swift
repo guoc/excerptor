@@ -20,10 +20,10 @@ extension String {
         
         var string = self
         for (placeholder, stringGetter) in stringGettersByPlaceholder {
-            if string.rangeOfString(placeholder, options: nil, range: nil, locale: nil) == nil {
+            if string.rangeOfString(placeholder, options: [], range: nil, locale: nil) == nil {
                 continue
             } else {
-                string = string.stringByReplacingOccurrencesOfString(placeholder, withString: stringGetter(), options: nil, range: nil)
+                string = string.stringByReplacingOccurrencesOfString(placeholder, withString: stringGetter(), options: [], range: nil)
             }
         }
         return string

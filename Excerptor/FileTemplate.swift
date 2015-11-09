@@ -20,7 +20,6 @@ struct FileTemplate {
     let modificationDate: String
     
     func writeToFileWithPropertyGettersDictionary(propertyGettersByPlaceholder: [String: () -> String]) -> Bool {
-        var err: NSError?
         let folderPath = self.folderPath.stringByReplacingWithDictionary(propertyGettersByPlaceholder)
         var fileName = self.fileName.stringByReplacingWithDictionary(propertyGettersByPlaceholder)
         let content = self.content.stringByReplacingWithDictionary(propertyGettersByPlaceholder)
@@ -32,45 +31,50 @@ struct FileTemplate {
         let modificationDate = NSDate.dateFromISO8601String(modificationDateString)
 
         if fileName.isEmpty {
-            fileName = "Note " + suffix(String(content.hash), 4)    // Hope lucky.
+            fileName = "Note " + String(String(content.hash).characters.suffix(4))    // Hope lucky.
         } else {
-            fileName = fileName.stringByReplacingOccurrencesOfString("/", withString: "%2F", options: nil, range: nil).stringByReplacingOccurrencesOfString(":", withString: "%3A", options: nil, range: nil).stringByReplacingOccurrencesOfString("\n", withString: " ", options: nil, range: nil)
-            if count(fileName) > 192 {
-                fileName = prefix(fileName, 192) + "…"
+            fileName = fileName.stringByReplacingOccurrencesOfString("/", withString: "%2F", options: [], range: nil).stringByReplacingOccurrencesOfString(":", withString: "%3A", options: [], range: nil).stringByReplacingOccurrencesOfString("\n", withString: " ", options: [], range: nil)
+            if fileName.characters.count > 192 {
+                fileName = String(fileName.characters.prefix(192)) + "…"
             }
         }
         
-        NSFileManager.defaultManager().createDirectoryAtPath(folderPath, withIntermediateDirectories: true, attributes: nil, error: &err)
-        if let err = err {
-            exitWithError(err.localizedDescription)
+        do {
+            try NSFileManager.defaultManager().createDirectoryAtPath(folderPath, withIntermediateDirectories: true, attributes: nil)
+        } catch let error as NSError {
+            exitWithError(error.localizedDescription)
         }
         
-        let filePathWithoutExtension = folderPath.stringByAppendingPathComponent(fileName)
-        if let filePath = fileExtension.isEmpty ? filePathWithoutExtension : filePathWithoutExtension.stringByAppendingPathExtension(fileExtension) {
+        let filePathWithoutExtension = NSURL(fileURLWithPath: folderPath).URLByAppendingPathComponent(fileName).path
+        if let filePath = fileExtension.isEmpty ? filePathWithoutExtension : NSURL(fileURLWithPath: filePathWithoutExtension!).URLByAppendingPathExtension(fileExtension).path {
             
             if NSFileManager.defaultManager().fileExistsAtPath(filePath) {
                 NSLog("\(filePath) exists")
                 return false
             }
             
-            content.writeToFile(filePath, atomically: true, encoding: NSUTF8StringEncoding, error: &err)
-            if let err = err {
-                exitWithError(err.localizedDescription)
+            do {
+                try content.writeToFile(filePath, atomically: true, encoding: NSUTF8StringEncoding)
+            } catch let error as NSError {
+                exitWithError("Could not write to file: \(filePath)\n" + error.localizedDescription)
             }
             
-            NSURL(fileURLWithPath: filePath)?.setResourceValue(tags, forKey: NSURLTagNamesKey, error: &err)
-            if let err = err {
-                exitWithError(err.localizedDescription)
+            do {
+                try NSURL(fileURLWithPath: filePath).setResourceValue(tags, forKey: NSURLTagNamesKey)
+            } catch let error as NSError {
+                exitWithError("Could not set resource value \(tags.description) for key NSURLTagNamesKey to file: \(filePath)\n" + error.localizedDescription)
             }
             
-            NSFileManager.defaultManager().setAttributes([NSFileCreationDate: creationDate], ofItemAtPath: filePath, error: &err)
-            if let err = err {
-                exitWithError(err.localizedDescription)
+            do {
+                try NSFileManager.defaultManager().setAttributes([NSFileCreationDate: creationDate], ofItemAtPath: filePath)
+            } catch let error as NSError {
+                exitWithError("Could not set creation data: \(creationDate.description) of \(filePath)\n" + error.localizedDescription)
             }
             
-            NSFileManager.defaultManager().setAttributes([NSFileModificationDate: modificationDate], ofItemAtPath: filePath, error: &err)
-            if let err = err {
-                exitWithError(err.localizedDescription)
+            do {
+                try NSFileManager.defaultManager().setAttributes([NSFileModificationDate: modificationDate], ofItemAtPath: filePath)
+            } catch let error as NSError {
+                exitWithError("Could not set modification date: \(modificationDate.description) of \(filePath)\n" + error.localizedDescription)
             }
             
             return true

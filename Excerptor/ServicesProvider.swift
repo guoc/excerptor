@@ -24,7 +24,7 @@ class ServicesProvider: NSObject {
         
         let fileName = Preferences.sharedPreferences.stringForSelectionFileName
         let fileExtension = Preferences.sharedPreferences.stringForSelectionFileExtension
-        let folderPath = Preferences.sharedPreferences.stringForSelectionFilesLocation.stringByExpandingTildeInPath
+        let folderPath = String(NSString(string: Preferences.sharedPreferences.stringForSelectionFilesLocation).stringByExpandingTildeInPath)
         let tags = Preferences.sharedPreferences.stringForSelectionFileTags.componentsSeparatedByString(",").map { $0.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) }.filter { !$0.isEmpty }
         let content = Preferences.sharedPreferences.stringForSelectionFileContent
         let fileTemplate = FileTemplate(folderPath: folderPath, fileName: fileName, fileExtension: fileExtension, tags: tags, content: content, creationDate: Preferences.SelectionPlaceholders.CreationDate, modificationDate: Preferences.SelectionPlaceholders.CreationDate)
@@ -39,9 +39,9 @@ class ServicesProvider: NSObject {
                 var isDirectory = ObjCBool(false)
                 if NSFileManager.defaultManager().fileExistsAtPath(fileOrFolderName, isDirectory: &isDirectory) {
                     if isDirectory.boolValue {
-                        writePDFAnnotationsFromFilesIn(NSURL(fileURLWithPath: fileOrFolderName)!)
+                        writePDFAnnotationsFromFilesIn(NSURL(fileURLWithPath: fileOrFolderName))
                     } else {
-                        writePDFAnnotationsIfNecessaryFrom(NSURL(fileURLWithPath: fileOrFolderName)!)
+                        writePDFAnnotationsIfNecessaryFrom(NSURL(fileURLWithPath: fileOrFolderName))
                     }
                 }
             }
@@ -70,7 +70,9 @@ extension Selection {
         let date = NSDate()
         let pageIndex = selectionLink.firstPageIndex
         let pdfFileID = selectionLink.fileID
-        let pdfFileName = selectionLink.getFilePath().lastPathComponent
+        guard let pdfFileName = NSURL(fileURLWithPath: selectionLink.getFilePath(), isDirectory: false).lastPathComponent else {
+            exitWithError("Could not get PDF file name " + selectionLink.getFilePath())
+        }
         self.init(selectionText: selectionText, author: author, date: date, pageIndex: pageIndex, pdfFileID: pdfFileID, pdfFileName: pdfFileName)
         self.selectionLink = selectionLink
     }

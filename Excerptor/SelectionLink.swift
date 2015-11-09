@@ -119,7 +119,7 @@ class SelectionLink: Link {
 extension SelectionLocation {
     var stringWithoutPDFFilePath: String {
         get {
-            let selectionString = SelectionLink.Constants.SelectionTextDelimiter.join(selectionLineLocations.map { $0.string.stringByAddingPercentEncodingWithAllowedCharacters(URIUnreservedCharacterSet)! })
+            let selectionString = selectionLineLocations.map { $0.string.stringByAddingPercentEncodingWithAllowedCharacters(URIUnreservedCharacterSet)! }.joinWithSeparator(SelectionLink.Constants.SelectionTextDelimiter)
             let locationStrings = (selectionLineLocations as! [SelectionLineLocation]).map { (lineLocation: SelectionLineLocation) -> String in
                 var lineLocationString = "p\(lineLocation.pageIndex + 1)_\(lineLocation.range.location)_\(lineLocation.range.length)"
                 if Preferences.sharedPreferences.boolForSelectionLinkIncludesBoundsInfo {
@@ -127,7 +127,7 @@ extension SelectionLocation {
                 }
                 return lineLocationString
             }
-            return selectionString + ":" + "-".join(locationStrings)
+            return selectionString + ":" + locationStrings.joinWithSeparator("-")
         }
     }
     
@@ -139,7 +139,7 @@ extension SelectionLocation {
     
     var selectionTextInOneLine: String {
         get {
-            return " ".join(selectionLineLocations.map { $0.string })
+            return selectionLineLocations.map { $0.string }.joinWithSeparator(" ")
         }
     }
     
@@ -156,11 +156,11 @@ extension SelectionLocation {
             let annotationString = stringAndSelection.annotationString.stringByRemovingPercentEncoding!
             let selectionString = stringAndSelection.selection
             if selectionString.hasPrefix("p") {
-                let arr = dropFirst(selectionString).componentsSeparatedByString("_")
+                let arr = String(selectionString.characters.dropFirst()).componentsSeparatedByString("_")
                 if arr.count == 3 || arr.count == 7 {
-                    if let pageNumber = arr[0].toInt(),
-                             location = arr[1].toInt(),
-                               length = arr[2].toInt()
+                    if let pageNumber = Int(arr[0]),
+                             location = Int(arr[1]),
+                               length = Int(arr[2])
                     {
                         let pageIndex = UInt(pageNumber - 1)
                         let range = NSMakeRange(location, length)

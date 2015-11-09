@@ -35,7 +35,7 @@ class Selection {
         Preferences.CommonPlaceholders.PDFFileLink_FilePathType: { self.pdfFileID.getFilePathFileID().urlString },
         Preferences.CommonPlaceholders.PDFFilePath: { self.pdfFileID.getFilePath() },
         Preferences.CommonPlaceholders.PDFFileName: { self.pdfFileName },
-        Preferences.CommonPlaceholders.PDFFileName_NoExtension: { self.pdfFileName.stringByDeletingPathExtension },
+        Preferences.CommonPlaceholders.PDFFileName_NoExtension: { String(NSString(string: self.pdfFileName).stringByDeletingPathExtension) },
         Preferences.CommonPlaceholders.PDFFileDEVONthinkUUID: { self.pdfFileID.getDNtpUuid() ?? "NOT FOUND" },
         Preferences.SelectionPlaceholders.SelectionLink_DEVONthinkUUIDType: {
             if let selectionLink = self.selectionLink {
@@ -84,13 +84,13 @@ class Selection {
             return pasteboard.setString(plainTextToWrite, forType:NSPasteboardTypeString)
         } else {
             let pattern = "(?:\\[([^)]+)\\])(?:\\(([^)]+)\\))"
-            let regex = NSRegularExpression(pattern: pattern, options: .allZeros, error: nil)
-            let range = NSMakeRange(0, count(richTextTemplate))
-            let matches = regex?.matchesInString(richTextTemplate, options: .allZeros, range: range) as! [NSTextCheckingResult]
-            let richTextToWrite = matches.map { (match: NSTextCheckingResult) -> (rangeToReplace: NSRange, text: String, link: String) in
+            let regex = try! NSRegularExpression(pattern: pattern, options: [])
+            let range = NSMakeRange(0, richTextTemplate.characters.count)
+            let matches = regex.matchesInString(richTextTemplate, options: [], range: range)
+            let richTextToWrite = Array(matches.map { (match: NSTextCheckingResult) -> (rangeToReplace: NSRange, text: String, link: String) in
                 func rangeFromNSRange(range: NSRange) -> Range<String.Index> {
-                    let start = advance(richTextTemplate.startIndex, range.location)
-                    let end = advance(start, range.length)
+                    let start = richTextTemplate.startIndex.advancedBy(range.location)
+                    let end = start.advancedBy(range.length)
                     return start..<end
                 }
                 
@@ -98,7 +98,7 @@ class Selection {
                 let text = richTextTemplate.substringWithRange(rangeFromNSRange(match.rangeAtIndex(1))).stringByReplacingWithDictionary(self.propertyGettersByPlaceholder)
                 let link = richTextTemplate.substringWithRange(rangeFromNSRange(match.rangeAtIndex(2))).stringByReplacingWithDictionary(self.propertyGettersByPlaceholder)
                 return (rangeToReplace: rangeToReplace, text: text, link: link)
-            }.reverse().reduce(NSMutableAttributedString(string: richTextTemplate)) { (attributedString: NSMutableAttributedString, linkStringInfo: (rangeToReplace: NSRange, text: String, link: String)) -> NSMutableAttributedString in
+            }.reverse()).reduce(NSMutableAttributedString(string: richTextTemplate)) { (attributedString: NSMutableAttributedString, linkStringInfo: (rangeToReplace: NSRange, text: String, link: String)) -> NSMutableAttributedString in
                 let linkAttributedString = NSAttributedString(string: linkStringInfo.text, attributes: [NSLinkAttributeName: linkStringInfo.link])
                 attributedString.replaceCharactersInRange(linkStringInfo.rangeToReplace, withAttributedString: linkAttributedString)
                 return attributedString

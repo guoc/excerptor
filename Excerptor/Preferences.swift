@@ -15,11 +15,11 @@ class Preferences: NSObject, PrefsPaneDelegate {
     private var userDefaults: NSUserDefaults = {
         var userDefaults = NSUserDefaults(suiteName: "name.guoc.excerptor")!
         let defaultValuesFilePath = NSBundle.mainBundle().pathForResource("PreferencesDefaultValues", ofType: "plist")!
-        let defaultValues = NSDictionary(contentsOfFile: defaultValuesFilePath)! as [NSObject : AnyObject]
+        let defaultValues = NSDictionary(contentsOfFile: defaultValuesFilePath)! as! [String : AnyObject]
         userDefaults.registerDefaults(defaultValues)
         if Preferences.dntpIsInstalled() {
             let defaultValuesForDNtpFilePath = NSBundle.mainBundle().pathForResource("PreferencesDefaultValues(DNtp)", ofType: "plist")!
-            let defaultValuesForDNtp = NSDictionary(contentsOfFile: defaultValuesForDNtpFilePath)! as [NSObject : AnyObject]
+            let defaultValuesForDNtp = NSDictionary(contentsOfFile: defaultValuesForDNtpFilePath)! as! [String : AnyObject]
             userDefaults.registerDefaults(defaultValuesForDNtp)
         }
         return userDefaults

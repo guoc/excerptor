@@ -56,9 +56,9 @@ class AnnotationLink: Link {
                 let annotationText = arr[1].stringByRemovingPercentEncoding!
                 let pageNumberAndDateString = arr[2]
                 if pageNumberAndDateString.hasPrefix("p") {
-                    let pageNumberAndData = dropFirst(pageNumberAndDateString).componentsSeparatedByString("_")
+                    let pageNumberAndData = String(pageNumberAndDateString.characters.dropFirst()).componentsSeparatedByString("_")
                     if pageNumberAndData.count == 1 || pageNumberAndData.count == 2 {
-                        if let pageNumber = pageNumberAndData[0].toInt() {
+                        if let pageNumber = Int(pageNumberAndData[0]) {
                             let pageIndex = UInt(pageNumber - 1)
                             var annotationDate: NSDate? = nil
                             if pageNumberAndData.count == 2 {

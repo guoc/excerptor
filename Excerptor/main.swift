@@ -6,14 +6,17 @@
 //  Copyright (c) 2015 guoc. All rights reserved.
 //
 
+/*
 import Foundation
 
 import CLIKit
 
-println(Process.arguments)
+print(Process.arguments)
 if Process.argc == 1 || Process.argc == 3 && Process.arguments[1] == "-NSDocumentRevisionsDebugMode" && Process.arguments[2] == "YES" {
+*/
     NSApplicationMain(Process.argc, Process.unsafeArgv)
     exit(0)
+/*
 }
 
 var manager = Manager()
@@ -53,4 +56,4 @@ manager.register("extract annotation", "Extract annotations from PDF file") { ar
 runningInCLI = true
 manager.run()
 runningInCLI = false
-
+*/

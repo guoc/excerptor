@@ -10,9 +10,8 @@ extension NSColor {
     
     var colorComponents: [CGFloat] {
         get {
-            let colorSpaceName = self.colorSpaceName
             let numberOfComponents = self.numberOfComponents
-            var components = UnsafeMutablePointer<CGFloat>.alloc(numberOfComponents)
+            let components = UnsafeMutablePointer<CGFloat>.alloc(numberOfComponents)
             self.getComponents(components)
             return Array(UnsafeMutableBufferPointer(start: components, count: numberOfComponents))
         }

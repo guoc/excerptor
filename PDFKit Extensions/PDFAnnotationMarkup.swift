@@ -10,7 +10,7 @@ extension PDFAnnotationMarkup {
         get {
             let selections = horizontalCentralLinesInPageCoordinate.map { self.page().selectionFromPoint($0.startPoint, toPoint: $0.endPoint) }
             let selectionStrings = selections.map({ $0.string() ?? "" }).map({$0.stringByTrimmingCharactersInSet(NSCharacterSet.newlineCharacterSet())})
-            return " ".join(selectionStrings)
+            return selectionStrings.joinWithSeparator(" ")
         }
     }
     
@@ -49,10 +49,12 @@ extension PDFAnnotationMarkup {
     
     private func smallestRectangleEnclosing(points: [CGPoint]) -> CGRect {
         
-        let minX = minElement(points.map { $0.x })
-        let maxX = maxElement(points.map { $0.x })
-        let minY = minElement(points.map { $0.y })
-        let maxY = maxElement(points.map { $0.y })
+        guard let minX = (points.map { $0.x }).minElement()
+                , maxX = (points.map { $0.x }).maxElement()
+                , minY = (points.map { $0.y }).minElement()
+                , maxY = (points.map { $0.y }).maxElement() else {
+            exitWithError("Empty points array passed in smallestRectangleEnclosing")
+        }
         
         return CGRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
     }

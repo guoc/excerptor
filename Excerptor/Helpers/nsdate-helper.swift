@@ -19,7 +19,7 @@ extension NSDate {
     }
     
     func ISO8601String() -> String {
-        var ISO8601DateFormatter = NSDateFormatter()
+        let ISO8601DateFormatter = NSDateFormatter()
         ISO8601DateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
         ISO8601DateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         return ISO8601DateFormatter.stringFromDate(self)
