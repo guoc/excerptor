@@ -82,7 +82,7 @@ func notifyWithError(err: String, informativeText: String?) {
 
 func notifyPDFFileNotFoundInDNtpWith(filePath: String, replacingPlaceholder: String) {
     let userNotification = NSUserNotification()
-    userNotification.title = "Cannot Find The PDF File In DEVONthink"
+    userNotification.title = "Could Not Find The PDF File In DEVONthink"
     userNotification.subtitle = "\(replacingPlaceholder) applied instead"
     userNotification.informativeText = NSURL(fileURLWithPath: filePath).lastPathComponent
     guard let path = NSURL(fileURLWithPath: filePath).URLByStandardizingPath?.path else {

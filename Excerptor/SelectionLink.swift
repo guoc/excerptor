@@ -44,18 +44,27 @@ class SelectionLink: Link {
     }
 
     required convenience init?(linkString: String) {
-        if linkString.hasPrefix(SelectionLink.head) {
-            let linkStringWithoutHead = linkString.stringByRemovingPrefix(SelectionLink.head)
-            let arr = linkStringWithoutHead.componentsSeparatedByString(":")
-            if arr.count == 3 {
-                let fileID = FileID(filePathOrDNtpUuid: arr[0].stringByRemovingPercentEncoding!)
-                if let selectionLocation = SelectionLocation(string: linkStringWithoutHead) {
-                    self.init(fileID: fileID, selectionLocation: selectionLocation)
-                    return
-                }
-            }
+        guard linkString.hasPrefix(SelectionLink.head) else {
+            exitWithError("The link string has incorrect head: " + linkString)
         }
-        exitWithError("Incorrect collected information about selection")
+        
+        let linkStringWithoutHead = linkString.stringByRemovingPrefix(SelectionLink.head)
+        let arr = linkStringWithoutHead.componentsSeparatedByString(":")
+
+        guard arr.count == 3 else {
+            exitWithError("The link string has incorrect number of components: " + linkString)
+        }
+        
+        guard let fileIDString = arr[0].stringByRemovingPercentEncoding else {
+            exitWithError("The link string contains an invalid file ID: " + linkString)
+        }
+        
+        let fileID = FileID(filePathOrDNtpUuid: fileIDString)
+        
+        guard let selectionLocation = SelectionLocation(string: linkStringWithoutHead) else {
+            exitWithError("Could not parse the link string to selection location: " + linkString)
+        }
+        self.init(fileID: fileID, selectionLocation: selectionLocation)
     }
     
     override var string: String {

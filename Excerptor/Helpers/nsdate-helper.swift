@@ -14,7 +14,7 @@ extension NSDate {
         if let date = ISO8601DateFormatter.dateFromString(ISO8601String) {
             return date
         } else {
-            exitWithError("Cannot parse date format")
+            exitWithError("Could not parse date format")
         }
     }
     

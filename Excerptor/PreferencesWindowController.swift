@@ -23,7 +23,7 @@ class PreferencesWindowController: NSWindowController {
             (prefPane as PrefsPane).setDelegate!(Preferences.sharedPreferences)
             return prefPane
         } else {
-            exitWithError("Cannot load preference pane bundle")
+            exitWithError("Could not load preference pane bundle")
         }
     }()
     

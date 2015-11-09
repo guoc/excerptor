@@ -31,12 +31,21 @@ class PasteboardHelper {
     
     class func readExcerptorPasteboard() -> Location! {
         let pasteboard = NSPasteboard(name: Constants.InputPasteboardName)
-        if let data = pasteboard.dataForType(Constants.PasteboardType) {
-            if let location = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? Location {
-                return location
+        guard let data = pasteboard.dataForType(Constants.PasteboardType) else {
+            exitWithError("Could not get selection/annotation information")
+        }
+        guard let unarchivedObject = NSKeyedUnarchiver.unarchiveObjectWithData(data) else {
+            exitWithError("Could not unarchive object with data " + data.description)
+        }
+        guard let location = unarchivedObject as? Location else {
+            if let errorMessage = unarchivedObject as? NSString {
+                exitWithError("Error message in pasteboard: " + String(errorMessage));
+            } else {
+                exitWithError("Could not convert unarchived object to location " + unarchivedObject.description)
             }
         }
-        exitWithError("Cannot get annotation information")
+        pasteboard.clearContents()
+        return location
     }
     
     class func writeExcerptorPasteboardWithLocation(location: Location) -> Bool {

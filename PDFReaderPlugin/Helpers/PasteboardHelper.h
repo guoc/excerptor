@@ -13,6 +13,7 @@
 
 + (Location *)readPasteboard;
 + (bool)writePasteboardWithSelectionLocation: (SelectionLocation *)selectionLocation;
++ (bool)writePasteboardWithErrorMessage: (NSString *)errorMessage;
 + (void)clearInputPasteboard;
 
 @end

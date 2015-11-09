@@ -74,35 +74,44 @@ static NSString *currentFilePath;
 
 - (void)updateCurrentSelectionInformationWithMaybeWindowController: (NSWindowController *)windowController {
     NSString *filePath = [self getCurrentFilePath];
-    if (filePath) {
-        id currentWindowController = windowController ? windowController : [self getCurrentWindowController];
-        id pdfView = nil;
-        if ([currentWindowController respondsToSelector:@selector(pdfView)]) {
-            pdfView = [currentWindowController performSelector:@selector(pdfView)];
-        }
-        PDFSelection *currentSelection = [pdfView performSelector:@selector(currentSelection)];
-        if (currentSelection) {
-            NSArray *selections = [[currentSelection selectionsByLine] mapObjectsUsingBlock:^id(id obj, NSUInteger idx) {
-                PDFSelection *selection = obj;
-                NSString *string = [selection string];
-                NSArray *pages = [selection pages];
-                if (pages.count != 1) {
-                    NSLog(@"Excerptor PDFReaderPlugin: Unexpected pages number of PDFSelection");
-                    exit(1);
-                }
-                PDFPage *page = pages[0];
-                PDFDocument *document = [page document];
-                NSUInteger pageIndex = [document indexForPage:page];
-                NSRect bound = [selection boundsForPage:page];
-                NSRange range = [selection range];
-                return [[SelectionLineLocation alloc] initWithString:string pageIndex:pageIndex range:range bound:bound];
-            }];
-            SelectionLocation *selectionLocation = [[SelectionLocation alloc] initWithPDFFilePath:filePath selectionLineLocations:selections];
-            [PasteboardHelper writePasteboardWithSelectionLocation:selectionLocation];
-        }
-    } else {
-        NSLog(@"Excerptor PDFReaderPlugin: Cannot get current file path");
+    if (!filePath) {
+        [PasteboardHelper writePasteboardWithErrorMessage: @"Could not get current file path"];
+        return;
     }
+
+    id currentWindowController = windowController ? windowController : [self getCurrentWindowController];
+    id pdfView = nil;
+    if ([currentWindowController respondsToSelector:@selector(pdfView)]) {
+        pdfView = [currentWindowController performSelector:@selector(pdfView)];
+    }
+    if (!pdfView) {
+        [PasteboardHelper writePasteboardWithErrorMessage: @"Could not get PDF view"];
+        return;
+    }
+
+    PDFSelection *currentSelection = [pdfView performSelector:@selector(currentSelection)];
+    if (!currentSelection) {
+        [PasteboardHelper writePasteboardWithErrorMessage: @"Could not get PDF current selection"];
+        return;
+    }
+    
+    NSArray *selections = [[currentSelection selectionsByLine] mapObjectsUsingBlock:^id(id obj, NSUInteger idx) {
+        PDFSelection *selection = obj;
+        NSString *string = [selection string];
+        NSArray *pages = [selection pages];
+        if (pages.count != 1) {
+            [PasteboardHelper writePasteboardWithErrorMessage: @"Unexpected pages number of PDFSelection"];
+            exit(1);
+        }
+        PDFPage *page = pages[0];
+        PDFDocument *document = [page document];
+        NSUInteger pageIndex = [document indexForPage:page];
+        NSRect bound = [selection boundsForPage:page];
+        NSRange range = [selection range];
+        return [[SelectionLineLocation alloc] initWithString:string pageIndex:pageIndex range:range bound:bound];
+    }];
+    SelectionLocation *selectionLocation = [[SelectionLocation alloc] initWithPDFFilePath:filePath selectionLineLocations:selections];
+    [PasteboardHelper writePasteboardWithSelectionLocation:selectionLocation];
 }
 
 
