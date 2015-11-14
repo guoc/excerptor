@@ -26,7 +26,7 @@ manager.register("show annotation", "Show annotations in PDF file") { argv in
         let formatOption = argv.option("format")?.lowercaseString ?? "text"
         let format: OutputFormat = {
             switch formatOption {
-            case "json":
+            case "JSON":
                 return .JSON
             case "text":
                 return .Text

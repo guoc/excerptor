@@ -12,9 +12,7 @@
 		BD00B5511B1068C80000EA36 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD00B5501B1068C80000EA36 /* Preferences.swift */; };
 		BD0AAB451B10460900329D96 /* PrefsPaneDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = BD0AAB441B10460900329D96 /* PrefsPaneDelegate.h */; };
 		BD23B8921B1DBC7A002EC025 /* SkimNotes.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BD9A58A31B16D9DE00D45D6D /* SkimNotes.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		BD23B8961B1DBC7A002EC025 /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BD25DB291B0E14B100A653F3 /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BD23B8991B1DBF78002EC025 /* SkimNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD9A58A31B16D9DE00D45D6D /* SkimNotes.framework */; };
-		BD23B89B1B1DBF78002EC025 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD25DB291B0E14B100A653F3 /* SwiftyJSON.framework */; };
 		BD25DAD91B0C818600A653F3 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD25DAD81B0C818600A653F3 /* main.swift */; };
 		BD25DB221B0E085900A653F3 /* CGPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD25DB1D1B0E085900A653F3 /* CGPoint.swift */; };
 		BD25DB231B0E085900A653F3 /* PDFAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD25DB1E1B0E085900A653F3 /* PDFAnnotation.swift */; };
@@ -81,7 +79,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				BD23B8921B1DBC7A002EC025 /* SkimNotes.framework in Embed Frameworks */,
-				BD23B8961B1DBC7A002EC025 /* SwiftyJSON.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -177,7 +174,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BD23B8991B1DBF78002EC025 /* SkimNotes.framework in Frameworks */,
-				BD23B89B1B1DBF78002EC025 /* SwiftyJSON.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

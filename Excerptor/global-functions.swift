@@ -8,8 +8,6 @@
 
 import Foundation
 
-import SwiftyJSON
-
 enum OutputFormat {
     case JSON
     case Text
@@ -36,8 +34,8 @@ func printAnnotationsFrom(pdfFileUrl: NSURL, withFormat outputFormat: OutputForm
     let validAnnotations = allAnnotations.filter(annotationFilter)
     switch outputFormat {
     case .JSON:
-        let json = jsonFromAnnotations(validAnnotations)
-        print(json.rawString()!)
+        let JSONText = JSONTextFromAnnotations(validAnnotations)
+        print(JSONText)
     case .Text:
         let text = textFromAnnotations(validAnnotations)
         print(text)
@@ -91,19 +89,32 @@ func writePDFAnnotationsFrom(pdfFileUrl: NSURL, toTargetFolder targetFolderUrl: 
     }
 }
 
-func jsonFromAnnotation(annotation: PDFAnnotation) -> JSON {
-    let color = annotation.color()
-    let colorSpaceName = color.colorSpaceName
-    let colorComponents = color.colorComponents
-    
-    let annotationJSON: JSON = ["AnnotationText": annotation.annotationText, "NoteText": annotation.noteText, "TypeName": annotation.typeName, "Color": ["SpaceName": colorSpaceName, "Components": colorComponents], "Author": annotation.author, "PageIndex": annotation.pageIndex + 1, "Date": annotation.date.ISO8601String()]
-    
-    return annotationJSON
+func JSONTextFromAnnotation(annotation: PDFAnnotation) -> String {
+    return JSONTextFromJSONObject(annotation.JSONObjectPresentation)
 }
 
-func jsonFromAnnotations(annotations: [PDFAnnotation]) -> JSON {
-    let jsons = annotations.map { jsonFromAnnotation($0) }
-    return JSON(jsons)
+func JSONTextFromAnnotations(annotations: [PDFAnnotation]) -> String {
+    let JSONObjects = annotations.map { $0.JSONObjectPresentation }
+    return JSONTextFromJSONObject(JSONObjects)
+}
+
+func JSONTextFromJSONObject(JSONObject: AnyObject) -> String {
+    guard NSJSONSerialization.isValidJSONObject(JSONObject) else {
+        exitWithError("\(JSONObject.description) is not valid JSON object")
+    }
+    
+    let JSONData: NSData
+    do {
+        JSONData = try NSJSONSerialization.dataWithJSONObject(JSONObject, options: .PrettyPrinted)
+    } catch let error as NSError {
+        exitWithError("\(error.localizedDescription) OR \(JSONObject.description) is not valid JSON object")
+    }
+    
+    guard let JSONString = String(data: JSONData, encoding: NSUTF8StringEncoding) else {
+        exitWithError("Fail to get string from date: " + JSONData.description)
+    }
+    
+    return JSONString
 }
 
 func textFromAnnotation(annotation: PDFAnnotation) -> String {
@@ -127,6 +138,20 @@ extension Annotation {
         let pdfFileID = FileID(filePathOrDNtpUuid: pdfFilePath)
         let pdfFileName = NSURL(fileURLWithPath: pdfFilePath, isDirectory: false).lastPathComponent
         self.init(annotationText: annotationText, noteText: noteText, annotationType: annotationType, markupColor: markupColor, author: author, date: date, pageIndex: pageIndex, pdfFileID: pdfFileID, pdfFileName: pdfFileName!)
+    }
+}
+
+extension PDFAnnotation {
+    var JSONObjectPresentation: AnyObject {
+        get {
+            let color = self.color()
+            let colorSpaceName = color.colorSpaceName
+            let colorComponents = color.colorComponents
+            
+            let JSONObject = ["AnnotationText": annotationText, "NoteText": noteText, "TypeName": typeName, "Color": ["SpaceName": colorSpaceName, "Components": colorComponents], "Author": author, "PageIndex": pageIndex + 1, "Date": date.ISO8601String()]
+            
+            return JSONObject
+        }
     }
 }
 
