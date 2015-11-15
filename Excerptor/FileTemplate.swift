@@ -33,7 +33,10 @@ struct FileTemplate {
         if fileName.isEmpty {
             fileName = "Note " + String(String(content.hash).characters.suffix(4))    // Hope lucky.
         } else {
-            fileName = fileName.stringByReplacingOccurrencesOfString("/", withString: "%2F", options: [], range: nil).stringByReplacingOccurrencesOfString(":", withString: "%3A", options: [], range: nil).stringByReplacingOccurrencesOfString("\n", withString: " ", options: [], range: nil)
+            fileName = fileName.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                               .stringByReplacingOccurrencesOfString("/", withString: "%2F", options: [], range: nil)
+                               .stringByReplacingOccurrencesOfString(":", withString: "%3A", options: [], range: nil)
+                               .stringByReplacingOccurrencesOfString("\n", withString: " ", options: [], range: nil)
             if fileName.characters.count > 192 {
                 fileName = String(fileName.characters.prefix(192)) + "…"
             }
