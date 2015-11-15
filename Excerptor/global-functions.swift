@@ -64,10 +64,6 @@ func writePDFAnnotationsIfNecessaryFrom(fileUrl: NSURL) {
 }
 
 func writePDFAnnotationsFrom(pdfFileUrl: NSURL) {
-    writePDFAnnotationsFrom(pdfFileUrl, toTargetFolder: NSURL(fileURLWithPath: Preferences.sharedPreferences.stringForAnnotationFilesLocation, isDirectory: true).URLByStandardizingPath!)
-}
-
-func writePDFAnnotationsFrom(pdfFileUrl: NSURL, toTargetFolder targetFolderUrl: NSURL) {
     var skimNotes = NSArray()
     let document = PDFDocument(URL: pdfFileUrl, readSkimNotes: AutoreleasingUnsafeMutablePointer<NSArray?>(&skimNotes))
     if document == nil {

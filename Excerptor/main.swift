@@ -33,11 +33,10 @@ let operation = EnumOption<Operation>(longFlag: "operation", helpMessage: "'list
 let extractionType = EnumOption<ExtractionType>(longFlag: "type", helpMessage: "Type of data to be extracted, currently only supports 'annotation', by default 'annotation'.")
 let format = EnumOption<Format>(longFlag: "format", helpMessage: "Display format, currently only supports 'text' and 'JSON', 'text' by default.")
 let sourceFilePath = StringOption(longFlag: "source-file", required: true, helpMessage: "Path of the PDF file which containing required data.")
-let targetFolderPath = StringOption(longFlag: "target-folder", helpMessage: "Path of the folder to store extracted data.")
 
 let cli = CommandLine()
 
-cli.addOptions(operation, extractionType, format, sourceFilePath, targetFolderPath)
+cli.addOptions(operation, extractionType, format, sourceFilePath)
 
 runningInCLI = true
 do {
@@ -74,14 +73,7 @@ case Operation.List:
     printAnnotationsFrom(sourceFileURL, withFormat: outputFormat)
     
 case Operation.Export:
-    if let unwrappedTargetFolderPath = targetFolderPath.value {
-        guard let targetFolderURL = NSURL(fileURLWithPath: unwrappedTargetFolderPath, isDirectory: true).URLByStandardizingPath else {
-            exitWithError("\(unwrappedTargetFolderPath): Incorrect target folder path")
-        }
-        writePDFAnnotationsFrom(sourceFileURL, toTargetFolder: targetFolderURL)
-    } else {
-        writePDFAnnotationsFrom(sourceFileURL)
-    }
+    writePDFAnnotationsFrom(sourceFileURL)
 }
 
 runningInCLI = false
