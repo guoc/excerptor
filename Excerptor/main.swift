@@ -10,7 +10,6 @@ import Foundation
 
 import CommandLine
 
-print(Process.arguments)
 if Process.argc == 1 || Process.argc == 3 && Process.arguments[1] == "-NSDocumentRevisionsDebugMode" && Process.arguments[2] == "YES" {
     NSApplicationMain(Process.argc, Process.unsafeArgv)
     exit(0)
@@ -47,7 +46,6 @@ do {
     cli.printUsage(error)
     exit(EX_USAGE)
 }
-runningInCLI = false
 
 let unwrappedOperation = operation.value ?? Operation.List
 
@@ -85,3 +83,5 @@ case Operation.Export:
     writePDFAnnotationsFrom(sourceFileURL, toTargetFolder: targetFolderURL)
 
 }
+
+runningInCLI = false
