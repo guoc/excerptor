@@ -74,14 +74,14 @@ case Operation.List:
     printAnnotationsFrom(sourceFileURL, withFormat: outputFormat)
     
 case Operation.Export:
-    guard let unwrappedTargetFolderPath = targetFolderPath.value else {
-        exitWithError("--target-folder is required")
+    if let unwrappedTargetFolderPath = targetFolderPath.value {
+        guard let targetFolderURL = NSURL(fileURLWithPath: unwrappedTargetFolderPath, isDirectory: true).URLByStandardizingPath else {
+            exitWithError("\(unwrappedTargetFolderPath): Incorrect target folder path")
+        }
+        writePDFAnnotationsFrom(sourceFileURL, toTargetFolder: targetFolderURL)
+    } else {
+        writePDFAnnotationsFrom(sourceFileURL)
     }
-    guard let targetFolderURL = NSURL(fileURLWithPath: unwrappedTargetFolderPath, isDirectory: true).URLByStandardizingPath else {
-        exitWithError("\(unwrappedTargetFolderPath): Incorrect target folder path")
-    }
-    writePDFAnnotationsFrom(sourceFileURL, toTargetFolder: targetFolderURL)
-
 }
 
 runningInCLI = false
