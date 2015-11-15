@@ -156,7 +156,7 @@ class Annotation {
         let pap_PDFFileName = Preferences.CommonPlaceholders.PDFFileName
         let pap_PDFFileName_Getter : () -> String = { self.pdfFileName }
         let pap_PDFFileName_NoExtension = Preferences.CommonPlaceholders.PDFFileName_NoExtension
-        let pap_PDFFileName_NoExtension_Getter : () -> String = { NSURL(fileURLWithPath: self.pdfFileName).URLByDeletingPathExtension!.path! }
+        let pap_PDFFileName_NoExtension_Getter : () -> String = { NSURL(fileURLWithPath: self.pdfFileName).URLByDeletingPathExtension!.lastPathComponent! }
         let pap_AnnotationLink_DEVONthinkUUIDType = Preferences.AnnotationPlaceholders.AnnotationLink_DEVONthinkUUIDType
         let pap_AnnotationLink_DEVONthinkUUIDType_Getter : () -> String = annotationDNtpUuidLinkGetter
         let pap_AnnotationLink_FilePathType = Preferences.AnnotationPlaceholders.AnnotationLink_FilePathType
