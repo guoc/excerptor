@@ -8,7 +8,12 @@ extension PDFAnnotationMarkup {
     
     var selectionText: String {
         get {
-            let selections = horizontalCentralLinesInPageCoordinate.map { self.page().selectionFromPoint($0.startPoint, toPoint: $0.endPoint) }
+            let selections: [PDFSelection]
+            if #available(OSX 10.11, *) {
+                selections = rectsInPageCoordinate.map { self.page().selectionForRect(NSInsetRect($0, -1.0, -1.0)) }
+            } else {
+                selections = horizontalCentralLinesInPageCoordinate.map { self.page().selectionFromPoint($0.startPoint, toPoint: $0.endPoint) }
+            }
             let selectionStrings = selections.map({ $0.string() ?? "" }).map({$0.stringByTrimmingCharactersInSet(NSCharacterSet.newlineCharacterSet())})
             return selectionStrings.joinWithSeparator(" ")
         }
@@ -24,6 +29,13 @@ extension PDFAnnotationMarkup {
             let groupedQuadrilateralPoints = [Int](0..<quadrilateralPoints.count/4).map { [NSPoint](quadrilateralPoints[$0*4..<$0*4+4]) }
             let rectsInAnnotationCoordinate = groupedQuadrilateralPoints.map { self.smallestRectangleEnclosing($0) }
             return rectsInAnnotationCoordinate
+        }
+    }
+    
+    private var rectsInPageCoordinate: [CGRect] {
+        get {
+            let origin = self.bounds().origin
+            return rects.map { CGRectOffset($0, origin.x, origin.y) }
         }
     }
     
