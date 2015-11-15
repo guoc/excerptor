@@ -48,8 +48,9 @@ struct FileTemplate {
             exitWithError(error.localizedDescription)
         }
         
-        let filePathWithoutExtension = NSURL(fileURLWithPath: folderPath).URLByAppendingPathComponent(fileName).path
-        if let filePath = fileExtension.isEmpty ? filePathWithoutExtension : NSURL(fileURLWithPath: filePathWithoutExtension!).URLByAppendingPathExtension(fileExtension).path {
+        let filePathWithoutExtension = NSURL(fileURLWithPath: folderPath).URLByAppendingPathComponent(fileName).path!
+        let expandedFilePathWithoutExtension = NSString(string: filePathWithoutExtension).stringByExpandingTildeInPath
+        if let filePath = fileExtension.isEmpty ? filePathWithoutExtension : NSURL(fileURLWithPath: expandedFilePathWithoutExtension).URLByAppendingPathExtension(fileExtension).path {
             
             if NSFileManager.defaultManager().fileExistsAtPath(filePath) {
                 NSLog("\(filePath) exists")

@@ -75,7 +75,7 @@ func writePDFAnnotationsFrom(pdfFileUrl: NSURL) {
     
     let fileName = Preferences.sharedPreferences.stringForAnnotationFileName
     let fileExtension = Preferences.sharedPreferences.stringForAnnotationFileExtension
-    let folderPath = NSString(string: Preferences.sharedPreferences.stringForAnnotationFilesLocation).stringByExpandingTildeInPath
+    let folderPath = Preferences.sharedPreferences.stringForAnnotationFilesLocation
     let tags = Preferences.sharedPreferences.stringForAnnotationFileTags.componentsSeparatedByString(",").map { $0.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) }.filter { !$0.isEmpty }
     let content = Preferences.sharedPreferences.stringForAnnotationFileContent
     let fileTemplate = FileTemplate(folderPath: folderPath, fileName: fileName, fileExtension: fileExtension, tags: tags, content: content, creationDate: Preferences.AnnotationPlaceholders.AnnotationDate, modificationDate: Preferences.AnnotationPlaceholders.ExportDate)
