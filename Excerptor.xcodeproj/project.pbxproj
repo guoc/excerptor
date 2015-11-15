@@ -24,6 +24,8 @@
 		BD4C71581B0B690700F44B6C /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4C71561B0B690700F44B6C /* PreferencesWindowController.swift */; };
 		BD4C71591B0B690700F44B6C /* PreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD4C71571B0B690700F44B6C /* PreferencesWindow.xib */; };
 		BD4C715B1B0B77CC00F44B6C /* delay-helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4C715A1B0B77CC00F44B6C /* delay-helper.swift */; };
+		BD57A5CB1BF7521A000B85D9 /* CommandLine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD57A5CA1BF7521A000B85D9 /* CommandLine.framework */; };
+		BD57A5CC1BF7521A000B85D9 /* CommandLine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BD57A5CA1BF7521A000B85D9 /* CommandLine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BD7E6D621B08CE4700AD083A /* Selection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7E6D611B08CE4700AD083A /* Selection.swift */; };
 		BD93E67D1B0AFD98006457ED /* PrefsPane.h in Headers */ = {isa = PBXBuildFile; fileRef = BD93E67C1B0AFD98006457ED /* PrefsPane.h */; };
 		BD93E67F1B0AFD98006457ED /* PrefsPane.m in Sources */ = {isa = PBXBuildFile; fileRef = BD93E67E1B0AFD98006457ED /* PrefsPane.m */; };
@@ -78,6 +80,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				BD57A5CC1BF7521A000B85D9 /* CommandLine.framework in Embed Frameworks */,
 				BD23B8921B1DBC7A002EC025 /* SkimNotes.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -108,8 +111,6 @@
 		BD25DB1F1B0E085900A653F3 /* PDFAnnotationMarkup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFAnnotationMarkup.swift; sourceTree = "<group>"; };
 		BD25DB211B0E085900A653F3 /* PDFPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFPage.swift; sourceTree = "<group>"; };
 		BD25DB271B0E0F0500A653F3 /* PDFDocument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFDocument.swift; sourceTree = "<group>"; };
-		BD25DB291B0E14B100A653F3 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/Mac/SwiftyJSON.framework; sourceTree = "<group>"; };
-		BD25DB2D1B0E155800A653F3 /* CLIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CLIKit.framework; path = Carthage/Build/Mac/CLIKit.framework; sourceTree = "<group>"; };
 		BD25DB301B0EEC5000A653F3 /* nscolor-helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "nscolor-helper.swift"; sourceTree = "<group>"; };
 		BD25DB321B0F558300A653F3 /* global-functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "global-functions.swift"; sourceTree = "<group>"; };
 		BD28EBDF1B399D8C00025253 /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
@@ -118,6 +119,7 @@
 		BD4C71561B0B690700F44B6C /* PreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
 		BD4C71571B0B690700F44B6C /* PreferencesWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferencesWindow.xib; sourceTree = "<group>"; };
 		BD4C715A1B0B77CC00F44B6C /* delay-helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "delay-helper.swift"; sourceTree = "<group>"; };
+		BD57A5CA1BF7521A000B85D9 /* CommandLine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CommandLine.framework; path = Carthage/Build/Mac/CommandLine.framework; sourceTree = "<group>"; };
 		BD7E6D611B08CE4700AD083A /* Selection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Selection.swift; sourceTree = "<group>"; };
 		BD93E6781B0AFD98006457ED /* PrefsPane.prefPane */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PrefsPane.prefPane; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD93E67B1B0AFD98006457ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD57A5CB1BF7521A000B85D9 /* CommandLine.framework in Frameworks */,
 				BD23B8991B1DBF78002EC025 /* SkimNotes.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -244,8 +247,7 @@
 			isa = PBXGroup;
 			children = (
 				BD9A58A31B16D9DE00D45D6D /* SkimNotes.framework */,
-				BD25DB2D1B0E155800A653F3 /* CLIKit.framework */,
-				BD25DB291B0E14B100A653F3 /* SwiftyJSON.framework */,
+				BD57A5CA1BF7521A000B85D9 /* CommandLine.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

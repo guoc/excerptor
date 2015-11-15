@@ -6,54 +6,82 @@
 //  Copyright (c) 2015 guoc. All rights reserved.
 //
 
-/*
 import Foundation
 
-import CLIKit
+import CommandLine
 
 print(Process.arguments)
 if Process.argc == 1 || Process.argc == 3 && Process.arguments[1] == "-NSDocumentRevisionsDebugMode" && Process.arguments[2] == "YES" {
-*/
     NSApplicationMain(Process.argc, Process.unsafeArgv)
     exit(0)
-/*
 }
 
-var manager = Manager()
-
-manager.register("show annotation", "Show annotations in PDF file") { argv in
-    if let pdfFilePath = argv.shift(), pdfFileUrl = NSURL(fileURLWithPath: pdfFilePath.stringByStandardizingPath, isDirectory: false) {
-        let formatOption = argv.option("format")?.lowercaseString ?? "text"
-        let format: OutputFormat = {
-            switch formatOption {
-            case "JSON":
-                return .JSON
-            case "text":
-                return .Text
-            default:
-                printlnToStandardError("Unsupported format option, use \"text\" instead")
-                return .Text
-            }
-        }()
-        printAnnotationsFrom(pdfFileUrl, withFormat: format)
-    } else {
-        printlnToStandardError("Incorrect PDF file path")
-    }
+enum Operation: String {
+    case List = "list"
+    case Export = "export"
 }
 
-manager.register("extract annotation", "Extract annotations from PDF file") { argv in
-    if let pdfFilePath = argv.shift(), pdfFileUrl = NSURL(fileURLWithPath: pdfFilePath, isDirectory: false) {
-        if let targetFolder = argv.option("targetfolder"), targetFolderUrl = NSURL(fileURLWithPath: targetFolder.stringByStandardizingPath, isDirectory: true) {
-            writePDFAnnotationsFrom(pdfFileUrl, toTargetFolder: targetFolderUrl)
-        } else {
-            writePDFAnnotationsFrom(pdfFileUrl)
-        }
-    } else {
-        printlnToStandardError("Incorrect PDF file path")
-    }
+enum ExtractionType: String {
+    case Annotation = "annotation"
 }
+
+enum Format: String {
+    case Text = "text"
+    case JSON = "JSON"
+}
+
+let operation = EnumOption<Operation>(longFlag: "operation", helpMessage: "'list' / 'export', 'list' by default.")
+let extractionType = EnumOption<ExtractionType>(longFlag: "type", helpMessage: "Type of data to be extracted, currently only supports 'annotation', by default 'annotation'.")
+let format = EnumOption<Format>(longFlag: "format", helpMessage: "Display format, currently only supports 'text' and 'JSON', 'text' by default.")
+let sourceFilePath = StringOption(longFlag: "source-file", required: true, helpMessage: "Path of the PDF file which containing required data.")
+let targetFolderPath = StringOption(longFlag: "target-folder", helpMessage: "Path of the folder to store extracted data.")
+
+let cli = CommandLine()
+
+cli.addOptions(operation, extractionType, format, sourceFilePath, targetFolderPath)
 
 runningInCLI = true
-manager.run()
+do {
+    try cli.parse()
+} catch {
+    cli.printUsage(error)
+    exit(EX_USAGE)
+}
 runningInCLI = false
-*/
+
+let unwrappedOperation = operation.value ?? Operation.List
+
+let unwrappedExtractionType = extractionType.value ?? ExtractionType.Annotation
+
+let unwrappedFormat = format.value ?? Format.Text
+let outputFormat: OutputFormat = {
+    switch unwrappedFormat {
+    case .JSON:
+        return .JSON
+    case .Text:
+        return .Text
+    }
+}()
+
+guard let unwrappedSourceFilePath = sourceFilePath.value else {
+    exitWithError("--source-file is required")
+}
+guard let sourceFileURL = NSURL(fileURLWithPath: unwrappedSourceFilePath, isDirectory: false).URLByStandardizingPath else {
+    exitWithError("\(unwrappedSourceFilePath): Incorrect source file path")
+}
+
+switch unwrappedOperation {
+
+case Operation.List:
+    printAnnotationsFrom(sourceFileURL, withFormat: outputFormat)
+    
+case Operation.Export:
+    guard let unwrappedTargetFolderPath = targetFolderPath.value else {
+        exitWithError("--target-folder is required")
+    }
+    guard let targetFolderURL = NSURL(fileURLWithPath: unwrappedTargetFolderPath, isDirectory: true).URLByStandardizingPath else {
+        exitWithError("\(unwrappedTargetFolderPath): Incorrect target folder path")
+    }
+    writePDFAnnotationsFrom(sourceFileURL, toTargetFolder: targetFolderURL)
+
+}
