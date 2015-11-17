@@ -17,12 +17,13 @@ When you read a PDF file, you may want to take some excerpts, like excerpting on
 ### No lock-in format.
 
 * Excerpt file format is plain text.
-* Excerptor links contain all information to locate excerpts. It is possible to find your excerpts by following the information in an excerpt link itself.
+* Excerptor links contain all information to locate excerpts. It is possible to find your excerpts by following the information in an excerpt link itself. Even if the PDF files are missing, the excerpt text could be extracted from the excerpt link per se.
 
-  A typical excerptor link is as follows (The part in square brackets may be repeated and delimited by "-").
+  A typical excerpt link is as follows (The part in square brackets may be repeated and delimited by "-").
   ```
-  excerptor://FilePathOrDEVONthinkUUID:PercentEncodingExcerptText:[pPageNumber_ExcerptTextLocation_ExcerptTextLength]
+  excerptor://{FilePathOrDEVONthinkUUID}:{ExcerptText}:[p{PageNumber}_{ExcerptTextLocation}_{ExcerptTextLength}]
   ```
+  See Wiki page [Excerpt Link Format](https://github.com/guoc/excerptor/wiki/Excerpt-Link-Format) for details.
 
 ### Fully customizable
 
