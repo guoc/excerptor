@@ -9,6 +9,7 @@ Dependencies: [SIMBL](http://www.culater.net/software/SIMBL/SIMBL.php)
 When you read a PDF file, you may want to take some excerpts, like excerpting on physical books (including article name, page number etc.). *Via Excerptor, you can take excerpts easily: select text in Preview/[Skim](http://skim-app.sourceforge.net) and type a shortcut. An excerpt will be stored in pasteboard or a file. The excerpt includes a special link. By clicking the link, Excerptor will open the corresponding file by Preview/Skim, go to the page you want and highlight the excerpt you made, automatically.*
 
 ![Excerpt To Pasteboard](https://github.com/guoc/excerptor/raw/master/screenshots/excerpt_to_pasteboard.gif)
+
 (In the screenshot, the link is pasted as rich text in Notes.app. It will be plain text if it is pasted in an application which only supports plain text.)
 
 ## Features
@@ -17,7 +18,8 @@ When you read a PDF file, you may want to take some excerpts, like excerpting on
 
 * Excerpt file format is plain text.
 * Excerptor links contain all information to locate excerpts. It is possible to find your excerpts by following the information in an excerpt link itself.
-A typical excerptor link is as follows (The part in square brackets may be repeated and delimited by "-").
+
+  A typical excerptor link is as follows (The part in square brackets may be repeated and delimited by "-").
   ```
   excerptor://FilePathOrDEVONthinkUUID:PercentEncodingExcerptText:[pPageNumber_ExcerptTextLocation_ExcerptTextLength]
   ```
