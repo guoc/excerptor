@@ -279,7 +279,7 @@
         NSArray *pathComponentsIncludingPlaceholder = [pathComponents subarrayWithRange:NSMakeRange(firstComponentIncludingPlaceholderIndex, pathComponents.count - firstComponentIncludingPlaceholderIndex)];
         return [NSString pathWithComponents:[pathString.pathComponents arrayByAddingObjectsFromArray:pathComponentsIncludingPlaceholder]];
     } else {
-        return originalPathString;
+        return pathString;
     }
 }
 
