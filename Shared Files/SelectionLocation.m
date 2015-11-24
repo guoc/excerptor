@@ -42,7 +42,8 @@
     for (SelectionLineLocation *selectionLineLocation in self.selectionLineLocations) {
         NSUInteger pageIndex = selectionLineLocation.pageIndex;
         PDFPage *page = [pdfDocument pageAtIndex:pageIndex];
-        NSRange range = selectionLineLocation.range;
+        NSRange pageStringRange = NSMakeRange(0, page.string.length - 1);
+        NSRange range = NSIntersectionRange(selectionLineLocation.range, pageStringRange);
         PDFSelection *selection = [page selectionForRange:range];
         [selectionToHighlight addSelection:selection];
     }
