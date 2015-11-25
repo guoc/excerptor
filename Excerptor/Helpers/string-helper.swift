@@ -6,7 +6,9 @@
 //  Copyright (c) 2015 guoc. All rights reserved.
 //
 
+// swiftlint:disable variable_name
 let URIUnreservedCharacterSet = NSCharacterSet(charactersInString: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.~")
+// swiftlint:enable variable_name
 
 extension String {
     func stringByRemovingPrefix(prefix: String) -> String {
@@ -15,9 +17,9 @@ extension String {
         }
         return self
     }
-    
+
     func stringByReplacingWithDictionary(stringGettersByPlaceholder: [String: () -> String]) -> String {
-        
+
         var string = self
         for (placeholder, stringGetter) in stringGettersByPlaceholder {
             if string.rangeOfString(placeholder, options: [], range: nil, locale: nil) == nil {
@@ -29,4 +31,3 @@ extension String {
         return string
     }
 }
-

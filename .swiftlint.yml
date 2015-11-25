@@ -1,0 +1,24 @@
+disabled_rules: # rule identifiers to exclude from running
+  - variable_name_max_length
+  - line_length
+excluded: # paths to ignore during linting. overridden by `included`.
+  - Excerptor/Supporting Files/DEVONthinkPro.swift
+  - Cartfile
+  - Cartfile.resolved
+  - Carthage
+  - Excerptor.xcodeproj
+  - Frameworks
+  - LICENSE
+  - PDFReaderPlugin
+  - PopClipExtension
+  - PrefsPane
+  - Shared Files
+  - screenshots
+# parameterized rules are first parameterized as a warning level, then error level.
+type_body_length:
+  - 300 # warning
+  - 400 # error
+# parameterized rules are first parameterized as a warning level, then error level.
+variable_name_min_length:
+  - 3 # warning
+  - 2 # error

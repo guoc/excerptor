@@ -11,13 +11,13 @@ import Cocoa
 class PasteboardHelper {
 
     struct Constants {
-        static let OutputPasteboardName = "name.guoc.excerptor.ExcerptorToPDFReader";
-        static let InputPasteboardName = "name.guoc.excerptor.PDFReaderToExcerptor";
+        static let OutputPasteboardName = "name.guoc.excerptor.ExcerptorToPDFReader"
+        static let InputPasteboardName = "name.guoc.excerptor.PDFReaderToExcerptor"
         static let PasteboardType = "org.nspasteboard.TransientType"
         static let ExcerptorToPDFReaderHeader = "ExcerptorToPDFReader:"
         static let PDFReaderToExcerptorHeader = "PDFReaderToExcerptor:"
     }
-    
+
     class func writeGeneralPasteboardWith(selectionLink: SelectionLink?) -> Bool {
         if let selectionLink = selectionLink {
             let pasteboard = NSPasteboard.generalPasteboard()
@@ -28,7 +28,7 @@ class PasteboardHelper {
         }
         return false
     }
-    
+
     class func readExcerptorPasteboard() -> Location! {
         let pasteboard = NSPasteboard(name: Constants.InputPasteboardName)
         guard let data = pasteboard.dataForType(Constants.PasteboardType) else {
@@ -39,7 +39,7 @@ class PasteboardHelper {
         }
         guard let location = unarchivedObject as? Location else {
             if let errorMessage = unarchivedObject as? NSString {
-                exitWithError("Error message in pasteboard: " + String(errorMessage));
+                exitWithError("Error message in pasteboard: " + String(errorMessage))
             } else {
                 exitWithError("Could not convert unarchived object to location " + unarchivedObject.description)
             }
@@ -47,7 +47,7 @@ class PasteboardHelper {
         pasteboard.clearContents()
         return location
     }
-    
+
     class func writeExcerptorPasteboardWithLocation(location: Location) -> Bool {
         let pasteboard = NSPasteboard(name: Constants.OutputPasteboardName)
         pasteboard.clearContents()

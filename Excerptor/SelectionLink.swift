@@ -11,14 +11,14 @@ import ScriptingBridge
 import Quartz
 
 class SelectionLink: Link {
-    
+
     private let selectionLocation: SelectionLocation!
-    
+
     init(fileID: FileID, selectionLocation: SelectionLocation) {
         self.selectionLocation = selectionLocation
         super.init(fileID: fileID)
     }
-    
+
     required convenience init?(location: Location, text: String?) {
         if let location = location as? SelectionLocation {
             self.init(selectionLocation: location)
@@ -26,19 +26,19 @@ class SelectionLink: Link {
             exitWithError("SelectionLink init failed")
         }
     }
-    
+
     convenience init(filePath: String, selectionLocation: SelectionLocation) {
         self.init(fileID: FileID.FilePath(filePath), selectionLocation: selectionLocation)
     }
-    
+
     convenience init(dntpUuid: String, selectionLocation: SelectionLocation) {
         self.init(fileID: FileID.DNtpUuid(dntpUuid), selectionLocation: selectionLocation)
     }
-    
+
     convenience init(filePathOrDNtpUuid: String, selectionLocation: SelectionLocation) {
         self.init(fileID: FileID(filePathOrDNtpUuid: filePathOrDNtpUuid), selectionLocation: selectionLocation)
     }
-    
+
     convenience init(selectionLocation: SelectionLocation) {
         self.init(fileID: FileID.FilePath(selectionLocation.pdfFilePath), selectionLocation: selectionLocation)
     }
@@ -47,61 +47,61 @@ class SelectionLink: Link {
         guard linkString.hasPrefix(SelectionLink.head) else {
             exitWithError("The link string has incorrect head: " + linkString)
         }
-        
+
         let linkStringWithoutHead = linkString.stringByRemovingPrefix(SelectionLink.head)
         let arr = linkStringWithoutHead.componentsSeparatedByString(":")
 
         guard arr.count == 3 else {
             exitWithError("The link string has incorrect number of components: " + linkString)
         }
-        
+
         guard let fileIDString = arr[0].stringByRemovingPercentEncoding else {
             exitWithError("The link string contains an invalid file ID: " + linkString)
         }
-        
+
         let fileID = FileID(filePathOrDNtpUuid: fileIDString)
-        
+
         guard let selectionLocation = SelectionLocation(string: linkStringWithoutHead) else {
             exitWithError("Could not parse the link string to selection location: " + linkString)
         }
         self.init(fileID: fileID, selectionLocation: selectionLocation)
     }
-    
+
     override var string: String {
         get {
             let fileIDString = fileID.string.stringByAddingPercentEncodingWithAllowedCharacters(URIUnreservedCharacterSet)!
             return "\(SelectionLink.head)\(fileIDString):\(selectionLocation.stringWithoutPDFFilePath)"
         }
     }
-    
+
     override var location: Location {
         get {
             return selectionLocation
         }
     }
-    
+
     var pageIndices: [Int] {
         get {
             return selectionLocation.pageIndices
         }
     }
-    
+
     var firstPageIndex: Int {
         get {
             return pageIndices.reduce(Int.max) { min($0, $1) }
         }
     }
-    
+
     var selectionTextArrayInOneLine: String {
         get {
             return selectionLocation.selectionTextInOneLine
         }
     }
-    
+
     private struct Constants {
         static let SelectionTextDelimiter = "-"
     }
-    
+
     override func getDNtpUuidTypeLink() -> Link? {
         if isDNtpUuidLinkType {
             return self
@@ -112,7 +112,7 @@ class SelectionLink: Link {
             return nil
         }
     }
-    
+
     override func getFilePathTypeLink() -> Link? {
         if isFilePathLinkType {
             return self
@@ -129,7 +129,10 @@ extension SelectionLocation {
     var stringWithoutPDFFilePath: String {
         get {
             let selectionString = selectionLineLocations.map { $0.string.stringByAddingPercentEncodingWithAllowedCharacters(URIUnreservedCharacterSet)! }.joinWithSeparator(SelectionLink.Constants.SelectionTextDelimiter)
-            let locationStrings = (selectionLineLocations as! [SelectionLineLocation]).map { (lineLocation: SelectionLineLocation) -> String in
+            guard let unwrappedSelectionLineLocations = selectionLineLocations as? [SelectionLineLocation] else {
+                exitWithError("selectionLineLocations contain non-SelectionLineLocation object. selectionLineLocations: \(selectionLineLocations)")
+            }
+            let locationStrings = unwrappedSelectionLineLocations.map { (lineLocation: SelectionLineLocation) -> String in
                 var lineLocationString = "p\(lineLocation.pageIndex + 1)_\(lineLocation.range.location)_\(lineLocation.range.length)"
                 if Preferences.sharedPreferences.boolForSelectionLinkIncludesBoundsInfo {
                     lineLocationString += "_\(lineLocation.bound.origin.x)_\(lineLocation.bound.origin.y)_\(lineLocation.bound.size.width)_\(lineLocation.bound.size.height)"
@@ -139,19 +142,23 @@ extension SelectionLocation {
             return selectionString + ":" + locationStrings.joinWithSeparator("-")
         }
     }
-    
+
     var pageIndices: [Int] {
         get {
-            return (selectionLineLocations as! [SelectionLineLocation]).map { Int($0.pageIndex) }
+            guard let unwrappedSelectionLineLocations = selectionLineLocations as? [SelectionLineLocation] else {
+                exitWithError("selectionLineLocations contain non-SelectionLineLocation object. selectionLineLocations: \(selectionLineLocations)")
+            }
+            return unwrappedSelectionLineLocations.map { Int($0.pageIndex) }
         }
     }
-    
+
     var selectionTextInOneLine: String {
         get {
             return selectionLineLocations.map { $0.string }.joinWithSeparator(" ")
         }
     }
-    
+
+// swiftlint:disable function_body_length
     convenience init?(string: String) {
         let arr = string.componentsSeparatedByString(":")
         if arr.count != 3 {
@@ -170,6 +177,7 @@ extension SelectionLocation {
                     if let pageNumber = Int(arr[0]),
                              location = Int(arr[1]),
                                length = Int(arr[2])
+                    // swiftlint:disable opening_brace
                     {
                         let pageIndex = UInt(pageNumber - 1)
                         let range = NSMakeRange(location, length)
@@ -181,20 +189,19 @@ extension SelectionLocation {
                               height = NSNumberFormatter().numberFromString(arr[6])?.floatValue
                             {
                                 bound = NSRect(x: CGFloat(x), y: CGFloat(y), width: CGFloat(width), height: CGFloat(height))
-                            }
-                            else
-                            {
+                            } else {
                                 exitWithError("Incorrect selection link format")
                             }
                         }
                         return SelectionLineLocation(string: annotationString, pageIndex: pageIndex, range: range, bound: bound)
                     }
+                    // swiftlint:enable opening_brace
                 }
             }
             exitWithError("Incorrect selection link format")
         }
         self.init(PDFFilePath: pdfFilePath, selectionLineLocations: selectionLineLocations)
     }
+// swiftlint:enable function_body_length
+
 }
-
-

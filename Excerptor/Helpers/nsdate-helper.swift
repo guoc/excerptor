@@ -7,6 +7,7 @@
 //
 
 extension NSDate {
+    // swiftlint:disable variable_name
     class func dateFromISO8601String(ISO8601String: String) -> NSDate! {
         let ISO8601DateFormatter = NSDateFormatter()
         ISO8601DateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
@@ -17,7 +18,8 @@ extension NSDate {
             exitWithError("Could not parse date format")
         }
     }
-    
+    // swiftlint:enable variable_name
+
     func ISO8601String() -> String {
         let ISO8601DateFormatter = NSDateFormatter()
         ISO8601DateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
@@ -25,4 +27,3 @@ extension NSDate {
         return ISO8601DateFormatter.stringFromDate(self)
     }
 }
-

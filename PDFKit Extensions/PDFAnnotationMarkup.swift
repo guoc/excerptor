@@ -1,11 +1,10 @@
-
 import Foundation
 import Quartz
 
 extension PDFAnnotationMarkup {
-    
+
 // MARK: - Public
-    
+
     var selectionText: String {
         get {
             let selections: [PDFSelection]
@@ -18,10 +17,10 @@ extension PDFAnnotationMarkup {
             return selectionStrings.joinWithSeparator(" ")
         }
     }
-    
-    
+
+
 // MARK: - Private
-    
+
     private var rects: [CGRect] {
         get {
             let quadrilateralPoints = self.quadrilateralPoints().map { $0.pointValue as NSPoint}
@@ -31,14 +30,14 @@ extension PDFAnnotationMarkup {
             return rectsInAnnotationCoordinate
         }
     }
-    
+
     private var rectsInPageCoordinate: [CGRect] {
         get {
             let origin = self.bounds().origin
             return rects.map { CGRectOffset($0, origin.x, origin.y) }
         }
     }
-    
+
     private var horizontalCentralLines: [(startPoint: CGPoint, endPoint: CGPoint)] {
         get {
             return rects.map { (rect: CGRect) -> (startPoint: CGPoint, endPoint: CGPoint) in
@@ -49,30 +48,30 @@ extension PDFAnnotationMarkup {
             }
         }
     }
-    
+
     private var horizontalCentralLinesInPageCoordinate: [(startPoint: CGPoint, endPoint: CGPoint)] {
         get {
             let origin = self.bounds().origin
             return horizontalCentralLines.map { ($0.startPoint.pointByOffsetting(dx: origin.x, dy: origin.y), $0.endPoint.pointByOffsetting(dx: origin.x, dy: origin.y)) }
         }
     }
-    
+
 // MARK: - Helper Methods
-    
+
     private func smallestRectangleEnclosing(points: [CGPoint]) -> CGRect {
-        
-        guard let minX = (points.map { $0.x }).minElement()
-                , maxX = (points.map { $0.x }).maxElement()
-                , minY = (points.map { $0.y }).minElement()
-                , maxY = (points.map { $0.y }).maxElement() else {
+
+        guard let minX = (points.map { $0.x }).minElement(),
+                  maxX = (points.map { $0.x }).maxElement(),
+                  minY = (points.map { $0.y }).minElement(),
+                  maxY = (points.map { $0.y }).maxElement() else {
             exitWithError("Empty points array passed in smallestRectangleEnclosing")
         }
-        
+
         return CGRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
     }
-    
+
     private func smallestRectangleEnclosing(points: CGPoint...) -> CGRect {
         return smallestRectangleEnclosing(points)
     }
-    
+
 }

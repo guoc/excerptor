@@ -8,7 +8,7 @@
 
 // http://stackoverflow.com/a/24318861/3157231
 
-func delay(delay:Double, closure:()->()) {
+func delay(delay: Double, closure:()->()) {
     dispatch_after(
         dispatch_time(
             DISPATCH_TIME_NOW,

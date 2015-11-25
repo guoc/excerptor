@@ -9,7 +9,7 @@
 import Foundation
 
 struct FileTemplate {
-    
+
     // attribute templates
     let folderPath: String
     let fileName: String
@@ -18,7 +18,8 @@ struct FileTemplate {
     let content: String
     let creationDate: String
     let modificationDate: String
-    
+
+// swiftlint:disable function_body_length
     func writeToFileWithPropertyGettersDictionary(propertyGettersByPlaceholder: [String: () -> String]) -> Bool {
         let folderPath = self.folderPath.stringByReplacingWithDictionary(propertyGettersByPlaceholder)
         var fileName = self.fileName.stringByReplacingWithDictionary(propertyGettersByPlaceholder)
@@ -41,51 +42,52 @@ struct FileTemplate {
                 fileName = String(fileName.characters.prefix(192)) + "…"
             }
         }
-        
+
         do {
             try NSFileManager.defaultManager().createDirectoryAtPath(folderPath, withIntermediateDirectories: true, attributes: nil)
         } catch let error as NSError {
             exitWithError(error.localizedDescription)
         }
-        
+
         let filePathWithoutExtension = NSURL(fileURLWithPath: folderPath).URLByAppendingPathComponent(fileName).path!
         let expandedFilePathWithoutExtension = NSString(string: filePathWithoutExtension).stringByExpandingTildeInPath
         if let filePath = fileExtension.isEmpty ? filePathWithoutExtension : NSURL(fileURLWithPath: expandedFilePathWithoutExtension).URLByAppendingPathExtension(fileExtension).path {
-            
+
             if NSFileManager.defaultManager().fileExistsAtPath(filePath) {
                 NSLog("\(filePath) exists")
                 return false
             }
-            
+
             do {
                 try content.writeToFile(filePath, atomically: true, encoding: NSUTF8StringEncoding)
             } catch let error as NSError {
                 exitWithError("Could not write to file: \(filePath)\n" + error.localizedDescription)
             }
-            
+
             do {
                 try NSURL(fileURLWithPath: filePath).setResourceValue(tags, forKey: NSURLTagNamesKey)
             } catch let error as NSError {
                 exitWithError("Could not set resource value \(tags.description) for key NSURLTagNamesKey to file: \(filePath)\n" + error.localizedDescription)
             }
-            
+
             do {
                 try NSFileManager.defaultManager().setAttributes([NSFileCreationDate: creationDate], ofItemAtPath: filePath)
             } catch let error as NSError {
                 exitWithError("Could not set creation data: \(creationDate.description) of \(filePath)\n" + error.localizedDescription)
             }
-            
+
             do {
                 try NSFileManager.defaultManager().setAttributes([NSFileModificationDate: modificationDate], ofItemAtPath: filePath)
             } catch let error as NSError {
                 exitWithError("Could not set modification date: \(modificationDate.description) of \(filePath)\n" + error.localizedDescription)
             }
-            
+
             return true
-            
+
         } else {
             return false
         }
     }
-    
+// swiftlint:enable function_body_length
+
 }

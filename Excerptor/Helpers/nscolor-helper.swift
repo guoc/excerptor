@@ -7,7 +7,7 @@
 //
 
 extension NSColor {
-    
+
     var colorComponents: [CGFloat] {
         get {
             let numberOfComponents = self.numberOfComponents
@@ -16,7 +16,7 @@ extension NSColor {
             return Array(UnsafeMutableBufferPointer(start: components, count: numberOfComponents))
         }
     }
-    
+
     var hexDescription: String! {
         get {
             if let color = self.colorUsingColorSpace(NSColorSpace.genericRGBColorSpace()) {

@@ -11,14 +11,16 @@ import PreferencePanes
 
 
 class PreferencesWindowController: NSWindowController {
-    
+
     static var needShowPreferences = true
-    
+
     private var prefPane: NSPreferencePane! = {
         if let pathToPrefPaneBundle = NSBundle.mainBundle().pathForResource("PrefsPane", ofType: "prefPane", inDirectory: "PreferencePanes"),
             prefBundle = NSBundle(path: pathToPrefPaneBundle),
             prefPaneClass = prefBundle.principalClass as? NSPreferencePane.Type
+        // swiftlint:disable opening_brace
         {
+        // swiftlint:enable opening_brace
             var prefPane = prefPaneClass.init(bundle: prefBundle)
             (prefPane as PrefsPane).setDelegate!(Preferences.sharedPreferences)
             return prefPane
@@ -26,15 +28,15 @@ class PreferencesWindowController: NSWindowController {
             exitWithError("Could not load preference pane bundle")
         }
     }()
-    
 
-    
+
+
     override func windowDidLoad() {
         super.windowDidLoad()
 
         // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
     }
-    
+
     func showPreferencesIfNecessary() {
         if !PreferencesWindowController.needShowPreferences {
             return
@@ -52,7 +54,7 @@ class PreferencesWindowController: NSWindowController {
         NSApp.activateIgnoringOtherApps(true)
         showWindow(self)
     }
-    
+
     func showPreferencesOnlyOnceIfNecessaryAfterDelay(delaySeconds: NSTimeInterval) {
         delay(0.3) {
             self.showPreferencesIfNecessary()
@@ -67,4 +69,3 @@ class PreferencesWindowController: NSWindowController {
 }
 
 extension NSPreferencePane: PrefsPane {}
-

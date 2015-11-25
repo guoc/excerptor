@@ -71,7 +71,7 @@ switch unwrappedOperation {
 
 case Operation.List:
     printAnnotationsFrom(sourceFileURL, withFormat: outputFormat)
-    
+
 case Operation.Export:
     writePDFAnnotationsFrom(sourceFileURL)
 }

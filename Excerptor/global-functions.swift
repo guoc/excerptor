@@ -30,7 +30,15 @@ func printAnnotationsFrom(pdfFileUrl: NSURL, withFormat outputFormat: OutputForm
         exit(1)
     }
     // Calling of page() on PDFAnnotation should in current scope, rather than it will fail because its property page(PDFPage) will be released caused by the release of document(PDFDocument)
-    let allAnnotations = skimNotes.count > 0 ? skimNotes as! [PDFAnnotation] : document.annotations
+    let allAnnotations: [PDFAnnotation]
+    if skimNotes.count > 0 {
+        guard let unwrappedSkimNotes = skimNotes as? [PDFAnnotation] else {
+            exitWithError("Invalid Skim notes: \(skimNotes)")
+        }
+        allAnnotations = unwrappedSkimNotes
+    } else {
+        allAnnotations = document.annotations
+    }
     let validAnnotations = allAnnotations.filter(annotationFilter)
     switch outputFormat {
     case .JSON:
@@ -44,7 +52,7 @@ func printAnnotationsFrom(pdfFileUrl: NSURL, withFormat outputFormat: OutputForm
 
 func writePDFAnnotationsFromFilesIn(folderUrl: NSURL) {
     let dirEnumerator = NSFileManager.defaultManager().enumeratorAtURL(folderUrl.URLByStandardizingPath!, includingPropertiesForKeys: [NSURLIsDirectoryKey], options: [], errorHandler: nil)
-    while let theURL:NSURL = dirEnumerator?.nextObject() as? NSURL {
+    while let theURL: NSURL = dirEnumerator?.nextObject() as? NSURL {
         var isDirectory: AnyObject?
         do {
             try theURL.getResourceValue(&isDirectory, forKey: NSURLIsDirectoryKey)
@@ -70,16 +78,24 @@ func writePDFAnnotationsFrom(pdfFileUrl: NSURL) {
         exitWithError("File not recognized")
     }
     // Calling of page() on PDFAnnotation should in current scope, rather than it will fail because its property page(PDFPage) will be released caused by the release of document(PDFDocument)
-    let allAnnotations = skimNotes.count > 0 ? skimNotes as! [PDFAnnotation] : document.annotations
+    let allAnnotations: [PDFAnnotation]
+    if skimNotes.count > 0 {
+        guard let unwrappedSkimNotes = skimNotes as? [PDFAnnotation] else {
+            exitWithError("Invalid Skim notes: \(skimNotes)")
+        }
+        allAnnotations = unwrappedSkimNotes
+    } else {
+        allAnnotations = document.annotations
+    }
     let validAnnotations = allAnnotations.filter(annotationFilter)
-    
+
     let fileName = Preferences.sharedPreferences.stringForAnnotationFileName
     let fileExtension = Preferences.sharedPreferences.stringForAnnotationFileExtension
     let folderPath = Preferences.sharedPreferences.stringForAnnotationFilesLocation
     let tags = Preferences.sharedPreferences.stringForAnnotationFileTags.componentsSeparatedByString(",").map { $0.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) }.filter { !$0.isEmpty }
     let content = Preferences.sharedPreferences.stringForAnnotationFileContent
     let fileTemplate = FileTemplate(folderPath: folderPath, fileName: fileName, fileExtension: fileExtension, tags: tags, content: content, creationDate: Preferences.AnnotationPlaceholders.AnnotationDate, modificationDate: Preferences.AnnotationPlaceholders.ExportDate)
-    
+
     for annotation in validAnnotations {
         Annotation(pdfAnnotation: annotation).writeToFileWith(fileTemplate)
     }
@@ -94,24 +110,26 @@ func JSONTextFromAnnotations(annotations: [PDFAnnotation]) -> String {
     return JSONTextFromJSONObject(JSONObjects)
 }
 
+// swiftlint:disable variable_name
 func JSONTextFromJSONObject(JSONObject: AnyObject) -> String {
     guard NSJSONSerialization.isValidJSONObject(JSONObject) else {
         exitWithError("\(JSONObject.description) is not valid JSON object")
     }
-    
+
     let JSONData: NSData
     do {
         JSONData = try NSJSONSerialization.dataWithJSONObject(JSONObject, options: .PrettyPrinted)
     } catch let error as NSError {
         exitWithError("\(error.localizedDescription) OR \(JSONObject.description) is not valid JSON object")
     }
-    
+
     guard let JSONString = String(data: JSONData, encoding: NSUTF8StringEncoding) else {
         exitWithError("Fail to get string from date: " + JSONData.description)
     }
-    
+
     return JSONString
 }
+// swiftlint:enable variable_name
 
 func textFromAnnotation(annotation: PDFAnnotation) -> String {
     return [annotation.annotationText, annotation.noteText, Annotation.AnnotationType(string: annotation.typeName).string(), annotation.color().hexDescription, annotation.author, "\(annotation.pageIndex + 1)", annotation.date.ISO8601String()].joinWithSeparator("\t")
@@ -138,16 +156,17 @@ extension Annotation {
 }
 
 extension PDFAnnotation {
+    // swiftlint:disable variable_name
     var JSONObjectPresentation: AnyObject {
         get {
             let color = self.color()
             let colorSpaceName = color.colorSpaceName
             let colorComponents = color.colorComponents
-            
+
             let JSONObject = ["AnnotationText": annotationText, "NoteText": noteText, "TypeName": typeName, "Color": ["SpaceName": colorSpaceName, "Components": colorComponents], "Author": author, "PageIndex": pageIndex + 1, "Date": date.ISO8601String()]
-            
+
             return JSONObject
         }
     }
+    // swiftlint:enable variable_name
 }
-

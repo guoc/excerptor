@@ -52,7 +52,7 @@ func notifyWithUserNotification(userNotification: NSUserNotification) {
             err += "\(informativeText)\n"
         }
         if let userInfo = userNotification.userInfo {
-            err += userInfo.values.map{ $0 as? String ?? "" }.joinWithSeparator("\n")
+            err += userInfo.values.map { $0 as? String ?? "" }.joinWithSeparator("\n")
             err += "\n"
         }
         printlnToStandardError(err)
@@ -102,7 +102,7 @@ class UserNotificationCenterDelegate: NSObject, NSUserNotificationCenterDelegate
     func userNotificationCenter(center: NSUserNotificationCenter, shouldPresentNotification notification: NSUserNotification) -> Bool {
         return true
     }
-    
+
     // Prevent from showing preferences window when users click on notification.
     func userNotificationCenter(center: NSUserNotificationCenter, didActivateNotification notification: NSUserNotification) {
         PreferencesWindowController.needShowPreferences = false

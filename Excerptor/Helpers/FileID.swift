@@ -10,10 +10,10 @@ import Foundation
 import ScriptingBridge
 
 enum FileID {
-    
+
     case FilePath(String)
     case DNtpUuid(String)
-    
+
     init(filePathOrDNtpUuid: String) {
         if filePathOrDNtpUuid.hasPrefix("/") {
             self = .FilePath(filePathOrDNtpUuid)
@@ -21,7 +21,7 @@ enum FileID {
             self = .DNtpUuid(filePathOrDNtpUuid)
         }
     }
-    
+
     var string: String {
         get {
             switch self {
@@ -32,7 +32,7 @@ enum FileID {
             }
         }
     }
-    
+
     var urlString: String {
         get {
             if isFilePath {
@@ -42,7 +42,7 @@ enum FileID {
             }
         }
     }
-    
+
     func getFilePath() -> String {
         if isFilePath {
             return string
@@ -50,7 +50,7 @@ enum FileID {
             return getFilePathWithDNtpUuid(string)
         }
     }
-    
+
     func getDNtpUuid() -> String? {
         if isDNtpUuid {
             return string
@@ -58,11 +58,11 @@ enum FileID {
             return getDNtpUuidWithFilePath(string)
         }
     }
-    
+
     func getFilePathFileID() -> FileID {
         return FileID(filePathOrDNtpUuid: getFilePath())
     }
-    
+
     func getDNtpUuidFileID() -> FileID? {
         if let dntpUuid = getDNtpUuid() {
             return FileID(filePathOrDNtpUuid: dntpUuid)
@@ -70,7 +70,7 @@ enum FileID {
             return nil
         }
     }
-    
+
     var isFilePath: Bool {
         get {
             switch self {
@@ -81,22 +81,24 @@ enum FileID {
             }
         }
     }
-    
+
     var isDNtpUuid: Bool {
         get {
             return !isFilePath
         }
     }
-    
+
     private func getDNtpUuidWithFilePath(filePath: String?) -> String? {
         if let dntp = SBApplication(bundleIdentifier: "com.devon-technologies.thinkpro2") as DEVONthinkProApplication? {
-            var databases = (dntp.databases!() as NSArray) as! [DEVONthinkProDatabase]
+            guard var databases = (dntp.databases!() as NSArray) as? [DEVONthinkProDatabase] else {
+                exitWithError("Could not read DNtp database")
+            }
             if let currentDatabase = dntp.currentDatabase {
                 // Reorder to make currentDatabase first
                 let otherDatabases = databases.filter { !$0.isEqual(currentDatabase) }
                 databases = [currentDatabase] + otherDatabases
             }
-            
+
             // Trade-off: If a file appears in multiple databases, only use first one and ignore others.
             for database: DEVONthinkProDatabase in databases {
                 if let records = dntp.lookupRecordsWithPath?(filePath, `in`: database) as? [DEVONthinkProRecord] {
@@ -116,16 +118,18 @@ enum FileID {
         }
         return nil
     }
-    
+
     private func getFilePathWithDNtpUuid(dntpUuid: String) -> String! {
         if let dntp = SBApplication(bundleIdentifier: "com.devon-technologies.thinkpro2") as DEVONthinkProApplication? {
-            var databases = (dntp.databases!() as NSArray) as! [DEVONthinkProDatabase]
+            guard var databases = (dntp.databases!() as NSArray) as? [DEVONthinkProDatabase] else {
+                exitWithError("Could not read DNtp database")
+            }
             if let currentDatabase = dntp.currentDatabase {
                 // Reorder to make currentDatabase first
                 let otherDatabases = databases.filter { !$0.isEqual(currentDatabase) }
                 databases = [currentDatabase] + otherDatabases
             }
-            
+
             // Trade-off: If a file appears in multiple databases, only use first one and ignore others.
             for database: DEVONthinkProDatabase in databases {
                 if let record = dntp.getRecordWithUuid?(dntpUuid, `in`: database) {
@@ -139,4 +143,3 @@ enum FileID {
     }
 
 }
-

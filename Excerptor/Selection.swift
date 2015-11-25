@@ -9,16 +9,16 @@
 import Foundation
 
 class Selection {
-    
+
     let selectionText: String
     let author: String
     let date: NSDate
     let pageIndex: Int
     let pdfFileID: FileID
     let pdfFileName: String
-    
+
     var selectionLink: SelectionLink?
-    
+
     lazy var propertyGettersByPlaceholder: [String: () -> String] = [
         Preferences.SelectionPlaceholders.SelectionText: { self.selectionText },
         Preferences.SelectionPlaceholders.UserName: { self.author },
@@ -59,7 +59,7 @@ class Selection {
             }
         }
     ]
-    
+
     init(selectionText: String, author: String, date: NSDate, pageIndex: Int, pdfFileID: FileID, pdfFileName: String) {
         self.selectionText = selectionText
         self.author = author
@@ -68,23 +68,25 @@ class Selection {
         self.pdfFileID = pdfFileID
         self.pdfFileName = pdfFileName
     }
-    
+
     func writeToFileWith(fileTemplate: FileTemplate) -> Bool {
-        
+
         return fileTemplate.writeToFileWithPropertyGettersDictionary(propertyGettersByPlaceholder)
     }
-    
+
     func writeToPasteboardWithTemplateString(richTextTemplate: String, plainTextTemplate: String) -> Bool {
         let pasteboard = NSPasteboard.generalPasteboard()
         pasteboard.clearContents()
-        
+
         let plainTextToWrite = plainTextTemplate.stringByReplacingWithDictionary(self.propertyGettersByPlaceholder)
 
         if Preferences.sharedPreferences.boolForSelectionLinkRichTextSameAsPlainText {
             return pasteboard.setString(plainTextToWrite, forType:NSPasteboardTypeString)
         } else {
             let pattern = "(?:\\[([^)]+)\\])(?:\\(([^)]+)\\))"
+            // swiftlint:disable force_try
             let regex = try! NSRegularExpression(pattern: pattern, options: [])
+            // swiftlint:enable force_try
             let range = NSMakeRange(0, richTextTemplate.characters.count)
             let matches = regex.matchesInString(richTextTemplate, options: [], range: range)
             let richTextToWrite = Array(matches.map { (match: NSTextCheckingResult) -> (rangeToReplace: NSRange, text: String, link: String) in
@@ -93,7 +95,7 @@ class Selection {
                     let end = start.advancedBy(range.length)
                     return start..<end
                 }
-                
+
                 let rangeToReplace = match.range
                 let text = richTextTemplate.substringWithRange(rangeFromNSRange(match.rangeAtIndex(1))).stringByReplacingWithDictionary(self.propertyGettersByPlaceholder)
                 let link = richTextTemplate.substringWithRange(rangeFromNSRange(match.rangeAtIndex(2))).stringByReplacingWithDictionary(self.propertyGettersByPlaceholder)
@@ -103,12 +105,11 @@ class Selection {
                 attributedString.replaceCharactersInRange(linkStringInfo.rangeToReplace, withAttributedString: linkAttributedString)
                 return attributedString
             }
-            
+
             return pasteboard.writeObjects([richTextToWrite])
                 && pasteboard.setString(plainTextToWrite, forType:NSPasteboardTypeString)
         }
 
     }
-
 
 }

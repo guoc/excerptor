@@ -19,7 +19,7 @@ class Annotation {
         case Text
         case FreeText
         case Unrecognized
-        
+
         init(string: String) {
             switch string {
             case "Highlight", SKNHighlightString, SKNMarkUpString:
@@ -38,7 +38,7 @@ class Annotation {
                 self = .Unrecognized
             }
         }
-        
+
         func string() -> String {
             switch self {
             case .Highlight: return "Highlight"
@@ -51,7 +51,7 @@ class Annotation {
             }
         }
     }
-    
+
     let annotationText: String?
     let noteText: String?
     var annotationOrNoteText: String { get { return annotationText ?? noteText! } }
@@ -62,7 +62,7 @@ class Annotation {
     let pageIndex: Int
     let pdfFileID: FileID
     let pdfFileName: String
-    
+
     init(annotationText: String?, noteText: String?, annotationType: AnnotationType, markupColor: NSColor?, author: String?, date: NSDate?, pageIndex: Int, pdfFileID: FileID, pdfFileName: String) {
         self.annotationText = annotationText
         self.noteText = noteText
@@ -74,7 +74,8 @@ class Annotation {
         self.pdfFileID = pdfFileID
         self.pdfFileName = pdfFileName
     }
-    
+
+// swiftlint:disable function_body_length
     func writeToFileWith(annotationFileTemplate: FileTemplate) -> Bool {
         let annotationDNtpUuidLinkGetter = { () -> String in
             if let annotationDNtpUuidTypeLink = AnnotationLink(annotation: self)?.getDNtpUuidTypeLink()?.string {
@@ -95,7 +96,7 @@ class Annotation {
                 exitWithError("Fail to get annotation file path link")
             }
         }
-        
+
 /* Xcode think this is too complex ..., so I rewrite all keys and values as separate variables.
         let propertyGettersByPlaceholder: [String: () -> String] = [
             Preferences.AnnotationPlaceholders.AnnotationText: { self.annotationText ?? "" },
@@ -163,7 +164,7 @@ class Annotation {
         let pap_AnnotationLink_FilePathType_Getter : () -> String = annotationFilePathLinkGetter
         let pap_PDFFileDEVONthinkUUID = Preferences.CommonPlaceholders.PDFFileDEVONthinkUUID
         let pap_PDFFileDEVONthinkUUID_Getter : () -> String = { self.pdfFileID.getDNtpUuid() ?? "NOT FOUND" }
-        
+
         let propertyGettersByPlaceholder: [String: () -> String] = [
             pap_AnnotationText: pap_AnnotationText_Getter,
             pap_NoteText: pap_NoteText_Getter,
@@ -182,10 +183,9 @@ class Annotation {
             pap_AnnotationLink_FilePathType: pap_AnnotationLink_FilePathType_Getter,
             pap_PDFFileDEVONthinkUUID: pap_PDFFileDEVONthinkUUID_Getter
         ]
-        
+
         return annotationFileTemplate.writeToFileWithPropertyGettersDictionary(propertyGettersByPlaceholder)
     }
-
+// swiftlint:enable function_body_length
 
 }
-

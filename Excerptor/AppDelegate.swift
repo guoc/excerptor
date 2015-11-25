@@ -10,24 +10,24 @@ import Cocoa
 import PreferencePanes
 
 class AppDelegate: NSObject, NSApplicationDelegate {
-    
+
     lazy var preferencesWindowController: PreferencesWindowController = PreferencesWindowController(windowNibName: "PreferencesWindow")
-    
+
     func applicationWillFinishLaunching(notification: NSNotification) {
 
         preferencesWindowController.showPreferencesOnlyOnceIfNecessaryAfterDelay(0.3)
-        
+
         let servicesProvider = ServicesProvider()
         NSApplication.sharedApplication().servicesProvider = servicesProvider
 
-        let appleEventManager:NSAppleEventManager = NSAppleEventManager.sharedAppleEventManager()
+        let appleEventManager: NSAppleEventManager = NSAppleEventManager.sharedAppleEventManager()
         appleEventManager.setEventHandler(self, andSelector: "handleGetURLEvent:withReplyEvent:", forEventClass: AEEventClass(kInternetEventClass), andEventID: AEEventID(kAEGetURL))
     }
-    
+
     func applicationDidBecomeActive(notification: NSNotification) {
         preferencesWindowController.showPreferencesOnlyOnceIfNecessaryAfterDelay(0.3)
     }
-    
+
     func handleGetURLEvent(event: NSAppleEventDescriptor, withReplyEvent: NSAppleEventDescriptor) {
         PreferencesWindowController.needShowPreferences = false
         if let theURLString = event.descriptorForKeyword(AEKeyword(keyDirectObject))?.stringValue {
@@ -47,4 +47,3 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 
 }
-

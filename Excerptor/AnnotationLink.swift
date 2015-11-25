@@ -12,32 +12,32 @@ class AnnotationLink: Link {
 
     private let annotationLocation: AnnotationLocation!
     private let annotationText: String!
-    
+
     override init!() {
         annotationLocation = nil
         annotationText = nil
         super.init()
         return nil
     }
-    
+
     init(fileID: FileID, annotationLocation: AnnotationLocation, annotationText: String) {
         self.annotationText = annotationText
         self.annotationLocation = annotationLocation
         super.init(fileID: fileID)
     }
-    
+
     convenience init(filePath: String, annotationLocation: AnnotationLocation, annotationText: String) {
         self.init(fileID: FileID.FilePath(filePath), annotationLocation: annotationLocation, annotationText: annotationText)
     }
-    
+
     convenience init(dntpUuid: String, annotationLocation: AnnotationLocation, annotationText: String) {
         self.init(fileID: FileID.DNtpUuid(dntpUuid), annotationLocation: annotationLocation, annotationText: annotationText)
     }
-    
+
     convenience init(filePathOrDNtpUuid: String, annotationLocation: AnnotationLocation, annotationText: String) {
         self.init(fileID: FileID(filePathOrDNtpUuid: filePathOrDNtpUuid), annotationLocation: annotationLocation, annotationText: annotationText)
     }
-    
+
     convenience required init?(location: Location, text: String?) {
         if let location = location as? AnnotationLocation, text = text {
             self.init(fileID: FileID.FilePath(location.pdfFilePath), annotationLocation: location, annotationText: text)
@@ -46,7 +46,7 @@ class AnnotationLink: Link {
             return nil
         }
     }
-    
+
     required convenience init?(linkString: String) {
         if linkString.hasPrefix(SelectionLink.head) {
             let linkStringWithoutHead = linkString.stringByRemovingPrefix(SelectionLink.head)
@@ -77,12 +77,12 @@ class AnnotationLink: Link {
         self.init()
         return nil
     }
-    
+
     convenience init?(annotation: Annotation) {
         let annotationLocation = AnnotationLocation(PDFFilePath: annotation.pdfFileID.getFilePath(), pageIndex: UInt(annotation.pageIndex), annotationDate: annotation.date)
         self.init(location: annotationLocation, text: annotation.annotationOrNoteText)
     }
-    
+
     override var string: String {
         get {
             let fileIDString = fileID.string.stringByAddingPercentEncodingWithAllowedCharacters(URIUnreservedCharacterSet)!
@@ -96,13 +96,13 @@ class AnnotationLink: Link {
             return returnString
         }
     }
-    
+
     override var location: Location {
         get {
             return annotationLocation
         }
     }
-    
+
     override func getDNtpUuidTypeLink() -> Link? {
         if isDNtpUuidLinkType {
             return self
@@ -113,7 +113,7 @@ class AnnotationLink: Link {
             return nil
         }
     }
-    
+
     override func getFilePathTypeLink() -> Link? {
         if isFilePathLinkType {
             return self

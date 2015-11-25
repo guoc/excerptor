@@ -7,21 +7,21 @@
 //
 
 class ServicesProvider: NSObject {
-    
+
     func getSelectionLink(pboard: NSPasteboard, userData: String, error: AutoreleasingUnsafeMutablePointer<NSString?>) {
         PreferencesWindowController.needShowPreferences = false
-        
+
         let selectionLink = generateFilePathTypeSelectionLink()
         let selection = Selection(selectionLink: selectionLink)
         selection.writeToPasteboardWithTemplateString(Preferences.sharedPreferences.stringForSelectionLinkRichText, plainTextTemplate: Preferences.sharedPreferences.stringForSelectionLinkPlainText)
     }
-    
+
     func getSelectionFile(pboard: NSPasteboard?, userData: String?, error: AutoreleasingUnsafeMutablePointer<NSString?>) {
         PreferencesWindowController.needShowPreferences = false
 
         let selectionLink = generateFilePathTypeSelectionLink()
         let selection = Selection(selectionLink: selectionLink)
-        
+
         let fileName = Preferences.sharedPreferences.stringForSelectionFileName
         let fileExtension = Preferences.sharedPreferences.stringForSelectionFileExtension
         let folderPath = String(NSString(string: Preferences.sharedPreferences.stringForSelectionFilesLocation).stringByExpandingTildeInPath)
@@ -30,11 +30,13 @@ class ServicesProvider: NSObject {
         let fileTemplate = FileTemplate(folderPath: folderPath, fileName: fileName, fileExtension: fileExtension, tags: tags, content: content, creationDate: Preferences.SelectionPlaceholders.CreationDate, modificationDate: Preferences.SelectionPlaceholders.CreationDate)
         selection.writeToFileWith(fileTemplate)
     }
-    
+
     func getAnnotationFiles(pboard: NSPasteboard?, userData: String?, error: AutoreleasingUnsafeMutablePointer<NSString?>) {
         PreferencesWindowController.needShowPreferences = false
         if let pboard = pboard {
-            let fileOrFolderNames = pboard.propertyListForType(NSFilenamesPboardType) as! [String]
+            guard let fileOrFolderNames = pboard.propertyListForType(NSFilenamesPboardType) as? [String] else {
+                exitWithError("Could not get file names: \(pboard.propertyListForType(NSFilenamesPboardType))")
+            }
             for fileOrFolderName: String in fileOrFolderNames {
                 var isDirectory = ObjCBool(false)
                 if NSFileManager.defaultManager().fileExistsAtPath(fileOrFolderName, isDirectory: &isDirectory) {
@@ -49,10 +51,12 @@ class ServicesProvider: NSObject {
     }
 
     func generateFilePathTypeSelectionLink() -> SelectionLink! {
-        let selectionLocation = PasteboardHelper.readExcerptorPasteboard() as! SelectionLocation
+        guard let selectionLocation = PasteboardHelper.readExcerptorPasteboard() as? SelectionLocation else {
+            exitWithError("Invalid selection location: \(PasteboardHelper.readExcerptorPasteboard())")
+        }
         return SelectionLink(selectionLocation: selectionLocation)
     }
-    
+
     func generateDNtpUuidTypeSelectionLink() -> SelectionLink? {
         let selectionLink = generateFilePathTypeSelectionLink()
         return selectionLink.getDNtpUuidTypeLink() as? SelectionLink
@@ -63,7 +67,7 @@ class ServicesProvider: NSObject {
 
 
 extension Selection {
-    
+
     convenience init(selectionLink: SelectionLink) {
         let selectionText = selectionLink.selectionTextArrayInOneLine
         let author = NSUserName()
@@ -76,6 +80,5 @@ extension Selection {
         self.init(selectionText: selectionText, author: author, date: date, pageIndex: pageIndex, pdfFileID: pdfFileID, pdfFileName: pdfFileName)
         self.selectionLink = selectionLink
     }
-    
-}
 
+}
