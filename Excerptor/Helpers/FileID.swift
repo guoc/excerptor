@@ -15,14 +15,19 @@ enum FileID {
     case DNtpUuid(String)
 
     init(filePathOrDNtpUuid: String) {
-        if filePathOrDNtpUuid.hasPrefix("/") {
-            self = .FilePath(NSString(string: filePathOrDNtpUuid).stringByExpandingTildeInPath)
-        } else {
+        if filePathOrDNtpUuid.isDNtpUUID {
             self = .DNtpUuid(filePathOrDNtpUuid)
+        } else {
+            var expandedPath = filePathOrDNtpUuid
+            for (target, replacement) in Preferences.sharedPreferences.dictionaryForPathVariables {
+                expandedPath = expandedPath.stringByReplacingOccurrencesOfString(target, withString: replacement)
+            }
+            expandedPath = NSString(string: expandedPath).stringByExpandingTildeInPath
+            self = .FilePath(expandedPath)
         }
     }
 
-    var string: String {
+    private var string: String {
         get {
             switch self {
             case .DNtpUuid(let str):
@@ -40,6 +45,16 @@ enum FileID {
             } else {
                 return "x-devonthink-item://\(string)"
             }
+        }
+    }
+    
+    var presentativeString: String {
+        get {
+            var abbreviatedPath = NSString(string: string).stringByAbbreviatingWithTildeInPath
+            for (target, replacement) in Preferences.sharedPreferences.dictionaryForPathSubstitutes {
+                abbreviatedPath = abbreviatedPath.stringByReplacingOccurrencesOfString(target, withString: replacement)
+            }
+            return abbreviatedPath
         }
     }
 

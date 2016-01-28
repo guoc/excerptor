@@ -30,4 +30,15 @@ extension String {
         }
         return string
     }
+    
+    var isDNtpUUID: Bool {
+        get {
+            let regex = try! NSRegularExpression(pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", options: [.CaseInsensitive])
+            let range = NSMakeRange(0, characters.count)
+            guard let firstMatch = regex.firstMatchInString(self, options: [.Anchored], range: range)?.range else {
+                return false
+            }
+            return NSEqualRanges(firstMatch, range)
+        }
+    }
 }

@@ -65,6 +65,10 @@ class Preferences: NSObject, PrefsPaneDelegate {
         static let AnnotationFileTags = "AnnotationFileTags"
         static let AnnotationFileContent = "AnnotationFileContent"
         static let ShowNotificationWhenFileNotFoundInDNtpForAnnotationFile = "ShowNotificationWhenFileNotFoundInDNtpForAnnotationFile"
+        
+        // Hidden preferences
+        static let PathVariables = "PathVariables"
+        static let PathSubstitutes = "PathSubstitutes"
 
         // swiftlint:enable variable_name_max_length
     }
@@ -361,6 +365,28 @@ class Preferences: NSObject, PrefsPaneDelegate {
         set {
             self.userDefaults.setBool(newValue, forKey: Constants.ShowNotificationWhenFileNotFoundInDNtpForAnnotationFile)
             self.userDefaults.synchronize()
+        }
+    }
+    
+    // Hidden preferences
+    
+    var dictionaryForPathVariables: [String: String] {
+        get {
+            self.userDefaults.synchronize()
+            guard let dict = self.userDefaults.dictionaryForKey(Constants.PathVariables) as? [String: String] else {
+                return [String: String]()
+            }
+            return dict
+        }
+    }
+    
+    var dictionaryForPathSubstitutes: [String: String] {
+        get {
+            self.userDefaults.synchronize()
+            guard let dict = self.userDefaults.dictionaryForKey(Constants.PathSubstitutes) as? [String: String] else {
+                return [String: String]()
+            }
+            return dict
         }
     }
 

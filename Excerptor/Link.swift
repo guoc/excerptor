@@ -50,7 +50,7 @@ class Link {
 
     var string: String {
         get {
-            return "\(Link.head)\(fileID.string)"
+            return "\(Link.head)\(fileID.presentativeString)"
         }
     }
 
