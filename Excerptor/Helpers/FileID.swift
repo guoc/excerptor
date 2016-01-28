@@ -16,7 +16,7 @@ enum FileID {
 
     init(filePathOrDNtpUuid: String) {
         if filePathOrDNtpUuid.hasPrefix("/") {
-            self = .FilePath(filePathOrDNtpUuid)
+            self = .FilePath(NSString(string: filePathOrDNtpUuid).stringByExpandingTildeInPath)
         } else {
             self = .DNtpUuid(filePathOrDNtpUuid)
         }
