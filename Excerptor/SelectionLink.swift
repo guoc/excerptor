@@ -128,7 +128,13 @@ class SelectionLink: Link {
 extension SelectionLocation {
     var stringWithoutPDFFilePath: String {
         get {
-            let selectionString = selectionLineLocations.map { $0.string.stringByAddingPercentEncodingWithAllowedCharacters(URIUnreservedCharacterSet)! }.joinWithSeparator(SelectionLink.Constants.SelectionTextDelimiter)
+            let selectionString = selectionLineLocations.map { $0.string }.map { (string: String) -> String in
+                let replacedString = string.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).filter({!$0.isEmpty}).joinWithSeparator("+")
+                let allowedCharaterSet = NSMutableCharacterSet(charactersInString: "+")
+                allowedCharaterSet.formUnionWithCharacterSet(URIUnreservedCharacterSet)
+                let encodedString = replacedString.stringByAddingPercentEncodingWithAllowedCharacters(allowedCharaterSet)!
+                return encodedString
+            }.joinWithSeparator(SelectionLink.Constants.SelectionTextDelimiter)
             guard let unwrappedSelectionLineLocations = selectionLineLocations as? [SelectionLineLocation] else {
                 exitWithError("selectionLineLocations contain non-SelectionLineLocation object. selectionLineLocations: \(selectionLineLocations)")
             }
