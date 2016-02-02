@@ -50,6 +50,9 @@ enum FileID {
     
     var presentativeString: String {
         get {
+            if isDNtpUuid {
+                return string
+            }
             var abbreviatedPath = NSString(string: string).stringByAbbreviatingWithTildeInPath
             for (target, replacement) in Preferences.sharedPreferences.dictionaryForPathSubstitutes {
                 abbreviatedPath = abbreviatedPath.stringByReplacingOccurrencesOfString(target, withString: replacement)
