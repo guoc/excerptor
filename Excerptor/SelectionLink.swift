@@ -69,7 +69,7 @@ class SelectionLink: Link {
 
     override var string: String {
         get {
-            let fileIDString = fileID.presentativeString.stringByAddingPercentEncodingWithAllowedCharacters(URIUnreservedCharacterSet)!
+            let fileIDString = fileID.percentEncodedString
             return "\(SelectionLink.head)\(fileIDString):\(selectionLocation.stringWithoutPDFFilePath)"
         }
     }

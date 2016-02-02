@@ -85,8 +85,8 @@ class AnnotationLink: Link {
 
     override var string: String {
         get {
-            let fileIDString = fileID.presentativeString.stringByAddingPercentEncodingWithAllowedCharacters(URIUnreservedCharacterSet)!
             let annotationTextString = annotationText.stringByAddingPercentEncodingWithAllowedCharacters(URIUnreservedCharacterSet)!
+            let fileIDString = fileID.percentEncodedString
             let pageNumber = annotationLocation.pageIndex + 1
             var returnString = "\(SelectionLink.head)\(fileIDString):\(annotationTextString):p\(String(pageNumber))"
             if let annotationDate = annotationLocation.annotationDate {

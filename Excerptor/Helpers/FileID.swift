@@ -60,6 +60,17 @@ enum FileID {
             return abbreviatedPath
         }
     }
+    
+    var percentEncodedString: String {
+        get {
+            if isDNtpUuid {
+                return presentativeString
+            }
+            let allowedCharacterSet = NSMutableCharacterSet(charactersInString: "/")
+            allowedCharacterSet.formUnionWithCharacterSet(URIUnreservedCharacterSet)
+            return presentativeString.stringByAddingPercentEncodingWithAllowedCharacters(allowedCharacterSet)!
+        }
+    }
 
     func getFilePath() -> String {
         if isFilePath {
