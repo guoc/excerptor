@@ -130,7 +130,7 @@ enum FileID {
 
             // Trade-off: If a file appears in multiple databases, only use first one and ignore others.
             for database: DEVONthinkProDatabase in databases {
-                if let records = dntp.lookupRecordsWithPath?(filePath, `in`: database) as? [DEVONthinkProRecord] {
+                if let records = dntp.lookupRecordsWithPath?(filePath, in: database) as? [DEVONthinkProRecord] {
                     if records.count == 0 {
                         continue
                     } else if records.count == 1 {
@@ -161,7 +161,7 @@ enum FileID {
 
             // Trade-off: If a file appears in multiple databases, only use first one and ignore others.
             for database: DEVONthinkProDatabase in databases {
-                if let record = dntp.getRecordWithUuid?(dntpUuid, `in`: database) {
+                if let record = dntp.getRecordWithUuid?(dntpUuid, in: database) {
                     return record.path
                 }
             }

@@ -21,7 +21,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         NSApplication.sharedApplication().servicesProvider = servicesProvider
 
         let appleEventManager: NSAppleEventManager = NSAppleEventManager.sharedAppleEventManager()
-        appleEventManager.setEventHandler(self, andSelector: "handleGetURLEvent:withReplyEvent:", forEventClass: AEEventClass(kInternetEventClass), andEventID: AEEventID(kAEGetURL))
+        appleEventManager.setEventHandler(self, andSelector: #selector(handleGetURLEvent(_:withReplyEvent:)), forEventClass: AEEventClass(kInternetEventClass), andEventID: AEEventID(kAEGetURL))
     }
 
     func applicationDidBecomeActive(notification: NSNotification) {
