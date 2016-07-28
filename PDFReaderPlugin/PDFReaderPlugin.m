@@ -58,6 +58,7 @@ static NSString *currentFilePath;
     if ([self highlightSelectionOrAnnotationWithLocation:location]) {
         [PasteboardHelper clearInputPasteboard];
     }
+    [self updateCurrentSelectionInformationWithMaybeWindowController:nil];
 }
 
 - (BOOL)highlightSelectionOrAnnotationWithLocation: (Location *)location {
@@ -73,13 +74,28 @@ static NSString *currentFilePath;
 // MARK: - Update current selection information
 
 - (void)updateCurrentSelectionInformationWithMaybeWindowController: (NSWindowController *)windowController {
+    
+    static NSWindowController *cachedWindowController = nil;
+    
     NSString *filePath = [self getCurrentFilePath];
     if (!filePath) {
         [PasteboardHelper writePasteboardWithErrorMessage: @"Could not get current file path"];
         return;
     }
 
-    id currentWindowController = windowController ? windowController : [self getCurrentWindowController];
+    id currentWindowController = nil;
+    if (windowController) {
+        currentWindowController = windowController;
+        cachedWindowController = windowController;
+    } else if (cachedWindowController) {
+        currentWindowController = cachedWindowController;
+    } else {
+        currentWindowController = [self getCurrentWindowController];
+        if (currentWindowController) {
+            cachedWindowController = currentWindowController;
+        }
+    }
+
     id pdfView = nil;
     if ([currentWindowController respondsToSelector:@selector(pdfView)]) {
         pdfView = [currentWindowController performSelector:@selector(pdfView)];
