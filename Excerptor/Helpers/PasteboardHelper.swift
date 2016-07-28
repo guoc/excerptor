@@ -44,7 +44,6 @@ class PasteboardHelper {
                 exitWithError("Could not convert unarchived object to location " + unarchivedObject.description)
             }
         }
-        pasteboard.clearContents()
         return location
     }
 
