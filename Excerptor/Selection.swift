@@ -92,7 +92,7 @@ class Selection {
             let richTextToWrite = Array(matches.map { (match: NSTextCheckingResult) -> (rangeToReplace: NSRange, text: String, link: String) in
                 func rangeFromNSRange(_ range: NSRange) -> Range<String.Index> {
                     let start = richTextTemplate.characters.index(richTextTemplate.startIndex, offsetBy: range.location)
-                    let end = <#T##String.CharacterView corresponding to `start`##String.CharacterView#>.index(start, offsetBy: range.length)
+                    let end = index(start, offsetBy: range.length)
                     return start..<end
                 }
 
