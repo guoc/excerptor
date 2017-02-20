@@ -8,7 +8,7 @@
 
 import Foundation
 
-import CommandLine
+import CommandLineKit
 
 if CommandLine.argc == 1 || CommandLine.argc == 3 && CommandLine.arguments[1] == "-NSDocumentRevisionsDebugMode" && CommandLine.arguments[2] == "YES" {
     NSApplicationMain(CommandLine.argc, CommandLine.unsafeArgv)

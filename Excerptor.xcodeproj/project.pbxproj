@@ -11,6 +11,8 @@
 		BD00B54F1B1051F40000EA36 /* PreferencesDefaultValues(DNtp).plist in Resources */ = {isa = PBXBuildFile; fileRef = BD25DAE41B0DB89300A653F3 /* PreferencesDefaultValues(DNtp).plist */; };
 		BD00B5511B1068C80000EA36 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD00B5501B1068C80000EA36 /* Preferences.swift */; };
 		BD0AAB451B10460900329D96 /* PrefsPaneDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = BD0AAB441B10460900329D96 /* PrefsPaneDelegate.h */; };
+		BD236B0B1E5ABDEE003A04BA /* CommandLineKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BD236B0A1E5ABDEE003A04BA /* CommandLineKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BD236B0C1E5ABDF9003A04BA /* CommandLineKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD236B0A1E5ABDEE003A04BA /* CommandLineKit.framework */; };
 		BD23B8921B1DBC7A002EC025 /* SkimNotes.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BD9A58A31B16D9DE00D45D6D /* SkimNotes.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BD23B8991B1DBF78002EC025 /* SkimNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD9A58A31B16D9DE00D45D6D /* SkimNotes.framework */; };
 		BD25DAD91B0C818600A653F3 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD25DAD81B0C818600A653F3 /* main.swift */; };
@@ -24,8 +26,6 @@
 		BD4C71581B0B690700F44B6C /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4C71561B0B690700F44B6C /* PreferencesWindowController.swift */; };
 		BD4C71591B0B690700F44B6C /* PreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD4C71571B0B690700F44B6C /* PreferencesWindow.xib */; };
 		BD4C715B1B0B77CC00F44B6C /* delay-helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4C715A1B0B77CC00F44B6C /* delay-helper.swift */; };
-		BD57A5CB1BF7521A000B85D9 /* CommandLine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD57A5CA1BF7521A000B85D9 /* CommandLine.framework */; };
-		BD57A5CC1BF7521A000B85D9 /* CommandLine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BD57A5CA1BF7521A000B85D9 /* CommandLine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BD7E6D621B08CE4700AD083A /* Selection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7E6D611B08CE4700AD083A /* Selection.swift */; };
 		BD93E67D1B0AFD98006457ED /* PrefsPane.h in Headers */ = {isa = PBXBuildFile; fileRef = BD93E67C1B0AFD98006457ED /* PrefsPane.h */; };
 		BD93E67F1B0AFD98006457ED /* PrefsPane.m in Sources */ = {isa = PBXBuildFile; fileRef = BD93E67E1B0AFD98006457ED /* PrefsPane.m */; };
@@ -80,7 +80,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				BD57A5CC1BF7521A000B85D9 /* CommandLine.framework in Embed Frameworks */,
+				BD236B0B1E5ABDEE003A04BA /* CommandLineKit.framework in Embed Frameworks */,
 				BD23B8921B1DBC7A002EC025 /* SkimNotes.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -102,6 +102,7 @@
 /* Begin PBXFileReference section */
 		BD00B5501B1068C80000EA36 /* Preferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		BD0AAB441B10460900329D96 /* PrefsPaneDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefsPaneDelegate.h; sourceTree = "<group>"; };
+		BD236B0A1E5ABDEE003A04BA /* CommandLineKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CommandLineKit.framework; path = Carthage/Build/Mac/CommandLineKit.framework; sourceTree = "<group>"; };
 		BD25DAD41B0C5EF300A653F3 /* PreferencesDefaultValues.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PreferencesDefaultValues.plist; sourceTree = "<group>"; };
 		BD25DAD71B0C7B6500A653F3 /* NSUserNotification-Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserNotification-Private.h"; sourceTree = "<group>"; };
 		BD25DAD81B0C818600A653F3 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -175,7 +176,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BD57A5CB1BF7521A000B85D9 /* CommandLine.framework in Frameworks */,
+				BD236B0C1E5ABDF9003A04BA /* CommandLineKit.framework in Frameworks */,
 				BD23B8991B1DBF78002EC025 /* SkimNotes.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -255,6 +256,7 @@
 		BDBF90DB1B089B690022A375 = {
 			isa = PBXGroup;
 			children = (
+				BD236B0A1E5ABDEE003A04BA /* CommandLineKit.framework */,
 				BDBF91381B089C0D0022A375 /* Shared Files */,
 				BD25DB1C1B0E085900A653F3 /* PDFKit Extensions */,
 				BDBF90E61B089B690022A375 /* Excerptor */,
