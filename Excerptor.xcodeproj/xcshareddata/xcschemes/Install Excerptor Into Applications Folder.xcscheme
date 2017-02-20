@@ -10,7 +10,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "TARGET_DIRECTORY=&quot;/Applications&quot;&#10;&#10;killall -9 Excerptor&#10;&#10;rm -rf &quot;${TARGET_DIRECTORY}/${WRAPPER_NAME}&quot;&#10;&#10;/System/Library/CoreServices/pbs -flush&#10;&#10;cp -rf &quot;${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}&quot; &quot;${TARGET_DIRECTORY}/${WRAPPER_NAME}&quot;&#10;&#10;/System/Library/CoreServices/pbs -flush&#10;">
+               scriptText = "TARGET_DIRECTORY=&quot;/Applications&quot;&#10;&#10;killall -9 Excerptor&#10;&#10;rm -rf &quot;${TARGET_DIRECTORY}/${WRAPPER_NAME}&quot;&#10;&#10;/System/Library/CoreServices/pbs -flush&#10;&#10;cp -rf &quot;${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}&quot; &quot;${TARGET_DIRECTORY}/${WRAPPER_NAME}&quot;&#10;&#10;rm -rf &quot;${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}&quot;&#10;&#10;/System/Library/CoreServices/pbs -flush&#10;">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"
