@@ -13,31 +13,31 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     lazy var preferencesWindowController: PreferencesWindowController = PreferencesWindowController(windowNibName: "PreferencesWindow")
 
-    func applicationWillFinishLaunching(notification: NSNotification) {
+    func applicationWillFinishLaunching(_ notification: Notification) {
 
         preferencesWindowController.showPreferencesOnlyOnceIfNecessaryAfterDelay(0.3)
 
         let servicesProvider = ServicesProvider()
-        NSApplication.sharedApplication().servicesProvider = servicesProvider
+        NSApplication.shared().servicesProvider = servicesProvider
 
-        let appleEventManager: NSAppleEventManager = NSAppleEventManager.sharedAppleEventManager()
+        let appleEventManager: NSAppleEventManager = NSAppleEventManager.shared()
         appleEventManager.setEventHandler(self, andSelector: #selector(handleGetURLEvent(_:withReplyEvent:)), forEventClass: AEEventClass(kInternetEventClass), andEventID: AEEventID(kAEGetURL))
     }
 
-    func applicationDidBecomeActive(notification: NSNotification) {
+    func applicationDidBecomeActive(_ notification: Notification) {
         preferencesWindowController.showPreferencesOnlyOnceIfNecessaryAfterDelay(0.3)
     }
 
-    func handleGetURLEvent(event: NSAppleEventDescriptor, withReplyEvent: NSAppleEventDescriptor) {
+    func handleGetURLEvent(_ event: NSAppleEventDescriptor, withReplyEvent: NSAppleEventDescriptor) {
         PreferencesWindowController.needShowPreferences = false
-        if let theURLString = event.descriptorForKeyword(AEKeyword(keyDirectObject))?.stringValue {
+        if let theURLString = event.forKeyword(AEKeyword(keyDirectObject))?.stringValue {
             if let link = AnnotationLink(linkString: theURLString) ?? SelectionLink(linkString: theURLString) {
                 PasteboardHelper.writeExcerptorPasteboardWithLocation(link.location)
                 let applicationName: String
                 switch Preferences.sharedPreferences.appForOpenPDF {
-                case .Preview:
+                case .preview:
                     applicationName = "Preview.app"
-                case .Skim:
+                case .skim:
                     applicationName = "Skim.app"
                 }
                 NSWorkspace().openFile(link.getFilePath(), withApplication: applicationName, andDeactivate: true)

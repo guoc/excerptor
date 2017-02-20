@@ -14,10 +14,10 @@ class PreferencesWindowController: NSWindowController {
 
     static var needShowPreferences = true
 
-    private var prefPane: NSPreferencePane! = {
-        if let pathToPrefPaneBundle = NSBundle.mainBundle().pathForResource("PrefsPane", ofType: "prefPane", inDirectory: "PreferencePanes"),
-            prefBundle = NSBundle(path: pathToPrefPaneBundle),
-            prefPaneClass = prefBundle.principalClass as? NSPreferencePane.Type
+    fileprivate var prefPane: NSPreferencePane! = {
+        if let pathToPrefPaneBundle = Bundle.main.path(forResource: "PrefsPane", ofType: "prefPane", inDirectory: "PreferencePanes"),
+            let prefBundle = Bundle(path: pathToPrefPaneBundle),
+            let prefPaneClass = prefBundle.principalClass as? NSPreferencePane.Type
         // swiftlint:disable opening_brace
         {
         // swiftlint:enable opening_brace
@@ -51,11 +51,11 @@ class PreferencesWindowController: NSWindowController {
             prefPane.didSelect()
         }
 
-        NSApp.activateIgnoringOtherApps(true)
+        NSApp.activate(ignoringOtherApps: true)
         showWindow(self)
     }
 
-    func showPreferencesOnlyOnceIfNecessaryAfterDelay(delaySeconds: NSTimeInterval) {
+    func showPreferencesOnlyOnceIfNecessaryAfterDelay(_ delaySeconds: TimeInterval) {
         delay(0.3) {
             self.showPreferencesIfNecessary()
             PreferencesWindowController.needShowPreferences = true
@@ -65,7 +65,7 @@ class PreferencesWindowController: NSWindowController {
 }
 
 @objc public protocol PrefsPane {
-    optional func setDelegate(delegate: PrefsPaneDelegate)
+    @objc optional func setDelegate(_ delegate: PrefsPaneDelegate)
 }
 
 extension NSPreferencePane: PrefsPane {}

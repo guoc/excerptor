@@ -18,9 +18,9 @@ class PasteboardHelper {
         static let PDFReaderToExcerptorHeader = "PDFReaderToExcerptor:"
     }
 
-    class func writeGeneralPasteboardWith(selectionLink: SelectionLink?) -> Bool {
+    class func writeGeneralPasteboardWith(_ selectionLink: SelectionLink?) -> Bool {
         if let selectionLink = selectionLink {
-            let pasteboard = NSPasteboard.generalPasteboard()
+            let pasteboard = NSPasteboard.general()
             pasteboard.clearContents()
             let attributedString = NSAttributedString(string: selectionLink.selectionTextArrayInOneLine, attributes: [NSLinkAttributeName: selectionLink.string])
             return pasteboard.writeObjects([attributedString])
@@ -31,10 +31,10 @@ class PasteboardHelper {
 
     class func readExcerptorPasteboard() -> Location! {
         let pasteboard = NSPasteboard(name: Constants.InputPasteboardName)
-        guard let data = pasteboard.dataForType(Constants.PasteboardType) else {
+        guard let data = pasteboard.data(forType: Constants.PasteboardType) else {
             exitWithError("Could not get selection/annotation information")
         }
-        guard let unarchivedObject = NSKeyedUnarchiver.unarchiveObjectWithData(data) else {
+        guard let unarchivedObject = NSKeyedUnarchiver.unarchiveObject(with: data) else {
             exitWithError("Could not unarchive object with data " + data.description)
         }
         guard let location = unarchivedObject as? Location else {
@@ -47,10 +47,10 @@ class PasteboardHelper {
         return location
     }
 
-    class func writeExcerptorPasteboardWithLocation(location: Location) -> Bool {
+    class func writeExcerptorPasteboardWithLocation(_ location: Location) -> Bool {
         let pasteboard = NSPasteboard(name: Constants.OutputPasteboardName)
         pasteboard.clearContents()
-        let data = NSKeyedArchiver.archivedDataWithRootObject(location)
+        let data = NSKeyedArchiver.archivedData(withRootObject: location)
         return pasteboard.setData(data, forType:Constants.PasteboardType)
     }
 

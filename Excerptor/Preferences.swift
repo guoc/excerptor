@@ -13,19 +13,19 @@ private let sharedInstance = Preferences()
 // swiftlint:disable type_body_length
 class Preferences: NSObject, PrefsPaneDelegate {
 
-    private var userDefaults: NSUserDefaults = {
-        var userDefaults = NSUserDefaults(suiteName: "name.guoc.excerptor")!
-        let defaultValuesFilePath = NSBundle.mainBundle().pathForResource("PreferencesDefaultValues", ofType: "plist")!
+    fileprivate var userDefaults: UserDefaults = {
+        var userDefaults = UserDefaults(suiteName: "name.guoc.excerptor")!
+        let defaultValuesFilePath = Bundle.main.path(forResource: "PreferencesDefaultValues", ofType: "plist")!
         guard let defaultValues = NSDictionary(contentsOfFile: defaultValuesFilePath)! as? [String : AnyObject] else {
             exitWithError("Fail to read preferences default values: \(NSDictionary(contentsOfFile: defaultValuesFilePath)!)")
         }
-        userDefaults.registerDefaults(defaultValues)
+        userDefaults.register(defaults: defaultValues)
         if Preferences.dntpIsInstalled() {
-            let defaultValuesForDNtpFilePath = NSBundle.mainBundle().pathForResource("PreferencesDefaultValues(DNtp)", ofType: "plist")!
+            let defaultValuesForDNtpFilePath = Bundle.main.path(forResource: "PreferencesDefaultValues(DNtp)", ofType: "plist")!
             guard let defaultValuesForDNtp = NSDictionary(contentsOfFile: defaultValuesForDNtpFilePath)! as? [String : AnyObject] else {
                 exitWithError("Fail to read preferences default values for DNtp: \(NSDictionary(contentsOfFile: defaultValuesForDNtpFilePath)!)")
             }
-            userDefaults.registerDefaults(defaultValuesForDNtp)
+            userDefaults.register(defaults: defaultValuesForDNtp)
         }
         return userDefaults
     }()
@@ -35,14 +35,14 @@ class Preferences: NSObject, PrefsPaneDelegate {
     }
 
     static func dntpIsInstalled() -> Bool {
-        return (LSCopyApplicationURLsForBundleIdentifier("com.devon-technologies.thinkpro2", nil) != nil)
+        return (LSCopyApplicationURLsForBundleIdentifier("com.devon-technologies.thinkpro2" as CFString, nil) != nil)
     }
 
     let boolForSelectionLinkIncludesBoundsInfo = false
 
     // MARK: PrefsPaneDelegate
 
-    private struct Constants {
+    fileprivate struct Constants {
         // swiftlint:disable variable_name_max_length
 
         static let AppForOpenPDF = "AppForOpenPDF"
@@ -149,30 +149,30 @@ class Preferences: NSObject, PrefsPaneDelegate {
 
     var availablePlaceholders: [AnyObject] {
         get {
-            return Preferences.availablePlaceholders
+            return Preferences.availablePlaceholders as [AnyObject]
         }
     }
 
     var availableSelectionPlaceholders: [AnyObject] {
         get {
-            return Preferences.availableSelectionPlaceholders
+            return Preferences.availableSelectionPlaceholders as [AnyObject]
         }
     }
 
     var availableAnnotationPlaceholders: [AnyObject] {
         get {
-            return Preferences.availableAnnotationPlaceholders
+            return Preferences.availableAnnotationPlaceholders as [AnyObject]
         }
     }
 
     var appForOpenPDF: PDFReaderApp {
         get {
             self.userDefaults.synchronize()
-            return PDFReaderApp(rawValue: self.userDefaults.integerForKey(Constants.AppForOpenPDF))!
+            return PDFReaderApp(rawValue: self.userDefaults.integer(forKey: Constants.AppForOpenPDF))!
         }
 
         set {
-            self.userDefaults.setInteger(newValue.rawValue, forKey: Constants.AppForOpenPDF)
+            self.userDefaults.set(newValue.rawValue, forKey: Constants.AppForOpenPDF)
             self.userDefaults.synchronize()
         }
     }
@@ -180,11 +180,11 @@ class Preferences: NSObject, PrefsPaneDelegate {
     var stringForSelectionLinkPlainText: String {
         get {
             self.userDefaults.synchronize()
-            return self.userDefaults.stringForKey(Constants.SelectionLinkPlainText)!
+            return self.userDefaults.string(forKey: Constants.SelectionLinkPlainText)!
         }
 
         set {
-            self.userDefaults.setObject(newValue, forKey: Constants.SelectionLinkPlainText)
+            self.userDefaults.set(newValue, forKey: Constants.SelectionLinkPlainText)
             self.userDefaults.synchronize()
         }
     }
@@ -192,10 +192,10 @@ class Preferences: NSObject, PrefsPaneDelegate {
     var boolForSelectionLinkRichTextSameAsPlainText: Bool {
         get {
             self.userDefaults.synchronize()
-            return self.userDefaults.boolForKey(Constants.SelectionLinkRichTextSameAsPlainText)
+            return self.userDefaults.bool(forKey: Constants.SelectionLinkRichTextSameAsPlainText)
         }
         set {
-            self.userDefaults.setBool(newValue, forKey: Constants.SelectionLinkRichTextSameAsPlainText)
+            self.userDefaults.set(newValue, forKey: Constants.SelectionLinkRichTextSameAsPlainText)
             self.userDefaults.synchronize()
         }
     }
@@ -203,11 +203,11 @@ class Preferences: NSObject, PrefsPaneDelegate {
     var stringForSelectionLinkRichText: String {
         get {
             self.userDefaults.synchronize()
-            return self.userDefaults.stringForKey(Constants.SelectionLinkRichText)!
+            return self.userDefaults.string(forKey: Constants.SelectionLinkRichText)!
         }
 
         set {
-            self.userDefaults.setObject(newValue, forKey: Constants.SelectionLinkRichText)
+            self.userDefaults.set(newValue, forKey: Constants.SelectionLinkRichText)
             self.userDefaults.synchronize()
         }
     }
@@ -215,11 +215,11 @@ class Preferences: NSObject, PrefsPaneDelegate {
     var boolForShowNotificationWhenFileNotFoundInDNtpForSelectionLink: Bool {
         get {
             self.userDefaults.synchronize()
-            return self.userDefaults.boolForKey(Constants.ShowNotificationWhenFileNotFoundInDNtpForSelectionLink)
+            return self.userDefaults.bool(forKey: Constants.ShowNotificationWhenFileNotFoundInDNtpForSelectionLink)
         }
 
         set {
-            self.userDefaults.setBool(newValue, forKey: Constants.ShowNotificationWhenFileNotFoundInDNtpForSelectionLink)
+            self.userDefaults.set(newValue, forKey: Constants.ShowNotificationWhenFileNotFoundInDNtpForSelectionLink)
             self.userDefaults.synchronize()
         }
     }
@@ -227,11 +227,11 @@ class Preferences: NSObject, PrefsPaneDelegate {
     var stringForSelectionFilesLocation: String {
         get {
             self.userDefaults.synchronize()
-            return self.userDefaults.stringForKey(Constants.SelectionFilesLocation)!
+            return self.userDefaults.string(forKey: Constants.SelectionFilesLocation)!
         }
 
         set {
-            self.userDefaults.setObject(newValue, forKey: Constants.SelectionFilesLocation)
+            self.userDefaults.set(newValue, forKey: Constants.SelectionFilesLocation)
             self.userDefaults.synchronize()
         }
     }
@@ -239,11 +239,11 @@ class Preferences: NSObject, PrefsPaneDelegate {
     var stringForSelectionFileName: String {
         get {
             self.userDefaults.synchronize()
-            return self.userDefaults.stringForKey(Constants.SelectionFileName)!
+            return self.userDefaults.string(forKey: Constants.SelectionFileName)!
         }
 
         set {
-            self.userDefaults.setObject(newValue, forKey: Constants.SelectionFileName)
+            self.userDefaults.set(newValue, forKey: Constants.SelectionFileName)
             self.userDefaults.synchronize()
         }
     }
@@ -251,11 +251,11 @@ class Preferences: NSObject, PrefsPaneDelegate {
     var stringForSelectionFileExtension: String {
         get {
             self.userDefaults.synchronize()
-            return self.userDefaults.stringForKey(Constants.SelectionFileExtension)!
+            return self.userDefaults.string(forKey: Constants.SelectionFileExtension)!
         }
 
         set {
-            self.userDefaults.setObject(newValue, forKey: Constants.SelectionFileExtension)
+            self.userDefaults.set(newValue, forKey: Constants.SelectionFileExtension)
             self.userDefaults.synchronize()
         }
     }
@@ -263,11 +263,11 @@ class Preferences: NSObject, PrefsPaneDelegate {
     var stringForSelectionFileTags: String {
         get {
             self.userDefaults.synchronize()
-            return self.userDefaults.stringForKey(Constants.SelectionFileTags)!
+            return self.userDefaults.string(forKey: Constants.SelectionFileTags)!
         }
 
         set {
-            self.userDefaults.setObject(newValue, forKey: Constants.SelectionFileTags)
+            self.userDefaults.set(newValue, forKey: Constants.SelectionFileTags)
             self.userDefaults.synchronize()
         }
     }
@@ -275,11 +275,11 @@ class Preferences: NSObject, PrefsPaneDelegate {
     var stringForSelectionFileContent: String {
         get {
             self.userDefaults.synchronize()
-            return self.userDefaults.stringForKey(Constants.SelectionFileContent)!
+            return self.userDefaults.string(forKey: Constants.SelectionFileContent)!
         }
 
         set {
-            self.userDefaults.setObject(newValue, forKey: Constants.SelectionFileContent)
+            self.userDefaults.set(newValue, forKey: Constants.SelectionFileContent)
             self.userDefaults.synchronize()
         }
     }
@@ -287,11 +287,11 @@ class Preferences: NSObject, PrefsPaneDelegate {
     var boolForShowNotificationWhenFileNotFoundInDNtpForSelectionFile: Bool {
         get {
             self.userDefaults.synchronize()
-            return self.userDefaults.boolForKey(Constants.ShowNotificationWhenFileNotFoundInDNtpForSelectionFile)
+            return self.userDefaults.bool(forKey: Constants.ShowNotificationWhenFileNotFoundInDNtpForSelectionFile)
         }
 
         set {
-            self.userDefaults.setBool(newValue, forKey: Constants.ShowNotificationWhenFileNotFoundInDNtpForSelectionFile)
+            self.userDefaults.set(newValue, forKey: Constants.ShowNotificationWhenFileNotFoundInDNtpForSelectionFile)
             self.userDefaults.synchronize()
         }
     }
@@ -299,11 +299,11 @@ class Preferences: NSObject, PrefsPaneDelegate {
     var stringForAnnotationFilesLocation: String {
         get {
             self.userDefaults.synchronize()
-            return self.userDefaults.stringForKey(Constants.AnnotationFilesLocation)!
+            return self.userDefaults.string(forKey: Constants.AnnotationFilesLocation)!
         }
 
         set {
-            self.userDefaults.setObject(newValue, forKey: Constants.AnnotationFilesLocation)
+            self.userDefaults.set(newValue, forKey: Constants.AnnotationFilesLocation)
             self.userDefaults.synchronize()
         }
     }
@@ -311,11 +311,11 @@ class Preferences: NSObject, PrefsPaneDelegate {
     var stringForAnnotationFileName: String {
         get {
             self.userDefaults.synchronize()
-            return self.userDefaults.stringForKey(Constants.AnnotationFileName)!
+            return self.userDefaults.string(forKey: Constants.AnnotationFileName)!
         }
 
         set {
-            self.userDefaults.setObject(newValue, forKey: Constants.AnnotationFileName)
+            self.userDefaults.set(newValue, forKey: Constants.AnnotationFileName)
             self.userDefaults.synchronize()
         }
     }
@@ -323,11 +323,11 @@ class Preferences: NSObject, PrefsPaneDelegate {
     var stringForAnnotationFileExtension: String {
         get {
             self.userDefaults.synchronize()
-            return self.userDefaults.stringForKey(Constants.AnnotationFileExtension)!
+            return self.userDefaults.string(forKey: Constants.AnnotationFileExtension)!
         }
 
         set {
-            self.userDefaults.setObject(newValue, forKey: Constants.AnnotationFileExtension)
+            self.userDefaults.set(newValue, forKey: Constants.AnnotationFileExtension)
             self.userDefaults.synchronize()
         }
     }
@@ -335,11 +335,11 @@ class Preferences: NSObject, PrefsPaneDelegate {
     var stringForAnnotationFileTags: String {
         get {
             self.userDefaults.synchronize()
-            return self.userDefaults.stringForKey(Constants.AnnotationFileTags)!
+            return self.userDefaults.string(forKey: Constants.AnnotationFileTags)!
         }
 
         set {
-            self.userDefaults.setObject(newValue, forKey: Constants.AnnotationFileTags)
+            self.userDefaults.set(newValue, forKey: Constants.AnnotationFileTags)
             self.userDefaults.synchronize()
         }
     }
@@ -347,11 +347,11 @@ class Preferences: NSObject, PrefsPaneDelegate {
     var stringForAnnotationFileContent: String {
         get {
             self.userDefaults.synchronize()
-            return self.userDefaults.stringForKey(Constants.AnnotationFileContent)!
+            return self.userDefaults.string(forKey: Constants.AnnotationFileContent)!
         }
 
         set {
-            self.userDefaults.setObject(newValue, forKey: Constants.AnnotationFileContent)
+            self.userDefaults.set(newValue, forKey: Constants.AnnotationFileContent)
             self.userDefaults.synchronize()
         }
     }
@@ -359,11 +359,11 @@ class Preferences: NSObject, PrefsPaneDelegate {
     var boolForShowNotificationWhenFileNotFoundInDNtpForAnnotationFile: Bool {
         get {
             self.userDefaults.synchronize()
-            return self.userDefaults.boolForKey(Constants.ShowNotificationWhenFileNotFoundInDNtpForAnnotationFile)
+            return self.userDefaults.bool(forKey: Constants.ShowNotificationWhenFileNotFoundInDNtpForAnnotationFile)
         }
 
         set {
-            self.userDefaults.setBool(newValue, forKey: Constants.ShowNotificationWhenFileNotFoundInDNtpForAnnotationFile)
+            self.userDefaults.set(newValue, forKey: Constants.ShowNotificationWhenFileNotFoundInDNtpForAnnotationFile)
             self.userDefaults.synchronize()
         }
     }
@@ -373,7 +373,7 @@ class Preferences: NSObject, PrefsPaneDelegate {
     var dictionaryForPathVariables: [String: String] {
         get {
             self.userDefaults.synchronize()
-            guard let dict = self.userDefaults.dictionaryForKey(Constants.PathVariables) as? [String: String] else {
+            guard let dict = self.userDefaults.dictionary(forKey: Constants.PathVariables) as? [String: String] else {
                 return [String: String]()
             }
             return dict
@@ -383,7 +383,7 @@ class Preferences: NSObject, PrefsPaneDelegate {
     var dictionaryForPathSubstitutes: [String: String] {
         get {
             self.userDefaults.synchronize()
-            guard let dict = self.userDefaults.dictionaryForKey(Constants.PathSubstitutes) as? [String: String] else {
+            guard let dict = self.userDefaults.dictionary(forKey: Constants.PathSubstitutes) as? [String: String] else {
                 return [String: String]()
             }
             return dict
@@ -391,28 +391,28 @@ class Preferences: NSObject, PrefsPaneDelegate {
     }
 
     func resetSelectionLinkPreferences() {
-        self.userDefaults.removeObjectForKey(Constants.SelectionLinkPlainText)
-        self.userDefaults.removeObjectForKey(Constants.SelectionLinkRichTextSameAsPlainText)
-        self.userDefaults.removeObjectForKey(Constants.SelectionLinkRichText)
-        self.userDefaults.removeObjectForKey(Constants.ShowNotificationWhenFileNotFoundInDNtpForSelectionLink)
+        self.userDefaults.removeObject(forKey: Constants.SelectionLinkPlainText)
+        self.userDefaults.removeObject(forKey: Constants.SelectionLinkRichTextSameAsPlainText)
+        self.userDefaults.removeObject(forKey: Constants.SelectionLinkRichText)
+        self.userDefaults.removeObject(forKey: Constants.ShowNotificationWhenFileNotFoundInDNtpForSelectionLink)
     }
 
     func resetSelectionFilePreferences() {
-        self.userDefaults.removeObjectForKey(Constants.SelectionFilesLocation)
-        self.userDefaults.removeObjectForKey(Constants.SelectionFileName)
-        self.userDefaults.removeObjectForKey(Constants.SelectionFileExtension)
-        self.userDefaults.removeObjectForKey(Constants.SelectionFileTags)
-        self.userDefaults.removeObjectForKey(Constants.SelectionFileContent)
-        self.userDefaults.removeObjectForKey(Constants.ShowNotificationWhenFileNotFoundInDNtpForSelectionFile)
+        self.userDefaults.removeObject(forKey: Constants.SelectionFilesLocation)
+        self.userDefaults.removeObject(forKey: Constants.SelectionFileName)
+        self.userDefaults.removeObject(forKey: Constants.SelectionFileExtension)
+        self.userDefaults.removeObject(forKey: Constants.SelectionFileTags)
+        self.userDefaults.removeObject(forKey: Constants.SelectionFileContent)
+        self.userDefaults.removeObject(forKey: Constants.ShowNotificationWhenFileNotFoundInDNtpForSelectionFile)
     }
 
     func resetAnnotationFilePreferences() {
-        self.userDefaults.removeObjectForKey(Constants.AnnotationFilesLocation)
-        self.userDefaults.removeObjectForKey(Constants.AnnotationFileName)
-        self.userDefaults.removeObjectForKey(Constants.AnnotationFileExtension)
-        self.userDefaults.removeObjectForKey(Constants.AnnotationFileTags)
-        self.userDefaults.removeObjectForKey(Constants.AnnotationFileContent)
-        self.userDefaults.removeObjectForKey(Constants.ShowNotificationWhenFileNotFoundInDNtpForAnnotationFile)
+        self.userDefaults.removeObject(forKey: Constants.AnnotationFilesLocation)
+        self.userDefaults.removeObject(forKey: Constants.AnnotationFileName)
+        self.userDefaults.removeObject(forKey: Constants.AnnotationFileExtension)
+        self.userDefaults.removeObject(forKey: Constants.AnnotationFileTags)
+        self.userDefaults.removeObject(forKey: Constants.AnnotationFileContent)
+        self.userDefaults.removeObject(forKey: Constants.ShowNotificationWhenFileNotFoundInDNtpForAnnotationFile)
     }
 
 }

@@ -10,8 +10,8 @@ import Foundation
 
 class AnnotationLink: Link {
 
-    private let annotationLocation: AnnotationLocation!
-    private let annotationText: String!
+    fileprivate let annotationLocation: AnnotationLocation!
+    fileprivate let annotationText: String!
 
     override init!() {
         annotationLocation = nil
@@ -27,11 +27,11 @@ class AnnotationLink: Link {
     }
 
     convenience init(filePath: String, annotationLocation: AnnotationLocation, annotationText: String) {
-        self.init(fileID: FileID.FilePath(filePath), annotationLocation: annotationLocation, annotationText: annotationText)
+        self.init(fileID: FileID.filePath(filePath), annotationLocation: annotationLocation, annotationText: annotationText)
     }
 
     convenience init(dntpUuid: String, annotationLocation: AnnotationLocation, annotationText: String) {
-        self.init(fileID: FileID.DNtpUuid(dntpUuid), annotationLocation: annotationLocation, annotationText: annotationText)
+        self.init(fileID: FileID.dNtpUuid(dntpUuid), annotationLocation: annotationLocation, annotationText: annotationText)
     }
 
     convenience init(filePathOrDNtpUuid: String, annotationLocation: AnnotationLocation, annotationText: String) {
@@ -39,8 +39,8 @@ class AnnotationLink: Link {
     }
 
     convenience required init?(location: Location, text: String?) {
-        if let location = location as? AnnotationLocation, text = text {
-            self.init(fileID: FileID.FilePath(location.pdfFilePath), annotationLocation: location, annotationText: text)
+        if let location = location as? AnnotationLocation, let text = text {
+            self.init(fileID: FileID.filePath(location.pdfFilePath), annotationLocation: location, annotationText: text)
         } else {
             self.init()
             return nil
@@ -50,23 +50,23 @@ class AnnotationLink: Link {
     required convenience init?(linkString: String) {
         if linkString.hasPrefix(SelectionLink.head) {
             let linkStringWithoutHead = linkString.stringByRemovingPrefix(SelectionLink.head)
-            let arr = linkStringWithoutHead.componentsSeparatedByString(":")
+            let arr = linkStringWithoutHead.components(separatedBy: ":")
             if arr.count == 3 {
                 let fileID = FileID(filePathOrDNtpUuid: arr[0].stringByRemovingPercentEncoding!)
                 let annotationText = arr[1].stringByRemovingPercentEncoding!
                 let pageNumberAndDateString = arr[2]
                 if pageNumberAndDateString.hasPrefix("p") {
-                    let pageNumberAndData = String(pageNumberAndDateString.characters.dropFirst()).componentsSeparatedByString("_")
+                    let pageNumberAndData = String(pageNumberAndDateString.characters.dropFirst()).components(separatedBy: "_")
                     if pageNumberAndData.count == 1 || pageNumberAndData.count == 2 {
                         if let pageNumber = Int(pageNumberAndData[0]) {
                             let pageIndex = UInt(pageNumber - 1)
-                            var annotationDate: NSDate? = nil
+                            var annotationDate: Date? = nil
                             if pageNumberAndData.count == 2 {
-                                if let timeInterval = NSNumberFormatter().numberFromString(pageNumberAndData[1])?.doubleValue {
-                                    annotationDate = NSDate(timeIntervalSince1970: timeInterval)
+                                if let timeInterval = NumberFormatter().number(from: pageNumberAndData[1])?.doubleValue {
+                                    annotationDate = Date(timeIntervalSince1970: timeInterval)
                                 }
                             }
-                            let annotationLocation = AnnotationLocation(PDFFilePath: fileID.getFilePath(), pageIndex: UInt(pageIndex), annotationDate: annotationDate)
+                            let annotationLocation = AnnotationLocation(pdfFilePath: fileID.getFilePath(), pageIndex: UInt(pageIndex), annotationDate: annotationDate)
                             self.init(fileID: fileID, annotationLocation: annotationLocation, annotationText: annotationText)
                             return
                         }
@@ -79,17 +79,17 @@ class AnnotationLink: Link {
     }
 
     convenience init?(annotation: Annotation) {
-        let annotationLocation = AnnotationLocation(PDFFilePath: annotation.pdfFileID.getFilePath(), pageIndex: UInt(annotation.pageIndex), annotationDate: annotation.date)
-        self.init(location: annotationLocation, text: annotation.annotationOrNoteText)
+        let annotationLocation = AnnotationLocation(pdfFilePath: annotation.pdfFileID.getFilePath(), pageIndex: UInt(annotation.pageIndex), annotationDate: annotation.date as Date!)
+        self.init(location: annotationLocation!, text: annotation.annotationOrNoteText)
     }
 
     override var string: String {
         get {
             let fileIDString = fileID.percentEncodedString
-            let replacedAnnotationText = annotationText.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).filter({!$0.isEmpty}).joinWithSeparator("+")
-            let allowedCharacterSet = NSMutableCharacterSet(charactersInString: "+")
-            allowedCharacterSet.formUnionWithCharacterSet(URIUnreservedCharacterSet)
-            let annotationTextString = replacedAnnotationText.stringByAddingPercentEncodingWithAllowedCharacters(allowedCharacterSet)!
+            let replacedAnnotationText = annotationText.components(separatedBy: CharacterSet.whitespacesAndNewlines).filter({!$0.isEmpty}).joined(separator: "+")
+            let allowedCharacterSet = NSMutableCharacterSet(charactersIn: "+")
+            allowedCharacterSet.formUnion(with: URIUnreservedCharacterSet as CharacterSet)
+            let annotationTextString = replacedAnnotationText.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet as CharacterSet)!
             let pageNumber = annotationLocation.pageIndex + 1
             var returnString = "\(SelectionLink.head)\(fileIDString):\(annotationTextString):p\(String(pageNumber))"
             if let annotationDate = annotationLocation.annotationDate {

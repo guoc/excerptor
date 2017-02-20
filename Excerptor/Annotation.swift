@@ -12,42 +12,42 @@ import AppKit
 class Annotation {
 
     enum AnnotationType {
-        case Highlight
-        case Strikeout
-        case Underline
-        case Note
-        case Text
-        case FreeText
-        case Unrecognized
+        case highlight
+        case strikeout
+        case underline
+        case note
+        case text
+        case freeText
+        case unrecognized
 
         init(string: String) {
             switch string {
             case "Highlight", SKNHighlightString, SKNMarkUpString:
-                self = .Highlight
+                self = .highlight
             case "Strikeout", SKNStrikeOutString:
-                self = .Strikeout
+                self = .strikeout
             case "Underline", SKNUnderlineString:
-                self = .Underline
+                self = .underline
             case "Note", SKNNoteString:
-                self = .Note
+                self = .note
             case "Text", SKNTextString:
-                self = .Text
+                self = .text
             case "FreeText", SKNFreeTextString:
-                self = .FreeText
+                self = .freeText
             default:
-                self = .Unrecognized
+                self = .unrecognized
             }
         }
 
         func string() -> String {
             switch self {
-            case .Highlight: return "Highlight"
-            case .Strikeout: return "Strikeout"
-            case .Underline: return "Underline"
-            case .Note: return "Note"
-            case .Text: return "Text"
-            case .FreeText: return "FreeText"
-            case .Unrecognized: return "Unrecognized"
+            case .highlight: return "Highlight"
+            case .strikeout: return "Strikeout"
+            case .underline: return "Underline"
+            case .note: return "Note"
+            case .text: return "Text"
+            case .freeText: return "FreeText"
+            case .unrecognized: return "Unrecognized"
             }
         }
     }
@@ -58,12 +58,12 @@ class Annotation {
     let annotationType: AnnotationType
     let markupColor: NSColor?
     let author: String?
-    let date: NSDate?
+    let date: Date?
     let pageIndex: Int
     let pdfFileID: FileID
     let pdfFileName: String
 
-    init(annotationText: String?, noteText: String?, annotationType: AnnotationType, markupColor: NSColor?, author: String?, date: NSDate?, pageIndex: Int, pdfFileID: FileID, pdfFileName: String) {
+    init(annotationText: String?, noteText: String?, annotationType: AnnotationType, markupColor: NSColor?, author: String?, date: Date?, pageIndex: Int, pdfFileID: FileID, pdfFileName: String) {
         self.annotationText = annotationText
         self.noteText = noteText
         self.annotationType = annotationType
@@ -76,7 +76,7 @@ class Annotation {
     }
 
 // swiftlint:disable function_body_length
-    func writeToFileWith(annotationFileTemplate: FileTemplate) -> Bool {
+    func writeToFileWith(_ annotationFileTemplate: FileTemplate) -> Bool {
         let annotationDNtpUuidLinkGetter = { () -> String in
             if let annotationDNtpUuidTypeLink = AnnotationLink(annotation: self)?.getDNtpUuidTypeLink()?.string {
                 return annotationDNtpUuidTypeLink
@@ -136,9 +136,9 @@ class Annotation {
         let pap_Author = Preferences.AnnotationPlaceholders.Author
         let pap_Author_Getter = { self.author ?? "NO AUTHOR" }
         let pap_AnnotationDate = Preferences.AnnotationPlaceholders.AnnotationDate
-        let pap_AnnotationDate_Getter = { (self.date ?? NSDate()).ISO8601String() }
+        let pap_AnnotationDate_Getter = { (self.date ?? Date()).ISO8601String() }
         let pap_ExportDate = Preferences.AnnotationPlaceholders.ExportDate
-        let pap_ExportDate_Getter = { NSDate().ISO8601String() }
+        let pap_ExportDate_Getter = { Date().ISO8601String() }
         let pap_Page = Preferences.CommonPlaceholders.Page
         let pap_Page_Getter = { "\(self.pageIndex + 1)" }
         let pap_PDFFileLink_DEVONthinkUUIDType = Preferences.CommonPlaceholders.PDFFileLink_DEVONthinkUUIDType
@@ -157,7 +157,7 @@ class Annotation {
         let pap_PDFFileName = Preferences.CommonPlaceholders.PDFFileName
         let pap_PDFFileName_Getter : () -> String = { self.pdfFileName }
         let pap_PDFFileName_NoExtension = Preferences.CommonPlaceholders.PDFFileName_NoExtension
-        let pap_PDFFileName_NoExtension_Getter : () -> String = { NSURL(fileURLWithPath: self.pdfFileName).URLByDeletingPathExtension!.lastPathComponent! }
+        let pap_PDFFileName_NoExtension_Getter : () -> String = { NSURL(fileURLWithPath: self.pdfFileName).deletingPathExtension!.lastPathComponent }
         let pap_AnnotationLink_DEVONthinkUUIDType = Preferences.AnnotationPlaceholders.AnnotationLink_DEVONthinkUUIDType
         let pap_AnnotationLink_DEVONthinkUUIDType_Getter : () -> String = annotationDNtpUuidLinkGetter
         let pap_AnnotationLink_FilePathType = Preferences.AnnotationPlaceholders.AnnotationLink_FilePathType

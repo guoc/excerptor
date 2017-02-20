@@ -12,7 +12,7 @@ class Selection {
 
     let selectionText: String
     let author: String
-    let date: NSDate
+    let date: Date
     let pageIndex: Int
     let pdfFileID: FileID
     let pdfFileName: String
@@ -22,7 +22,7 @@ class Selection {
     lazy var propertyGettersByPlaceholder: [String: () -> String] = [
         Preferences.SelectionPlaceholders.SelectionText: { self.selectionText },
         Preferences.SelectionPlaceholders.UserName: { self.author },
-        Preferences.SelectionPlaceholders.CreationDate: { NSDate().ISO8601String() },
+        Preferences.SelectionPlaceholders.CreationDate: { Date().ISO8601String() },
         Preferences.CommonPlaceholders.Page: { "\(self.pageIndex + 1)" },
         Preferences.CommonPlaceholders.PDFFileLink_DEVONthinkUUIDType: { () -> String in
             if let dntpUuidLink = self.pdfFileID.getDNtpUuidFileID()?.urlString {
@@ -35,7 +35,7 @@ class Selection {
         Preferences.CommonPlaceholders.PDFFileLink_FilePathType: { self.pdfFileID.getFilePathFileID().urlString },
         Preferences.CommonPlaceholders.PDFFilePath: { self.pdfFileID.getFilePath() },
         Preferences.CommonPlaceholders.PDFFileName: { self.pdfFileName },
-        Preferences.CommonPlaceholders.PDFFileName_NoExtension: { String(NSString(string: self.pdfFileName).stringByDeletingPathExtension) },
+        Preferences.CommonPlaceholders.PDFFileName_NoExtension: { String(NSString(string: self.pdfFileName).deletingPathExtension) },
         Preferences.CommonPlaceholders.PDFFileDEVONthinkUUID: { self.pdfFileID.getDNtpUuid() ?? "NOT FOUND" },
         Preferences.SelectionPlaceholders.SelectionLink_DEVONthinkUUIDType: {
             if let selectionLink = self.selectionLink {
@@ -60,7 +60,7 @@ class Selection {
         }
     ]
 
-    init(selectionText: String, author: String, date: NSDate, pageIndex: Int, pdfFileID: FileID, pdfFileName: String) {
+    init(selectionText: String, author: String, date: Date, pageIndex: Int, pdfFileID: FileID, pdfFileName: String) {
         self.selectionText = selectionText
         self.author = author
         self.date = date
@@ -69,13 +69,13 @@ class Selection {
         self.pdfFileName = pdfFileName
     }
 
-    func writeToFileWith(fileTemplate: FileTemplate) -> Bool {
+    func writeToFileWith(_ fileTemplate: FileTemplate) -> Bool {
 
         return fileTemplate.writeToFileWithPropertyGettersDictionary(propertyGettersByPlaceholder)
     }
 
-    func writeToPasteboardWithTemplateString(richTextTemplate: String, plainTextTemplate: String) -> Bool {
-        let pasteboard = NSPasteboard.generalPasteboard()
+    func writeToPasteboardWithTemplateString(_ richTextTemplate: String, plainTextTemplate: String) -> Bool {
+        let pasteboard = NSPasteboard.general()
         pasteboard.clearContents()
 
         let plainTextToWrite = plainTextTemplate.stringByReplacingWithDictionary(self.propertyGettersByPlaceholder)
@@ -88,21 +88,21 @@ class Selection {
             let regex = try! NSRegularExpression(pattern: pattern, options: [])
             // swiftlint:enable force_try
             let range = NSMakeRange(0, richTextTemplate.characters.count)
-            let matches = regex.matchesInString(richTextTemplate, options: [], range: range)
+            let matches = regex.matches(in: richTextTemplate, options: [], range: range)
             let richTextToWrite = Array(matches.map { (match: NSTextCheckingResult) -> (rangeToReplace: NSRange, text: String, link: String) in
-                func rangeFromNSRange(range: NSRange) -> Range<String.Index> {
-                    let start = richTextTemplate.startIndex.advancedBy(range.location)
-                    let end = start.advancedBy(range.length)
+                func rangeFromNSRange(_ range: NSRange) -> Range<String.Index> {
+                    let start = richTextTemplate.characters.index(richTextTemplate.startIndex, offsetBy: range.location)
+                    let end = <#T##String.CharacterView corresponding to `start`##String.CharacterView#>.index(start, offsetBy: range.length)
                     return start..<end
                 }
 
                 let rangeToReplace = match.range
-                let text = richTextTemplate.substringWithRange(rangeFromNSRange(match.rangeAtIndex(1))).stringByReplacingWithDictionary(self.propertyGettersByPlaceholder)
-                let link = richTextTemplate.substringWithRange(rangeFromNSRange(match.rangeAtIndex(2))).stringByReplacingWithDictionary(self.propertyGettersByPlaceholder)
+                let text = richTextTemplate.substring(with: rangeFromNSRange(match.rangeAt(1))).stringByReplacingWithDictionary(self.propertyGettersByPlaceholder)
+                let link = richTextTemplate.substring(with: rangeFromNSRange(match.rangeAt(2))).stringByReplacingWithDictionary(self.propertyGettersByPlaceholder)
                 return (rangeToReplace: rangeToReplace, text: text, link: link)
-            }.reverse()).reduce(NSMutableAttributedString(string: richTextTemplate)) { (attributedString: NSMutableAttributedString, linkStringInfo: (rangeToReplace: NSRange, text: String, link: String)) -> NSMutableAttributedString in
+            }.reversed()).reduce(NSMutableAttributedString(string: richTextTemplate)) { (attributedString: NSMutableAttributedString, linkStringInfo: (rangeToReplace: NSRange, text: String, link: String)) -> NSMutableAttributedString in
                 let linkAttributedString = NSAttributedString(string: linkStringInfo.text, attributes: [NSLinkAttributeName: linkStringInfo.link])
-                attributedString.replaceCharactersInRange(linkStringInfo.rangeToReplace, withAttributedString: linkAttributedString)
+                attributedString.replaceCharacters(in: linkStringInfo.rangeToReplace, with: linkAttributedString)
                 return attributedString
             }
 

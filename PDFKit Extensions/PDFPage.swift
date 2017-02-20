@@ -11,7 +11,7 @@ extension PDFPage {
 
     var pageIndex: Int {
         get {
-            return document().indexForPage(self)
+            return document!.index(for: self)
         }
     }
 }

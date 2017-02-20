@@ -22,11 +22,11 @@ class Link {
     }
 
     convenience init(filePath: String) {
-        self.init(fileID: FileID.FilePath(filePath))
+        self.init(fileID: FileID.filePath(filePath))
     }
 
     convenience init(dntpUuid: String) {
-        self.init(fileID: FileID.DNtpUuid(dntpUuid))
+        self.init(fileID: FileID.dNtpUuid(dntpUuid))
     }
 
     convenience init(filePathOrDNtpUuid: String) {

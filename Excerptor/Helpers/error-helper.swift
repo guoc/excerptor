@@ -6,28 +6,28 @@
 //  Copyright (c) 2015 guoc. All rights reserved.
 //
 
-func printToStandardError(string: String) {
-    let stderr = NSFileHandle.fileHandleWithStandardError()
+func printToStandardError(_ string: String) {
+    let stderr = FileHandle.withStandardError
     let stringWithAppInfo = "Excerptor: \(string)"
-    stderr.writeData(stringWithAppInfo.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!)
+    stderr.write(stringWithAppInfo.data(using: String.Encoding.utf8, allowLossyConversion: false)!)
 }
 
-func printlnToStandardError(string: String) {
+func printlnToStandardError(_ string: String) {
     printToStandardError("\(string)\n")
 }
 
 var runningInCLI = false
 
-@noreturn func exitWithError(err: String) {
+func exitWithError(_ err: String) -> Never  {
     if runningInCLI {
         printlnToStandardError(err)
         exit(1)
     } else {
         let alert = NSAlert()
-        alert.alertStyle = .WarningAlertStyle
+        alert.alertStyle = .warning
         alert.messageText = "Excerptor"
         alert.informativeText = err
-        alert.addButtonWithTitle("Ok")
+        alert.addButton(withTitle: "Ok")
         alert.runModal()
         fatalError(err)
     }
@@ -39,7 +39,7 @@ private struct Constants {
     static let PDFFilePathToRevealInFinder = "PDFFilePathToRevealInFinder"
 }
 
-func notifyWithUserNotification(userNotification: NSUserNotification) {
+func notifyWithUserNotification(_ userNotification: NSUserNotification) {
     if runningInCLI {
         var err = ""
         if let title = userNotification.title {
@@ -52,20 +52,20 @@ func notifyWithUserNotification(userNotification: NSUserNotification) {
             err += "\(informativeText)\n"
         }
         if let userInfo = userNotification.userInfo {
-            err += userInfo.values.map { $0 as? String ?? "" }.joinWithSeparator("\n")
+            err += userInfo.values.map { $0 as? String ?? "" }.joined(separator: "\n")
             err += "\n"
         }
         printlnToStandardError(err)
     } else {
-        let userNotificationCenter = NSUserNotificationCenter.defaultUserNotificationCenter()
+        let userNotificationCenter = NSUserNotificationCenter.default
         userNotificationCenter.delegate = userNotificationCenterDelegate
-        userNotificationCenter.deliverNotification(userNotification)
+        userNotificationCenter.deliver(userNotification)
     }
 }
 
-func notifyWithError(err: String, informativeText: String?) {
+func notifyWithError(_ err: String, informativeText: String?) {
     let userNotification = NSUserNotification()
-    let errComponents = err.componentsSeparatedByString("\n")
+    let errComponents = err.components(separatedBy: "\n")
     switch errComponents.count {
     case 1:
         userNotification.title = errComponents[0]
@@ -80,12 +80,12 @@ func notifyWithError(err: String, informativeText: String?) {
     notifyWithUserNotification(userNotification)
 }
 
-func notifyPDFFileNotFoundInDNtpWith(filePath: String, replacingPlaceholder: String) {
+func notifyPDFFileNotFoundInDNtpWith(_ filePath: String, replacingPlaceholder: String) {
     let userNotification = NSUserNotification()
     userNotification.title = "Could Not Find The PDF File In DEVONthink"
     userNotification.subtitle = "\(replacingPlaceholder) applied instead"
-    userNotification.informativeText = NSURL(fileURLWithPath: filePath).lastPathComponent
-    guard let path = NSURL(fileURLWithPath: filePath).URLByStandardizingPath?.path else {
+    userNotification.informativeText = URL(fileURLWithPath: filePath).lastPathComponent
+    guard let path = NSURL(fileURLWithPath: filePath).standardizedFileURL()?.path else {
         exitWithError("Could not get PDF file path")
     }
     userNotification.userInfo = [Constants.PDFFilePathToRevealInFinder: path]
@@ -99,16 +99,16 @@ class UserNotificationCenterDelegate: NSObject, NSUserNotificationCenterDelegate
     // Notifications may be suppressed if the application is already frontmost,
     // this extension is to make sure notifications can be showed in this case,
     // although the case doesn't happen.
-    func userNotificationCenter(center: NSUserNotificationCenter, shouldPresentNotification notification: NSUserNotification) -> Bool {
+    func userNotificationCenter(_ center: NSUserNotificationCenter, shouldPresent notification: NSUserNotification) -> Bool {
         return true
     }
 
     // Prevent from showing preferences window when users click on notification.
-    func userNotificationCenter(center: NSUserNotificationCenter, didActivateNotification notification: NSUserNotification) {
+    func userNotificationCenter(_ center: NSUserNotificationCenter, didActivate notification: NSUserNotification) {
         PreferencesWindowController.needShowPreferences = false
-        if let userInfo = notification.userInfo, filePath = userInfo[Constants.PDFFilePathToRevealInFinder] as? String {
-            let url = NSURL(fileURLWithPath: filePath, isDirectory: false)
-            NSWorkspace.sharedWorkspace().activateFileViewerSelectingURLs([url])
+        if let userInfo = notification.userInfo, let filePath = userInfo[Constants.PDFFilePathToRevealInFinder] as? String {
+            let url = URL(fileURLWithPath: filePath, isDirectory: false)
+            NSWorkspace.shared().activateFileViewerSelecting([url])
         }
     }
 

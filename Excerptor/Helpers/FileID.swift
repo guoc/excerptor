@@ -11,28 +11,28 @@ import ScriptingBridge
 
 enum FileID {
 
-    case FilePath(String)
-    case DNtpUuid(String)
+    case filePath(String)
+    case dNtpUuid(String)
 
     init(filePathOrDNtpUuid: String) {
         if filePathOrDNtpUuid.isDNtpUUID {
-            self = .DNtpUuid(filePathOrDNtpUuid)
+            self = .dNtpUuid(filePathOrDNtpUuid)
         } else {
             var expandedPath = filePathOrDNtpUuid
             for (target, replacement) in Preferences.sharedPreferences.dictionaryForPathVariables {
-                expandedPath = expandedPath.stringByReplacingOccurrencesOfString(target, withString: replacement)
+                expandedPath = expandedPath.replacingOccurrences(of: target, with: replacement)
             }
-            expandedPath = NSString(string: expandedPath).stringByExpandingTildeInPath
-            self = .FilePath(expandedPath)
+            expandedPath = NSString(string: expandedPath).expandingTildeInPath
+            self = .filePath(expandedPath)
         }
     }
 
-    private var string: String {
+    fileprivate var string: String {
         get {
             switch self {
-            case .DNtpUuid(let str):
+            case .dNtpUuid(let str):
                 return str
-            case .FilePath(let str):
+            case .filePath(let str):
                 return str
             }
         }
@@ -53,9 +53,9 @@ enum FileID {
             if isDNtpUuid {
                 return string
             }
-            var abbreviatedPath = NSString(string: string).stringByAbbreviatingWithTildeInPath
+            var abbreviatedPath = NSString(string: string).abbreviatingWithTildeInPath
             for (target, replacement) in Preferences.sharedPreferences.dictionaryForPathSubstitutes {
-                abbreviatedPath = abbreviatedPath.stringByReplacingOccurrencesOfString(target, withString: replacement)
+                abbreviatedPath = abbreviatedPath.replacingOccurrences(of: target, with: replacement)
             }
             return abbreviatedPath
         }
@@ -66,9 +66,9 @@ enum FileID {
             if isDNtpUuid {
                 return presentativeString
             }
-            let allowedCharacterSet = NSMutableCharacterSet(charactersInString: "/")
-            allowedCharacterSet.formUnionWithCharacterSet(URIUnreservedCharacterSet)
-            return presentativeString.stringByAddingPercentEncodingWithAllowedCharacters(allowedCharacterSet)!
+            let allowedCharacterSet = NSMutableCharacterSet(charactersIn: "/")
+            allowedCharacterSet.formUnion(with: URIUnreservedCharacterSet as CharacterSet)
+            return presentativeString.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet as CharacterSet)!
         }
     }
 
@@ -103,9 +103,9 @@ enum FileID {
     var isFilePath: Bool {
         get {
             switch self {
-            case .FilePath(_):
+            case .filePath(_):
                 return true
-            case .DNtpUuid(_):
+            case .dNtpUuid(_):
                 return false
             }
         }
@@ -117,7 +117,7 @@ enum FileID {
         }
     }
 
-    private func getDNtpUuidWithFilePath(filePath: String?) -> String? {
+    fileprivate func getDNtpUuidWithFilePath(_ filePath: String?) -> String? {
         if let dntp = SBApplication(bundleIdentifier: "com.devon-technologies.thinkpro2") as DEVONthinkProApplication? {
             guard var databases = (dntp.databases!() as NSArray) as? [DEVONthinkProDatabase] else {
                 exitWithError("Could not read DNtp database")
@@ -148,7 +148,7 @@ enum FileID {
         return nil
     }
 
-    private func getFilePathWithDNtpUuid(dntpUuid: String) -> String! {
+    fileprivate func getFilePathWithDNtpUuid(_ dntpUuid: String) -> String! {
         if let dntp = SBApplication(bundleIdentifier: "com.devon-technologies.thinkpro2") as DEVONthinkProApplication? {
             guard var databases = (dntp.databases!() as NSArray) as? [DEVONthinkProDatabase] else {
                 exitWithError("Could not read DNtp database")

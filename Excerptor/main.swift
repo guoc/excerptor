@@ -10,8 +10,8 @@ import Foundation
 
 import CommandLine
 
-if Process.argc == 1 || Process.argc == 3 && Process.arguments[1] == "-NSDocumentRevisionsDebugMode" && Process.arguments[2] == "YES" {
-    NSApplicationMain(Process.argc, Process.unsafeArgv)
+if CommandLine.argc == 1 || CommandLine.argc == 3 && CommandLine.arguments[1] == "-NSDocumentRevisionsDebugMode" && CommandLine.arguments[2] == "YES" {
+    NSApplicationMain(CommandLine.argc, CommandLine.unsafeArgv)
     exit(0)
 }
 
@@ -54,16 +54,16 @@ let unwrappedFormat = format.value ?? Format.Text
 let outputFormat: OutputFormat = {
     switch unwrappedFormat {
     case .JSON:
-        return .JSON
+        return .json
     case .Text:
-        return .Text
+        return .text
     }
 }()
 
 guard let unwrappedSourceFilePath = sourceFilePath.value else {
     exitWithError("--source-file is required")
 }
-guard let sourceFileURL = NSURL(fileURLWithPath: unwrappedSourceFilePath, isDirectory: false).URLByStandardizingPath else {
+guard let sourceFileURL = URL(fileURLWithPath: unwrappedSourceFilePath, isDirectory: false).URLByStandardizingPath else {
     exitWithError("\(unwrappedSourceFilePath): Incorrect source file path")
 }
 
