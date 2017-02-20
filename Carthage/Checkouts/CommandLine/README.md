@@ -1,17 +1,17 @@
-CommandLine
-===========
+# CommandLineKit [![Build Status](https://travis-ci.org/jatoben/CommandLine.svg?branch=master)](https://travis-ci.org/jatoben/CommandLine)
+
 A pure Swift library for creating command-line interfaces.
 
-*Note: CommandLine `master` requires Xcode 7  / Swift 2.0. If you're using older versions of Swift, please check out the [earlier releases](https://github.com/jatoben/CommandLine/releases).*
+*Note: CommandLineKit `master` requires Xcode 8 / Swift 3.0. If you're using older versions of Swift, please check out the [earlier releases](https://github.com/jatoben/CommandLine/releases).*
 
-Usage
------
+## Usage
+
 CommandLine aims to have a simple and self-explanatory API.
 
 ```swift
-import CommandLine
+import CommandLineKit
 
-let cli = CommandLine()
+let cli = CommandLineKit.CommandLine()
 
 let filePath = StringOption(shortFlag: "f", longFlag: "file", required: true,
   helpMessage: "Path to the output file.")
@@ -31,22 +31,21 @@ do {
   exit(EX_USAGE)
 }
 
-println("File path is \(filePath.value!)")
-println("Compress is \(compress.value)")
-println("Verbosity is \(verbosity.value)")
+print("File path is \(filePath.value!)")
+print("Compress is \(compress.value)")
+print("Verbosity is \(verbosity.value)")
 ```
 
 See `Option.swift` for additional Option types.
 
-To use CommandLine in your project, add it to your workspace, then add CommandLine.framework to the __Build Phases / Link Binary With Libraries__ setting of your target.
+To use CommandLineKit in your project, add it to your workspace, then add CommandLineKit.framework to the __Build Phases / Link Binary With Libraries__ setting of your target.
 
 If you are building a command-line tool and need to embed this and other frameworks to it, follow the steps in http://colemancda.github.io/programming/2015/02/12/embedded-swift-frameworks-osx-command-line-tools/ to link Swift frameworks to your command-line tool.
 
-If you are building a standalone command-line tool, you'll need to add the CommandLine source files directly to your target, because Xcode [can't yet build static libraries that contain Swift code](https://github.com/ksm/SwiftInFlux#static-libraries).
+If you are building a standalone command-line tool, you'll need to add the CommandLineKit source files directly to your target, because Xcode [can't yet build static libraries that contain Swift code](https://github.com/ksm/SwiftInFlux#static-libraries).
 
 
-Features
---------
+## Features
 
 ### Automatically generated usage messages
 
@@ -58,9 +57,33 @@ Usage: example [options]
       Use data compression.
   -h, --help:    
       Prints a help message.
-  -v, --verbose: 
+  -v, --verbose:
       Print verbose messages. Specify multiple times to increase verbosity.
 ```
+
+You can fully customize the usage message by supplying a `formatOutput` function. For example, [Rainbow](https://github.com/onevcat/Rainbow) provides a handy way to generate colorized output:
+
+```swift
+import Rainbow
+
+cli.formatOutput = { s, type in
+  var str: String
+  switch(type) {
+  case .Error:
+    str = s.red.bold
+  case .OptionFlag:
+    str = s.green.underline
+  case .OptionHelp:
+    str = s.blue
+  default:
+    str = s
+  }
+
+  return cli.defaultFormat(str, type: type)
+}
+```
+
+![](https://cloud.githubusercontent.com/assets/318083/12108437/1e3ec25c-b335-11e5-9cc9-d45ad3ab3dc7.png)
 
 ### Supports all common flag styles
 
@@ -96,13 +119,13 @@ $ LC_NUMERIC=sv_SE.UTF-8 ./example2 --float 3,1419
 
 ```swift
 enum Operation: String {
-  case Create  = "c"
-  case Extract = "x"
-  case List    = "l"
-  case Verify  = "v"
+  case create  = "c"
+  case extract = "x"
+  case list    = "l"
+  case verify  = "v"
 }
 
-let cli = CommandLine()
+let cli = CommandLineKit.CommandLine()
 let op = EnumOption<Operation>(shortFlag: "o", longFlag: "operation", required: true,
   helpMessage: "File operation - c for create, x for extract, l for list, or v for verify.")
 cli.setOptions(op)
