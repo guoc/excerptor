@@ -11,7 +11,7 @@ import Foundation
 import CommandLineKit
 
 if CommandLine.argc == 1 || CommandLine.argc == 3 && CommandLine.arguments[1] == "-NSDocumentRevisionsDebugMode" && CommandLine.arguments[2] == "YES" {
-    NSApplicationMain(CommandLine.argc, CommandLine.unsafeArgv)
+    _ = NSApplicationMain(CommandLine.argc, CommandLine.unsafeArgv)
     exit(0)
 }
 
@@ -63,7 +63,7 @@ let outputFormat: OutputFormat = {
 guard let unwrappedSourceFilePath = sourceFilePath.value else {
     exitWithError("--source-file is required")
 }
-guard let sourceFileURL = URL(fileURLWithPath: unwrappedSourceFilePath, isDirectory: false).URLByStandardizingPath else {
+guard let sourceFileURL = NSURL(fileURLWithPath: unwrappedSourceFilePath, isDirectory: false).standardizingPath else {
     exitWithError("\(unwrappedSourceFilePath): Incorrect source file path")
 }
 

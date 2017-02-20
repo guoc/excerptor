@@ -41,17 +41,19 @@ class PasteboardHelper {
             if let errorMessage = unarchivedObject as? NSString {
                 exitWithError("Error message in pasteboard: " + String(errorMessage))
             } else {
-                exitWithError("Could not convert unarchived object to location " + unarchivedObject.description)
+                exitWithError("Could not convert unarchived object to location " + (unarchivedObject as AnyObject).description)
             }
         }
         return location
     }
 
-    class func writeExcerptorPasteboardWithLocation(_ location: Location) -> Bool {
+    class func writeExcerptorPasteboardWithLocation(_ location: Location) {
         let pasteboard = NSPasteboard(name: Constants.OutputPasteboardName)
         pasteboard.clearContents()
         let data = NSKeyedArchiver.archivedData(withRootObject: location)
-        return pasteboard.setData(data, forType:Constants.PasteboardType)
+        guard pasteboard.setData(data, forType:Constants.PasteboardType) else {
+            exitWithError("Could not write into pasteboard with excerpt location")
+        }
     }
 
 

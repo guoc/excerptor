@@ -69,19 +69,21 @@ class Selection {
         self.pdfFileName = pdfFileName
     }
 
-    func writeToFileWith(_ fileTemplate: FileTemplate) -> Bool {
+    func writeToFileWith(_ fileTemplate: FileTemplate) {
 
-        return fileTemplate.writeToFileWithPropertyGettersDictionary(propertyGettersByPlaceholder)
+        fileTemplate.writeToFileWithPropertyGettersDictionary(propertyGettersByPlaceholder)
     }
 
-    func writeToPasteboardWithTemplateString(_ richTextTemplate: String, plainTextTemplate: String) -> Bool {
+    func writeToPasteboardWithTemplateString(_ richTextTemplate: String, plainTextTemplate: String) {
         let pasteboard = NSPasteboard.general()
         pasteboard.clearContents()
 
         let plainTextToWrite = plainTextTemplate.stringByReplacingWithDictionary(self.propertyGettersByPlaceholder)
 
         if Preferences.sharedPreferences.boolForSelectionLinkRichTextSameAsPlainText {
-            return pasteboard.setString(plainTextToWrite, forType:NSPasteboardTypeString)
+            guard pasteboard.setString(plainTextToWrite, forType:NSPasteboardTypeString) else {
+                exitWithError("Could not write into pasteboard (plain text: \(plainTextToWrite))")
+            }
         } else {
             let pattern = "(?:\\[([^)]+)\\])(?:\\(([^)]+)\\))"
             // swiftlint:disable force_try
@@ -92,7 +94,7 @@ class Selection {
             let richTextToWrite = Array(matches.map { (match: NSTextCheckingResult) -> (rangeToReplace: NSRange, text: String, link: String) in
                 func rangeFromNSRange(_ range: NSRange) -> Range<String.Index> {
                     let start = richTextTemplate.characters.index(richTextTemplate.startIndex, offsetBy: range.location)
-                    let end = index(start, offsetBy: range.length)
+                    let end = richTextTemplate.characters.index(start, offsetBy: range.length)
                     return start..<end
                 }
 
@@ -106,8 +108,11 @@ class Selection {
                 return attributedString
             }
 
-            return pasteboard.writeObjects([richTextToWrite])
-                && pasteboard.setString(plainTextToWrite, forType:NSPasteboardTypeString)
+            guard pasteboard.writeObjects([richTextToWrite])
+               && pasteboard.setString(plainTextToWrite, forType:NSPasteboardTypeString)
+            else {
+                exitWithError("Could not write into pasteboard (rich text: \(richTextToWrite); plain text: \(plainTextToWrite))")
+            }
         }
 
     }

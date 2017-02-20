@@ -55,7 +55,7 @@ class SelectionLink: Link {
             exitWithError("The link string has incorrect number of components: " + linkString)
         }
 
-        guard let fileIDString = arr[0].stringByRemovingPercentEncoding else {
+        guard let fileIDString = arr[0].removingPercentEncoding else {
             exitWithError("The link string contains an invalid file ID: " + linkString)
         }
 
@@ -170,12 +170,12 @@ extension SelectionLocation {
         if arr.count != 3 {
             exitWithError("Incorrect selection link format")
         }
-        let pdfFilePath = FileID(filePathOrDNtpUuid: arr[0].stringByRemovingPercentEncoding!).getFilePath()
+        let pdfFilePath = FileID(filePathOrDNtpUuid: arr[0].removingPercentEncoding!).getFilePath()
         let stringArray = arr[1].components(separatedBy: SelectionLink.Constants.SelectionTextDelimiter)
         let selectionArray = arr[2].components(separatedBy: "-")
         let zippedArray = Array(zip(stringArray, selectionArray))
         let selectionLineLocations = zippedArray.map { (stringAndSelection: (annotationString: String, selection: String)) -> SelectionLineLocation in
-            let annotationString = stringAndSelection.annotationString.stringByRemovingPercentEncoding!
+            let annotationString = stringAndSelection.annotationString.removingPercentEncoding!
             let selectionString = stringAndSelection.selection
             if selectionString.hasPrefix("p") {
                 let arr = String(selectionString.characters.dropFirst()).components(separatedBy: "_")

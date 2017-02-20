@@ -66,7 +66,8 @@ func writePDFAnnotationsFromFilesIn(_ folderUrl: URL) {
 }
 
 func writePDFAnnotationsIfNecessaryFrom(_ fileUrl: URL) {
-    if let pathExtension = fileUrl.pathExtension, pathExtension.lowercased() == "pdf" {
+    let pathExtension = fileUrl.pathExtension
+    if pathExtension.lowercased() == "pdf" {
         writePDFAnnotationsFrom(fileUrl)
     }
 }
@@ -151,7 +152,7 @@ extension Annotation {
         let pdfFilePath = pdfAnnotation.page?.document?.documentURL?.path
         let pdfFileID = FileID(filePathOrDNtpUuid: pdfFilePath!)
         let pdfFileName = URL(fileURLWithPath: pdfFilePath!, isDirectory: false).lastPathComponent
-        self.init(annotationText: annotationText, noteText: noteText, annotationType: annotationType, markupColor: markupColor, author: author, date: date, pageIndex: pageIndex, pdfFileID: pdfFileID, pdfFileName: pdfFileName!)
+        self.init(annotationText: annotationText, noteText: noteText, annotationType: annotationType, markupColor: markupColor, author: author, date: date, pageIndex: pageIndex!, pdfFileID: pdfFileID, pdfFileName: pdfFileName)
     }
 }
 

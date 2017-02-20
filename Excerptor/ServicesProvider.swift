@@ -73,10 +73,10 @@ extension Selection {
         let author = NSUserName()
         let date = Date()
         let pageIndex = selectionLink.firstPageIndex
-        let pdfFileID = selectionLink.fileID
-        guard let pdfFileName = URL(fileURLWithPath: selectionLink.getFilePath(), isDirectory: false).lastPathComponent else {
-            exitWithError("Could not get PDF file name " + selectionLink.getFilePath())
+        guard let pdfFileID = selectionLink.fileID else {
+            exitWithError("Could not get PDF file ID " + selectionLink.fileID.presentativeString)
         }
+        let pdfFileName = URL(fileURLWithPath: selectionLink.getFilePath(), isDirectory: false).lastPathComponent
         self.init(selectionText: selectionText, author: author, date: date, pageIndex: pageIndex, pdfFileID: pdfFileID, pdfFileName: pdfFileName)
         self.selectionLink = selectionLink
     }

@@ -76,7 +76,7 @@ class Annotation {
     }
 
 // swiftlint:disable function_body_length
-    func writeToFileWith(_ annotationFileTemplate: FileTemplate) -> Bool {
+    func writeToFileWith(_ annotationFileTemplate: FileTemplate) {
         let annotationDNtpUuidLinkGetter = { () -> String in
             if let annotationDNtpUuidTypeLink = AnnotationLink(annotation: self)?.getDNtpUuidTypeLink()?.string {
                 return annotationDNtpUuidTypeLink
@@ -184,7 +184,7 @@ class Annotation {
             pap_PDFFileDEVONthinkUUID: pap_PDFFileDEVONthinkUUID_Getter
         ]
 
-        return annotationFileTemplate.writeToFileWithPropertyGettersDictionary(propertyGettersByPlaceholder)
+        annotationFileTemplate.writeToFileWithPropertyGettersDictionary(propertyGettersByPlaceholder)
     }
 // swiftlint:enable function_body_length
 

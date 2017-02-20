@@ -96,7 +96,7 @@ class Preferences: NSObject, PrefsPaneDelegate {
     struct AnnotationPlaceholders {
         static let AnnotationText = "{{AnnotationText}}"
         static let NoteText = "{{NoteText}}"
-        static let Type = "{{Type}}"
+        static let `Type` = "{{Type}}"
         static let Color = "{{Color}}"
         static let Author = "{{Author}}"
         static let AnnotationDate = "{{AnnotationDate}}"
@@ -147,19 +147,19 @@ class Preferences: NSObject, PrefsPaneDelegate {
         Preferences.AnnotationPlaceholders.AnnotationLink_FilePathType
     ]
 
-    var availablePlaceholders: [AnyObject] {
+    var availablePlaceholders: [Any] {
         get {
             return Preferences.availablePlaceholders as [AnyObject]
         }
     }
 
-    var availableSelectionPlaceholders: [AnyObject] {
+    var availableSelectionPlaceholders: [Any] {
         get {
             return Preferences.availableSelectionPlaceholders as [AnyObject]
         }
     }
 
-    var availableAnnotationPlaceholders: [AnyObject] {
+    var availableAnnotationPlaceholders: [Any] {
         get {
             return Preferences.availableAnnotationPlaceholders as [AnyObject]
         }

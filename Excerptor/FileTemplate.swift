@@ -20,7 +20,7 @@ struct FileTemplate {
     let modificationDate: String
 
 // swiftlint:disable function_body_length
-    func writeToFileWithPropertyGettersDictionary(_ propertyGettersByPlaceholder: [String: () -> String]) -> Bool {
+    func writeToFileWithPropertyGettersDictionary(_ propertyGettersByPlaceholder: [String: () -> String]) {
         let folderPath = self.folderPath.stringByReplacingWithDictionary(propertyGettersByPlaceholder)
         var fileName = self.fileName.stringByReplacingWithDictionary(propertyGettersByPlaceholder)
         let content = self.content.stringByReplacingWithDictionary(propertyGettersByPlaceholder)
@@ -49,43 +49,36 @@ struct FileTemplate {
             exitWithError(error.localizedDescription)
         }
 
-        let filePathWithoutExtension = URL(fileURLWithPath: folderPath).appendingPathComponent(fileName).path!
+        let filePathWithoutExtension = URL(fileURLWithPath: folderPath).appendingPathComponent(fileName).path
         let expandedFilePathWithoutExtension = NSString(string: filePathWithoutExtension).expandingTildeInPath
-        if let filePath = fileExtension.isEmpty ? filePathWithoutExtension : URL(fileURLWithPath: expandedFilePathWithoutExtension).appendingPathExtension(fileExtension).path {
+        let filePath = fileExtension.isEmpty ? filePathWithoutExtension : URL(fileURLWithPath: expandedFilePathWithoutExtension).appendingPathExtension(fileExtension).path
 
-            if FileManager.default.fileExists(atPath: filePath) {
-                NSLog("\(filePath) exists")
-                return false
-            }
+        if FileManager.default.fileExists(atPath: filePath) {
+            exitWithError("\(filePath) exists")
+        }
 
-            do {
-                try content.write(toFile: filePath, atomically: true, encoding: String.Encoding.utf8)
-            } catch let error as NSError {
-                exitWithError("Could not write to file: \(filePath)\n" + error.localizedDescription)
-            }
+        do {
+            try content.write(toFile: filePath, atomically: true, encoding: String.Encoding.utf8)
+        } catch let error as NSError {
+            exitWithError("Could not write to file: \(filePath)\n" + error.localizedDescription)
+        }
 
-            do {
-                try (URL(fileURLWithPath: filePath) as NSURL).setResourceValue(tags, forKey: URLResourceKey.tagNamesKey)
-            } catch let error as NSError {
-                exitWithError("Could not set resource value \(tags.description) for key NSURLTagNamesKey to file: \(filePath)\n" + error.localizedDescription)
-            }
+        do {
+            try (URL(fileURLWithPath: filePath) as NSURL).setResourceValue(tags, forKey: URLResourceKey.tagNamesKey)
+        } catch let error as NSError {
+            exitWithError("Could not set resource value \(tags.description) for key NSURLTagNamesKey to file: \(filePath)\n" + error.localizedDescription)
+        }
 
-            do {
-                try FileManager.default.setAttributes([FileAttributeKey.creationDate: creationDate], ofItemAtPath: filePath)
-            } catch let error as NSError {
-                exitWithError("Could not set creation data: \(creationDate.description) of \(filePath)\n" + error.localizedDescription)
-            }
+        do {
+            try FileManager.default.setAttributes([FileAttributeKey.creationDate: creationDate as Any], ofItemAtPath: filePath)
+        } catch let error as NSError {
+            exitWithError("Could not set creation data: \(creationDate?.description) of \(filePath)\n" + error.localizedDescription)
+        }
 
-            do {
-                try FileManager.default.setAttributes([FileAttributeKey.modificationDate: modificationDate], ofItemAtPath: filePath)
-            } catch let error as NSError {
-                exitWithError("Could not set modification date: \(modificationDate.description) of \(filePath)\n" + error.localizedDescription)
-            }
-
-            return true
-
-        } else {
-            return false
+        do {
+            try FileManager.default.setAttributes([FileAttributeKey.modificationDate: modificationDate as Any], ofItemAtPath: filePath)
+        } catch let error as NSError {
+            exitWithError("Could not set modification date: \(modificationDate?.description) of \(filePath)\n" + error.localizedDescription)
         }
     }
 // swiftlint:enable function_body_length

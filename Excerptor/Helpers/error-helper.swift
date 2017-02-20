@@ -7,7 +7,7 @@
 //
 
 func printToStandardError(_ string: String) {
-    let stderr = FileHandle.withStandardError
+    let stderr = FileHandle.standardError
     let stringWithAppInfo = "Excerptor: \(string)"
     stderr.write(stringWithAppInfo.data(using: String.Encoding.utf8, allowLossyConversion: false)!)
 }
@@ -85,9 +85,7 @@ func notifyPDFFileNotFoundInDNtpWith(_ filePath: String, replacingPlaceholder: S
     userNotification.title = "Could Not Find The PDF File In DEVONthink"
     userNotification.subtitle = "\(replacingPlaceholder) applied instead"
     userNotification.informativeText = URL(fileURLWithPath: filePath).lastPathComponent
-    guard let path = NSURL(fileURLWithPath: filePath).standardizedFileURL()?.path else {
-        exitWithError("Could not get PDF file path")
-    }
+    let path = URL(fileURLWithPath: filePath).standardizedFileURL.path
     userNotification.userInfo = [Constants.PDFFilePathToRevealInFinder: path]
     userNotification._ignoresDoNotDisturb = true
     notifyWithUserNotification(userNotification)

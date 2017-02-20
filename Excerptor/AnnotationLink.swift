@@ -52,8 +52,8 @@ class AnnotationLink: Link {
             let linkStringWithoutHead = linkString.stringByRemovingPrefix(SelectionLink.head)
             let arr = linkStringWithoutHead.components(separatedBy: ":")
             if arr.count == 3 {
-                let fileID = FileID(filePathOrDNtpUuid: arr[0].stringByRemovingPercentEncoding!)
-                let annotationText = arr[1].stringByRemovingPercentEncoding!
+                let fileID = FileID(filePathOrDNtpUuid: arr[0].removingPercentEncoding!)
+                let annotationText = arr[1].removingPercentEncoding!
                 let pageNumberAndDateString = arr[2]
                 if pageNumberAndDateString.hasPrefix("p") {
                     let pageNumberAndData = String(pageNumberAndDateString.characters.dropFirst()).components(separatedBy: "_")
@@ -67,7 +67,7 @@ class AnnotationLink: Link {
                                 }
                             }
                             let annotationLocation = AnnotationLocation(pdfFilePath: fileID.getFilePath(), pageIndex: UInt(pageIndex), annotationDate: annotationDate)
-                            self.init(fileID: fileID, annotationLocation: annotationLocation, annotationText: annotationText)
+                            self.init(fileID: fileID, annotationLocation: annotationLocation!, annotationText: annotationText)
                             return
                         }
                     }
