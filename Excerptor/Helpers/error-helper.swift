@@ -23,12 +23,7 @@ func exitWithError(_ err: String) -> Never  {
         printlnToStandardError(err)
         exit(1)
     } else {
-        let alert = NSAlert()
-        alert.alertStyle = .warning
-        alert.messageText = "Excerptor"
-        alert.informativeText = err
-        alert.addButton(withTitle: "Ok")
-        alert.runModal()
+        notifyWithError("Excerptor error", informativeText: err)
         fatalError(err)
     }
 }
