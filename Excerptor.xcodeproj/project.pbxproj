@@ -120,7 +120,6 @@
 		BD4C71561B0B690700F44B6C /* PreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
 		BD4C71571B0B690700F44B6C /* PreferencesWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferencesWindow.xib; sourceTree = "<group>"; };
 		BD4C715A1B0B77CC00F44B6C /* delay-helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "delay-helper.swift"; sourceTree = "<group>"; };
-		BD57A5CA1BF7521A000B85D9 /* CommandLine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CommandLine.framework; path = Carthage/Build/Mac/CommandLine.framework; sourceTree = "<group>"; };
 		BD7E6D611B08CE4700AD083A /* Selection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Selection.swift; sourceTree = "<group>"; };
 		BD93E6781B0AFD98006457ED /* PrefsPane.prefPane */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PrefsPane.prefPane; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD93E67B1B0AFD98006457ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -248,7 +247,7 @@
 			isa = PBXGroup;
 			children = (
 				BD9A58A31B16D9DE00D45D6D /* SkimNotes.framework */,
-				BD57A5CA1BF7521A000B85D9 /* CommandLine.framework */,
+				BD236B0A1E5ABDEE003A04BA /* CommandLineKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -256,7 +255,6 @@
 		BDBF90DB1B089B690022A375 = {
 			isa = PBXGroup;
 			children = (
-				BD236B0A1E5ABDEE003A04BA /* CommandLineKit.framework */,
 				BDBF91381B089C0D0022A375 /* Shared Files */,
 				BD25DB1C1B0E085900A653F3 /* PDFKit Extensions */,
 				BDBF90E61B089B690022A375 /* Excerptor */,
