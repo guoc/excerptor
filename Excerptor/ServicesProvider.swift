@@ -11,16 +11,24 @@ class ServicesProvider: NSObject {
     func getSelectionLink(_ pboard: NSPasteboard, userData: String, error: AutoreleasingUnsafeMutablePointer<NSString?>) {
         PreferencesWindowController.needShowPreferences = false
 
-        let selectionLink = generateFilePathTypeSelectionLink()
-        let selection = Selection(selectionLink: selectionLink!)
+        guard let selectionLink = generateFilePathTypeSelectionLink() else {
+            notifyWithError("Excerptor Message", informativeText: "There is no text selected OR SIMBL has not been installed correctly OR an unknown bug happened.")
+            return
+        }
+        
+        let selection = Selection(selectionLink: selectionLink)
         selection.writeToPasteboardWithTemplateString(Preferences.sharedPreferences.stringForSelectionLinkRichText, plainTextTemplate: Preferences.sharedPreferences.stringForSelectionLinkPlainText)
     }
 
     func getSelectionFile(_ pboard: NSPasteboard?, userData: String?, error: AutoreleasingUnsafeMutablePointer<NSString?>) {
         PreferencesWindowController.needShowPreferences = false
 
-        let selectionLink = generateFilePathTypeSelectionLink()
-        let selection = Selection(selectionLink: selectionLink!)
+        guard let selectionLink = generateFilePathTypeSelectionLink() else {
+            notifyWithError("Excerptor Message", informativeText: "There is no text selected OR SIMBL has not been installed correctly OR an unknown bug happened.")
+            return
+        }
+        
+        let selection = Selection(selectionLink: selectionLink)
 
         let fileName = Preferences.sharedPreferences.stringForSelectionFileName
         let fileExtension = Preferences.sharedPreferences.stringForSelectionFileExtension
@@ -50,9 +58,12 @@ class ServicesProvider: NSObject {
         }
     }
 
-    func generateFilePathTypeSelectionLink() -> SelectionLink! {
-        guard let selectionLocation = PasteboardHelper.readExcerptorPasteboard() as? SelectionLocation else {
-            exitWithError("Invalid selection location: \(PasteboardHelper.readExcerptorPasteboard())")
+    func generateFilePathTypeSelectionLink() -> SelectionLink? {
+        guard let pasteboardContent = PasteboardHelper.readExcerptorPasteboard() else {
+            return nil
+        }
+        guard let selectionLocation = pasteboardContent as? SelectionLocation else {
+            exitWithError("Invalid selection location: \(pasteboardContent)")
         }
         return SelectionLink(selectionLocation: selectionLocation)
     }

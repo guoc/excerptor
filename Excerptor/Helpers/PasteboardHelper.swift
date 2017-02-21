@@ -29,17 +29,18 @@ class PasteboardHelper {
         return false
     }
 
-    class func readExcerptorPasteboard() -> Location! {
+    class func readExcerptorPasteboard() -> Location? {
         let pasteboard = NSPasteboard(name: Constants.InputPasteboardName)
         guard let data = pasteboard.data(forType: Constants.PasteboardType) else {
-            exitWithError("Could not get selection/annotation information")
+            return nil
         }
         guard let unarchivedObject = NSKeyedUnarchiver.unarchiveObject(with: data) else {
             exitWithError("Could not unarchive object with data " + data.description)
         }
         guard let location = unarchivedObject as? Location else {
             if let errorMessage = unarchivedObject as? NSString {
-                exitWithError("Error message in pasteboard: " + String(errorMessage))
+                notifyWithError("Error message in pasteboard", informativeText: String(errorMessage))
+                return nil
             } else {
                 exitWithError("Could not convert unarchived object to location " + (unarchivedObject as AnyObject).description)
             }
