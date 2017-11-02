@@ -32,14 +32,14 @@ struct FileTemplate {
         let modificationDate = Date.dateFromISO8601String(modificationDateString)
 
         if fileName.isEmpty {
-            fileName = "Note " + String(String(content.hash).characters.suffix(4))    // Hope lucky.
+            fileName = "Note " + String(String(content.hash).suffix(4))    // Hope lucky.
         } else {
             fileName = fileName.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
                                .replacingOccurrences(of: "/", with: "%2F", options: [], range: nil)
                                .replacingOccurrences(of: ":", with: "%3A", options: [], range: nil)
                                .replacingOccurrences(of: "\n", with: " ", options: [], range: nil)
-            if fileName.characters.count > 192 {
-                fileName = String(fileName.characters.prefix(192)) + "…"
+            if fileName.count > 192 {
+                fileName = String(fileName.prefix(192)) + "…"
             }
         }
 
@@ -72,13 +72,13 @@ struct FileTemplate {
         do {
             try FileManager.default.setAttributes([FileAttributeKey.creationDate: creationDate as Any], ofItemAtPath: filePath)
         } catch let error as NSError {
-            exitWithError("Could not set creation data: \(creationDate?.description) of \(filePath)\n" + error.localizedDescription)
+            exitWithError("Could not set creation data: \(String(describing: creationDate?.description)) of \(filePath)\n" + error.localizedDescription)
         }
 
         do {
             try FileManager.default.setAttributes([FileAttributeKey.modificationDate: modificationDate as Any], ofItemAtPath: filePath)
         } catch let error as NSError {
-            exitWithError("Could not set modification date: \(modificationDate?.description) of \(filePath)\n" + error.localizedDescription)
+            exitWithError("Could not set modification date: \(String(describing: modificationDate?.description)) of \(filePath)\n" + error.localizedDescription)
         }
     }
 // swiftlint:enable function_body_length

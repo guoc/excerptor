@@ -15,7 +15,7 @@ class ServicesProvider: NSObject {
             notifyWithError("Excerptor Message", informativeText: "There is no text selected OR SIMBL has not been installed correctly OR an unknown bug happened.")
             return
         }
-        
+
         let selection = Selection(selectionLink: selectionLink)
         selection.writeToPasteboardWithTemplateString(Preferences.sharedPreferences.stringForSelectionLinkRichText, plainTextTemplate: Preferences.sharedPreferences.stringForSelectionLinkPlainText)
     }
@@ -27,7 +27,7 @@ class ServicesProvider: NSObject {
             notifyWithError("Excerptor Message", informativeText: "There is no text selected OR SIMBL has not been installed correctly OR an unknown bug happened.")
             return
         }
-        
+
         let selection = Selection(selectionLink: selectionLink)
 
         let fileName = Preferences.sharedPreferences.stringForSelectionFileName
@@ -35,15 +35,15 @@ class ServicesProvider: NSObject {
         let folderPath = String(NSString(string: Preferences.sharedPreferences.stringForSelectionFilesLocation).expandingTildeInPath)
         let tags = Preferences.sharedPreferences.stringForSelectionFileTags.components(separatedBy: ",").map { $0.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) }.filter { !$0.isEmpty }
         let content = Preferences.sharedPreferences.stringForSelectionFileContent
-        let fileTemplate = FileTemplate(folderPath: folderPath!, fileName: fileName, fileExtension: fileExtension, tags: tags, content: content, creationDate: Preferences.SelectionPlaceholders.CreationDate, modificationDate: Preferences.SelectionPlaceholders.CreationDate)
+        let fileTemplate = FileTemplate(folderPath: folderPath, fileName: fileName, fileExtension: fileExtension, tags: tags, content: content, creationDate: Preferences.SelectionPlaceholders.CreationDate, modificationDate: Preferences.SelectionPlaceholders.CreationDate)
         selection.writeToFileWith(fileTemplate)
     }
 
     func getAnnotationFiles(_ pboard: NSPasteboard?, userData: String?, error: AutoreleasingUnsafeMutablePointer<NSString?>) {
         PreferencesWindowController.needShowPreferences = false
         if let pboard = pboard {
-            guard let fileOrFolderNames = pboard.propertyList(forType: NSFilenamesPboardType) as? [String] else {
-                exitWithError("Could not get file names: \(pboard.propertyList(forType: NSFilenamesPboardType))")
+            guard let fileOrFolderNames = pboard.propertyList(forType: NSPasteboard.PasteboardType("NSFilenamesPboardType")) as? [String] else {
+                exitWithError("Could not get file names: \(String(describing: pboard.propertyList(forType: NSPasteboard.PasteboardType("NSFilenamesPboardType"))))")
             }
             for fileOrFolderName: String in fileOrFolderNames {
                 var isDirectory = ObjCBool(false)
@@ -72,10 +72,7 @@ class ServicesProvider: NSObject {
         let selectionLink = generateFilePathTypeSelectionLink()
         return selectionLink?.getDNtpUuidTypeLink() as? SelectionLink
     }
-
-
 }
-
 
 extension Selection {
 

@@ -56,7 +56,7 @@ class AnnotationLink: Link {
                 let annotationText = arr[1].removingPercentEncoding!
                 let pageNumberAndDateString = arr[2]
                 if pageNumberAndDateString.hasPrefix("p") {
-                    let pageNumberAndData = String(pageNumberAndDateString.characters.dropFirst()).components(separatedBy: "_")
+                    let pageNumberAndData = String(pageNumberAndDateString.dropFirst()).components(separatedBy: "_")
                     if pageNumberAndData.count == 1 || pageNumberAndData.count == 2 {
                         if let pageNumber = Int(pageNumberAndData[0]) {
                             let pageIndex = UInt(pageNumber - 1)
@@ -84,26 +84,22 @@ class AnnotationLink: Link {
     }
 
     override var string: String {
-        get {
-            let fileIDString = fileID.percentEncodedString
-            let replacedAnnotationText = annotationText.components(separatedBy: CharacterSet.whitespacesAndNewlines).filter({!$0.isEmpty}).joined(separator: "+")
-            let allowedCharacterSet = NSMutableCharacterSet(charactersIn: "+")
-            allowedCharacterSet.formUnion(with: URIUnreservedCharacterSet as CharacterSet)
-            let annotationTextString = replacedAnnotationText.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet as CharacterSet)!
-            let pageNumber = annotationLocation.pageIndex + 1
-            var returnString = "\(SelectionLink.head)\(fileIDString):\(annotationTextString):p\(String(pageNumber))"
-            if let annotationDate = annotationLocation.annotationDate {
-                let dateString = String(Int(annotationDate.timeIntervalSince1970))
-                returnString = returnString + "_\(dateString)"
-            }
-            return returnString
+        let fileIDString = fileID.percentEncodedString
+        let replacedAnnotationText = annotationText.components(separatedBy: CharacterSet.whitespacesAndNewlines).filter({!$0.isEmpty}).joined(separator: "+")
+        let allowedCharacterSet = NSMutableCharacterSet(charactersIn: "+")
+        allowedCharacterSet.formUnion(with: URIUnreservedCharacterSet as CharacterSet)
+        let annotationTextString = replacedAnnotationText.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet as CharacterSet)!
+        let pageNumber = annotationLocation.pageIndex + 1
+        var returnString = "\(SelectionLink.head)\(fileIDString):\(annotationTextString):p\(String(pageNumber))"
+        if let annotationDate = annotationLocation.annotationDate {
+            let dateString = String(Int(annotationDate.timeIntervalSince1970))
+            returnString += "_\(dateString)"
         }
+        return returnString
     }
 
     override var location: Location {
-        get {
-            return annotationLocation
-        }
+        return annotationLocation
     }
 
     override func getDNtpUuidTypeLink() -> Link? {
@@ -124,6 +120,4 @@ class AnnotationLink: Link {
         let filePath = getFilePath()
         return AnnotationLink(filePath: filePath, annotationLocation: annotationLocation, annotationText: annotationText)
     }
-
-
 }

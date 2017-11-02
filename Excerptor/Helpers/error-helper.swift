@@ -18,7 +18,7 @@ func printlnToStandardError(_ string: String) {
 
 var runningInCLI = false
 
-func exitWithError(_ err: String) -> Never  {
+func exitWithError(_ err: String) -> Never {
     if runningInCLI {
         printlnToStandardError(err)
         exit(1)
@@ -86,7 +86,6 @@ func notifyPDFFileNotFoundInDNtpWith(_ filePath: String, replacingPlaceholder: S
     notifyWithUserNotification(userNotification)
 }
 
-
 class UserNotificationCenterDelegate: NSObject, NSUserNotificationCenterDelegate {
 
     // Notifications may be suppressed if the application is already frontmost,
@@ -101,7 +100,7 @@ class UserNotificationCenterDelegate: NSObject, NSUserNotificationCenterDelegate
         PreferencesWindowController.needShowPreferences = false
         if let userInfo = notification.userInfo, let filePath = userInfo[Constants.PDFFilePathToRevealInFinder] as? String {
             let url = URL(fileURLWithPath: filePath, isDirectory: false)
-            NSWorkspace.shared().activateFileViewerSelecting([url])
+            NSWorkspace.shared.activateFileViewerSelecting([url])
         }
     }
 

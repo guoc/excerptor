@@ -7,7 +7,6 @@
 //
 
 extension Date {
-    // swiftlint:disable variable_name
     static func dateFromISO8601String(_ ISO8601String: String) -> Date! {
         let ISO8601DateFormatter = DateFormatter()
         ISO8601DateFormatter.locale = Locale(identifier: "en_US_POSIX")

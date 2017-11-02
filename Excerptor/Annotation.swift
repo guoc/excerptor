@@ -54,7 +54,7 @@ class Annotation {
 
     let annotationText: String?
     let noteText: String?
-    var annotationOrNoteText: String { get { return annotationText ?? noteText! } }
+    var annotationOrNoteText: String { return annotationText ?? noteText! }
     let annotationType: AnnotationType
     let markupColor: NSColor?
     let author: String?
@@ -129,7 +129,7 @@ class Annotation {
         let pap_AnnotationText_Getter = { self.annotationText ?? "" }
         let pap_NoteText = Preferences.AnnotationPlaceholders.NoteText
         let pap_NoteText_Getter = { self.noteText ?? "" }
-        let pap_Type = Preferences.AnnotationPlaceholders.Type
+        let pap_Type = Preferences.AnnotationPlaceholders.annotationType
         let pap_Type_Getter = { self.annotationType.string() }
         let pap_Color = Preferences.AnnotationPlaceholders.Color
         let pap_Color_Getter = { self.markupColor?.hexDescription ?? "NO COLOR" }

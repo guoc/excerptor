@@ -49,21 +49,15 @@ class Link {
     }
 
     var string: String {
-        get {
-            return "\(Link.head)\(fileID.presentativeString)"
-        }
+        return "\(Link.head)\(fileID.presentativeString)"
     }
 
     var isFilePathLinkType: Bool {
-        get {
-            return fileID.isFilePath
-        }
+        return fileID.isFilePath
     }
 
     var isDNtpUuidLinkType: Bool {
-        get {
-            return !(fileID.isFilePath)
-        }
+        return !(fileID.isFilePath)
     }
 
     var filePathOrDNtpUuid: String {
@@ -79,9 +73,7 @@ class Link {
     }
 
     var location: Location {
-        get {
-            fatalError("Property location in subclass of Link must be overridden")
-        }
+        fatalError("Property location in subclass of Link must be overridden")
     }
 
     func getDNtpUuidTypeLink() -> Link? {

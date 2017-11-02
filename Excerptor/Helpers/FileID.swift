@@ -28,48 +28,40 @@ enum FileID {
     }
 
     fileprivate var string: String {
-        get {
-            switch self {
-            case .dNtpUuid(let str):
-                return str
-            case .filePath(let str):
-                return str
-            }
+        switch self {
+        case .dNtpUuid(let str):
+            return str
+        case .filePath(let str):
+            return str
         }
     }
 
     var urlString: String {
-        get {
-            if isFilePath {
-                return "file://\(string)"
-            } else {
-                return "x-devonthink-item://\(string)"
-            }
+        if isFilePath {
+            return "file://\(string)"
+        } else {
+            return "x-devonthink-item://\(string)"
         }
     }
-    
+
     var presentativeString: String {
-        get {
-            if isDNtpUuid {
-                return string
-            }
-            var abbreviatedPath = NSString(string: string).abbreviatingWithTildeInPath
-            for (target, replacement) in Preferences.sharedPreferences.dictionaryForPathSubstitutes {
-                abbreviatedPath = abbreviatedPath.replacingOccurrences(of: target, with: replacement)
-            }
-            return abbreviatedPath
+        if isDNtpUuid {
+            return string
         }
+        var abbreviatedPath = NSString(string: string).abbreviatingWithTildeInPath
+        for (target, replacement) in Preferences.sharedPreferences.dictionaryForPathSubstitutes {
+            abbreviatedPath = abbreviatedPath.replacingOccurrences(of: target, with: replacement)
+        }
+        return abbreviatedPath
     }
-    
+
     var percentEncodedString: String {
-        get {
-            if isDNtpUuid {
-                return presentativeString
-            }
-            let allowedCharacterSet = NSMutableCharacterSet(charactersIn: "/")
-            allowedCharacterSet.formUnion(with: URIUnreservedCharacterSet as CharacterSet)
-            return presentativeString.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet as CharacterSet)!
+        if isDNtpUuid {
+            return presentativeString
         }
+        let allowedCharacterSet = NSMutableCharacterSet(charactersIn: "/")
+        allowedCharacterSet.formUnion(with: URIUnreservedCharacterSet as CharacterSet)
+        return presentativeString.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet as CharacterSet)!
     }
 
     func getFilePath() -> String {
@@ -101,20 +93,16 @@ enum FileID {
     }
 
     var isFilePath: Bool {
-        get {
-            switch self {
-            case .filePath(_):
-                return true
-            case .dNtpUuid(_):
-                return false
-            }
+        switch self {
+        case .filePath:
+            return true
+        case .dNtpUuid:
+            return false
         }
     }
 
     var isDNtpUuid: Bool {
-        get {
-            return !isFilePath
-        }
+        return !isFilePath
     }
 
     fileprivate func getDNtpUuidWithFilePath(_ filePath: String?) -> String? {

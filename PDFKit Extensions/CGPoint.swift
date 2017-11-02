@@ -1,9 +1,7 @@
 import Foundation
 
 extension CGPoint {
-    // swiftlint:disable variable_name_min_length
-    func pointByOffsetting(dx: CGFloat, dy: CGFloat) -> CGPoint {
+    func pointByOffsetting(dx: CGFloat, dy: CGFloat) -> CGPoint { // swiftlint:disable:this identifier_name
         return CGPoint(x: x + dx, y: y + dy)
     }
-    // swiftlint:enable variable_name_min_length
 }

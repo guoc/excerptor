@@ -11,14 +11,14 @@ import PreferencePanes
 
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    lazy var preferencesWindowController: PreferencesWindowController = PreferencesWindowController(windowNibName: "PreferencesWindow")
+    lazy var preferencesWindowController: PreferencesWindowController = PreferencesWindowController(windowNibName: NSNib.Name(rawValue: "PreferencesWindow"))
 
     func applicationWillFinishLaunching(_ notification: Notification) {
 
         preferencesWindowController.showPreferencesOnlyOnceIfNecessaryAfterDelay(0.3)
 
         let servicesProvider = ServicesProvider()
-        NSApplication.shared().servicesProvider = servicesProvider
+        NSApplication.shared.servicesProvider = servicesProvider
 
         let appleEventManager: NSAppleEventManager = NSAppleEventManager.shared()
         appleEventManager.setEventHandler(self, andSelector: #selector(handleGetURLEvent(_:withReplyEvent:)), forEventClass: AEEventClass(kInternetEventClass), andEventID: AEEventID(kAEGetURL))
@@ -28,7 +28,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         preferencesWindowController.showPreferencesOnlyOnceIfNecessaryAfterDelay(0.3)
     }
 
-    func handleGetURLEvent(_ event: NSAppleEventDescriptor, withReplyEvent: NSAppleEventDescriptor) {
+    @objc func handleGetURLEvent(_ event: NSAppleEventDescriptor, withReplyEvent: NSAppleEventDescriptor) {
         PreferencesWindowController.needShowPreferences = false
         if let theURLString = event.forKeyword(AEKeyword(keyDirectObject))?.stringValue {
             if let link = AnnotationLink(linkString: theURLString) ?? SelectionLink(linkString: theURLString) {
@@ -44,6 +44,4 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
     }
-
-
 }

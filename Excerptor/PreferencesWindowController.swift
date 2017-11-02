@@ -9,7 +9,6 @@
 import Cocoa
 import PreferencePanes
 
-
 class PreferencesWindowController: NSWindowController {
 
     static var needShowPreferences = true
@@ -17,10 +16,8 @@ class PreferencesWindowController: NSWindowController {
     fileprivate var prefPane: NSPreferencePane! = {
         if let pathToPrefPaneBundle = Bundle.main.path(forResource: "PrefsPane", ofType: "prefPane", inDirectory: "PreferencePanes"),
             let prefBundle = Bundle(path: pathToPrefPaneBundle),
-            let prefPaneClass = prefBundle.principalClass as? NSPreferencePane.Type
-        // swiftlint:disable opening_brace
-        {
-        // swiftlint:enable opening_brace
+            let prefPaneClass = prefBundle.principalClass as? NSPreferencePane.Type {
+            // swiftlint:enable opening_brace
             var prefPane = prefPaneClass.init(bundle: prefBundle)
             (prefPane as PrefsPane).setDelegate!(Preferences.sharedPreferences)
             return prefPane
@@ -28,8 +25,6 @@ class PreferencesWindowController: NSWindowController {
             exitWithError("Could not load preference pane bundle")
         }
     }()
-
-
 
     override func windowDidLoad() {
         super.windowDidLoad()

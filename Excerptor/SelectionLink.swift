@@ -68,34 +68,24 @@ class SelectionLink: Link {
     }
 
     override var string: String {
-        get {
-            let fileIDString = fileID.percentEncodedString
-            return "\(SelectionLink.head)\(fileIDString):\(selectionLocation.stringWithoutPDFFilePath)"
-        }
+        let fileIDString = fileID.percentEncodedString
+        return "\(SelectionLink.head)\(fileIDString):\(selectionLocation.stringWithoutPDFFilePath)"
     }
 
     override var location: Location {
-        get {
-            return selectionLocation
-        }
+        return selectionLocation
     }
 
     var pageIndices: [Int] {
-        get {
-            return selectionLocation.pageIndices
-        }
+        return selectionLocation.pageIndices
     }
 
     var firstPageIndex: Int {
-        get {
-            return pageIndices.reduce(Int.max) { min($0, $1) }
-        }
+        return pageIndices.reduce(Int.max) { min($0, $1) }
     }
 
     var selectionTextArrayInOneLine: String {
-        get {
-            return selectionLocation.selectionTextInOneLine
-        }
+        return selectionLocation.selectionTextInOneLine
     }
 
     fileprivate struct Constants {
@@ -120,51 +110,41 @@ class SelectionLink: Link {
         let filePath = getFilePath()
         return SelectionLink(filePath: filePath, selectionLocation: selectionLocation)
     }
-
-
 }
-
 
 extension SelectionLocation {
     var stringWithoutPDFFilePath: String {
-        get {
-            let selectionString = selectionLineLocations.map { ($0 as AnyObject).string }.map { (string: String) -> String in
-                let replacedString = string.components(separatedBy: CharacterSet.whitespacesAndNewlines).filter({!$0.isEmpty}).joined(separator: "+")
-                let allowedCharaterSet = NSMutableCharacterSet(charactersIn: "+")
-                allowedCharaterSet.formUnion(with: URIUnreservedCharacterSet as CharacterSet)
-                let encodedString = replacedString.addingPercentEncoding(withAllowedCharacters: allowedCharaterSet as CharacterSet)!
-                return encodedString
-            }.joined(separator: SelectionLink.Constants.SelectionTextDelimiter)
-            guard let unwrappedSelectionLineLocations = selectionLineLocations as? [SelectionLineLocation] else {
-                exitWithError("selectionLineLocations contain non-SelectionLineLocation object. selectionLineLocations: \(selectionLineLocations)")
-            }
-            let locationStrings = unwrappedSelectionLineLocations.map { (lineLocation: SelectionLineLocation) -> String in
-                var lineLocationString = "p\(lineLocation.pageIndex + 1)_\(lineLocation.range.location)_\(lineLocation.range.length)"
-                if Preferences.sharedPreferences.boolForSelectionLinkIncludesBoundsInfo {
-                    lineLocationString += "_\(lineLocation.bound.origin.x)_\(lineLocation.bound.origin.y)_\(lineLocation.bound.size.width)_\(lineLocation.bound.size.height)"
-                }
-                return lineLocationString
-            }
-            return selectionString + ":" + locationStrings.joined(separator: "-")
+        let selectionString = selectionLineLocations.map { ($0 as AnyObject).string }.map { (string: String) -> String in
+            let replacedString = string.components(separatedBy: CharacterSet.whitespacesAndNewlines).filter({!$0.isEmpty}).joined(separator: "+")
+            let allowedCharaterSet = NSMutableCharacterSet(charactersIn: "+")
+            allowedCharaterSet.formUnion(with: URIUnreservedCharacterSet as CharacterSet)
+            let encodedString = replacedString.addingPercentEncoding(withAllowedCharacters: allowedCharaterSet as CharacterSet)!
+            return encodedString
+        }.joined(separator: SelectionLink.Constants.SelectionTextDelimiter)
+        guard let unwrappedSelectionLineLocations = selectionLineLocations as? [SelectionLineLocation] else {
+            exitWithError("selectionLineLocations contain non-SelectionLineLocation object. selectionLineLocations: \(selectionLineLocations)")
         }
+        let locationStrings = unwrappedSelectionLineLocations.map { (lineLocation: SelectionLineLocation) -> String in
+            var lineLocationString = "p\(lineLocation.pageIndex + 1)_\(lineLocation.range.location)_\(lineLocation.range.length)"
+            if Preferences.sharedPreferences.boolForSelectionLinkIncludesBoundsInfo {
+                lineLocationString += "_\(lineLocation.bound.origin.x)_\(lineLocation.bound.origin.y)_\(lineLocation.bound.size.width)_\(lineLocation.bound.size.height)"
+            }
+            return lineLocationString
+        }
+        return selectionString + ":" + locationStrings.joined(separator: "-")
     }
 
     var pageIndices: [Int] {
-        get {
-            guard let unwrappedSelectionLineLocations = selectionLineLocations as? [SelectionLineLocation] else {
-                exitWithError("selectionLineLocations contain non-SelectionLineLocation object. selectionLineLocations: \(selectionLineLocations)")
-            }
-            return unwrappedSelectionLineLocations.map { Int($0.pageIndex) }
+        guard let unwrappedSelectionLineLocations = selectionLineLocations as? [SelectionLineLocation] else {
+            exitWithError("selectionLineLocations contain non-SelectionLineLocation object. selectionLineLocations: \(selectionLineLocations)")
         }
+        return unwrappedSelectionLineLocations.map { Int($0.pageIndex) }
     }
 
     var selectionTextInOneLine: String {
-        get {
-            return selectionLineLocations.map { ($0 as AnyObject).string }.joined(separator: " ")
-        }
+        return selectionLineLocations.map { ($0 as AnyObject).string }.joined(separator: " ")
     }
 
-// swiftlint:disable function_body_length
     convenience init?(string: String) {
         let arr = string.components(separatedBy: ":")
         if arr.count != 3 {
@@ -178,7 +158,7 @@ extension SelectionLocation {
             let annotationString = stringAndSelection.annotationString.removingPercentEncoding!
             let selectionString = stringAndSelection.selection
             if selectionString.hasPrefix("p") {
-                let arr = String(selectionString.characters.dropFirst()).components(separatedBy: "_")
+                let arr = String(selectionString.dropFirst()).components(separatedBy: "_")
                 if arr.count == 3 || arr.count == 7 {
                     if let pageNumber = Int(arr[0]),
                              let location = Int(arr[1]),
@@ -186,7 +166,7 @@ extension SelectionLocation {
                     // swiftlint:disable opening_brace
                     {
                         let pageIndex = UInt(pageNumber - 1)
-                        let range = NSMakeRange(location, length)
+                        let range = NSRange(location: location, length: length)
                         var bound: NSRect = CGRect.zero
                         if Preferences.sharedPreferences.boolForSelectionLinkIncludesBoundsInfo && arr.count == 7 {
                             if let x = NumberFormatter().number(from: arr[3])?.floatValue,

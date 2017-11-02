@@ -10,19 +10,18 @@ import Foundation
 
 private let sharedInstance = Preferences()
 
-// swiftlint:disable type_body_length
 class Preferences: NSObject, PrefsPaneDelegate {
 
     fileprivate var userDefaults: UserDefaults = {
         var userDefaults = UserDefaults(suiteName: "name.guoc.excerptor")!
         let defaultValuesFilePath = Bundle.main.path(forResource: "PreferencesDefaultValues", ofType: "plist")!
-        guard let defaultValues = NSDictionary(contentsOfFile: defaultValuesFilePath)! as? [String : AnyObject] else {
+        guard let defaultValues = NSDictionary(contentsOfFile: defaultValuesFilePath)! as? [String: AnyObject] else {
             exitWithError("Fail to read preferences default values: \(NSDictionary(contentsOfFile: defaultValuesFilePath)!)")
         }
         userDefaults.register(defaults: defaultValues)
         if Preferences.dntpIsInstalled() {
             let defaultValuesForDNtpFilePath = Bundle.main.path(forResource: "PreferencesDefaultValues(DNtp)", ofType: "plist")!
-            guard let defaultValuesForDNtp = NSDictionary(contentsOfFile: defaultValuesForDNtpFilePath)! as? [String : AnyObject] else {
+            guard let defaultValuesForDNtp = NSDictionary(contentsOfFile: defaultValuesForDNtpFilePath)! as? [String: AnyObject] else {
                 exitWithError("Fail to read preferences default values for DNtp: \(NSDictionary(contentsOfFile: defaultValuesForDNtpFilePath)!)")
             }
             userDefaults.register(defaults: defaultValuesForDNtp)
@@ -43,34 +42,31 @@ class Preferences: NSObject, PrefsPaneDelegate {
     // MARK: PrefsPaneDelegate
 
     fileprivate struct Constants {
-        // swiftlint:disable variable_name_max_length
 
         static let AppForOpenPDF = "AppForOpenPDF"
 
         static let SelectionLinkPlainText = "SelectionLinkPlainText"
         static let SelectionLinkRichTextSameAsPlainText = "SelectionLinkRichTextSameAsPlainText"
         static let SelectionLinkRichText = "SelectionLinkRichText"
-        static let ShowNotificationWhenFileNotFoundInDNtpForSelectionLink = "ShowNotificationWhenFileNotFoundInDNtpForSelectionLink"
+        static let ShowNotificationWhenFileNotFoundInDNtpForSelectionLink = "ShowNotificationWhenFileNotFoundInDNtpForSelectionLink" // swiftlint:disable:this identifier_name
 
         static let SelectionFilesLocation = "SelectionFilesLocation"
         static let SelectionFileName = "SelectionFileName"
         static let SelectionFileExtension = "SelectionFileExtension"
         static let SelectionFileTags = "SelectionFileTags"
         static let SelectionFileContent = "SelectionFileContent"
-        static let ShowNotificationWhenFileNotFoundInDNtpForSelectionFile = "ShowNotificationWhenFileNotFoundInDNtpForSelectionFile"
+        static let ShowNotificationWhenFileNotFoundInDNtpForSelectionFile = "ShowNotificationWhenFileNotFoundInDNtpForSelectionFile" // swiftlint:disable:this identifier_name
 
         static let AnnotationFilesLocation = "AnnotationFilesLocation"
         static let AnnotationFileName = "AnnotationFileName"
         static let AnnotationFileExtension = "AnnotationFileExtension"
         static let AnnotationFileTags = "AnnotationFileTags"
         static let AnnotationFileContent = "AnnotationFileContent"
-        static let ShowNotificationWhenFileNotFoundInDNtpForAnnotationFile = "ShowNotificationWhenFileNotFoundInDNtpForAnnotationFile"
-        
+        static let ShowNotificationWhenFileNotFoundInDNtpForAnnotationFile = "ShowNotificationWhenFileNotFoundInDNtpForAnnotationFile" // swiftlint:disable:this identifier_name
+
         // Hidden preferences
         static let PathVariables = "PathVariables"
         static let PathSubstitutes = "PathSubstitutes"
-
-        // swiftlint:enable variable_name_max_length
     }
 
     // swiftlint:disable variable_name
@@ -96,7 +92,7 @@ class Preferences: NSObject, PrefsPaneDelegate {
     struct AnnotationPlaceholders {
         static let AnnotationText = "{{AnnotationText}}"
         static let NoteText = "{{NoteText}}"
-        static let `Type` = "{{Type}}"
+        static let annotationType = "{{Type}}"
         static let Color = "{{Color}}"
         static let Author = "{{Author}}"
         static let AnnotationDate = "{{AnnotationDate}}"
@@ -110,7 +106,7 @@ class Preferences: NSObject, PrefsPaneDelegate {
     static let availablePlaceholders: [String] = { () -> [String] in
         let selectionPlaceholders = Set(Preferences.availableSelectionPlaceholders)
         let annotationPlaceholders = Set(Preferences.availableAnnotationPlaceholders)
-        return Array<String>(selectionPlaceholders.union(annotationPlaceholders))
+        return [String](selectionPlaceholders.union(annotationPlaceholders))
     }()
 
     static let availableSelectionPlaceholders = [
@@ -138,7 +134,7 @@ class Preferences: NSObject, PrefsPaneDelegate {
         Preferences.CommonPlaceholders.Page,
         Preferences.AnnotationPlaceholders.AnnotationText,
         Preferences.AnnotationPlaceholders.NoteText,
-        Preferences.AnnotationPlaceholders.Type,
+        Preferences.AnnotationPlaceholders.annotationType,
         Preferences.AnnotationPlaceholders.Color,
         Preferences.AnnotationPlaceholders.Author,
         Preferences.AnnotationPlaceholders.AnnotationDate,
@@ -148,21 +144,15 @@ class Preferences: NSObject, PrefsPaneDelegate {
     ]
 
     var availablePlaceholders: [Any] {
-        get {
-            return Preferences.availablePlaceholders as [AnyObject]
-        }
+        return Preferences.availablePlaceholders as [AnyObject]
     }
 
     var availableSelectionPlaceholders: [Any] {
-        get {
-            return Preferences.availableSelectionPlaceholders as [AnyObject]
-        }
+        return Preferences.availableSelectionPlaceholders as [AnyObject]
     }
 
     var availableAnnotationPlaceholders: [Any] {
-        get {
-            return Preferences.availableAnnotationPlaceholders as [AnyObject]
-        }
+        return Preferences.availableAnnotationPlaceholders as [AnyObject]
     }
 
     var appForOpenPDF: PDFReaderApp {
@@ -189,7 +179,7 @@ class Preferences: NSObject, PrefsPaneDelegate {
         }
     }
 
-    var boolForSelectionLinkRichTextSameAsPlainText: Bool {
+    var boolForSelectionLinkRichTextSameAsPlainText: Bool { // swiftlint:disable:this identifier_name
         get {
             self.userDefaults.synchronize()
             return self.userDefaults.bool(forKey: Constants.SelectionLinkRichTextSameAsPlainText)
@@ -212,6 +202,7 @@ class Preferences: NSObject, PrefsPaneDelegate {
         }
     }
 
+    // swiftlint:disable identifier_name
     var boolForShowNotificationWhenFileNotFoundInDNtpForSelectionLink: Bool {
         get {
             self.userDefaults.synchronize()
@@ -367,27 +358,23 @@ class Preferences: NSObject, PrefsPaneDelegate {
             self.userDefaults.synchronize()
         }
     }
-    
+
     // Hidden preferences
-    
+
     var dictionaryForPathVariables: [String: String] {
-        get {
-            self.userDefaults.synchronize()
-            guard let dict = self.userDefaults.dictionary(forKey: Constants.PathVariables) as? [String: String] else {
-                return [String: String]()
-            }
-            return dict
+        self.userDefaults.synchronize()
+        guard let dict = self.userDefaults.dictionary(forKey: Constants.PathVariables) as? [String: String] else {
+            return [String: String]()
         }
+        return dict
     }
-    
+
     var dictionaryForPathSubstitutes: [String: String] {
-        get {
-            self.userDefaults.synchronize()
-            guard let dict = self.userDefaults.dictionary(forKey: Constants.PathSubstitutes) as? [String: String] else {
-                return [String: String]()
-            }
-            return dict
+        self.userDefaults.synchronize()
+        guard let dict = self.userDefaults.dictionary(forKey: Constants.PathSubstitutes) as? [String: String] else {
+            return [String: String]()
         }
+        return dict
     }
 
     func resetSelectionLinkPreferences() {
@@ -416,4 +403,3 @@ class Preferences: NSObject, PrefsPaneDelegate {
     }
 
 }
-// swiftlint:enable type_body_length

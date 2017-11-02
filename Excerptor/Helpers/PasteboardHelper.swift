@@ -20,18 +20,18 @@ class PasteboardHelper {
 
     class func writeGeneralPasteboardWith(_ selectionLink: SelectionLink?) -> Bool {
         if let selectionLink = selectionLink {
-            let pasteboard = NSPasteboard.general()
+            let pasteboard = NSPasteboard.general
             pasteboard.clearContents()
-            let attributedString = NSAttributedString(string: selectionLink.selectionTextArrayInOneLine, attributes: [NSLinkAttributeName: selectionLink.string])
+            let attributedString = NSAttributedString(string: selectionLink.selectionTextArrayInOneLine, attributes: [NSAttributedStringKey.link: selectionLink.string])
             return pasteboard.writeObjects([attributedString])
-                && pasteboard.setString(selectionLink.string, forType:NSPasteboardTypeString)
+                && pasteboard.setString(selectionLink.string, forType: NSPasteboard.PasteboardType.string)
         }
         return false
     }
 
     class func readExcerptorPasteboard() -> Location? {
-        let pasteboard = NSPasteboard(name: Constants.InputPasteboardName)
-        guard let data = pasteboard.data(forType: Constants.PasteboardType) else {
+        let pasteboard = NSPasteboard(name: NSPasteboard.Name(rawValue: Constants.InputPasteboardName))
+        guard let data = pasteboard.data(forType: NSPasteboard.PasteboardType(rawValue: Constants.PasteboardType)) else {
             return nil
         }
         guard let unarchivedObject = NSKeyedUnarchiver.unarchiveObject(with: data) else {
@@ -49,13 +49,11 @@ class PasteboardHelper {
     }
 
     class func writeExcerptorPasteboardWithLocation(_ location: Location) {
-        let pasteboard = NSPasteboard(name: Constants.OutputPasteboardName)
+        let pasteboard = NSPasteboard(name: NSPasteboard.Name(rawValue: Constants.OutputPasteboardName))
         pasteboard.clearContents()
         let data = NSKeyedArchiver.archivedData(withRootObject: location)
-        guard pasteboard.setData(data, forType:Constants.PasteboardType) else {
+        guard pasteboard.setData(data, forType: NSPasteboard.PasteboardType(rawValue: Constants.PasteboardType)) else {
             exitWithError("Could not write into pasteboard with excerpt location")
         }
     }
-
-
 }

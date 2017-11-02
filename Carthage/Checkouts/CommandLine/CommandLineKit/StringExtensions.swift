@@ -27,14 +27,11 @@ internal extension String {
    * using localeconv(3).
    */
   private func _localDecimalPoint() -> Character {
-    let locale = localeconv()
-    if locale != nil {
-      if let decimalPoint = locale?.pointee.decimal_point {
-        return Character(UnicodeScalar(UInt32(decimalPoint.pointee))!)
-      }
+    guard let locale = localeconv(), let decimalPoint = locale.pointee.decimal_point else {
+      return "."
     }
 
-    return "."
+    return Character(UnicodeScalar(UInt8(bitPattern: decimalPoint.pointee)))
   }
 
   /**
@@ -65,14 +62,22 @@ internal extension String {
     for i in self.characters.indices {
       let c = self[i]
       if c == by && (maxSplits == 0 || numSplits < maxSplits) {
+#if swift(>=3.2)
+        s.append(String(self[curIdx..<i]))
+#else
         s.append(self[curIdx..<i])
+#endif
         curIdx = self.index(after: i)
         numSplits += 1
       }
     }
 
     if curIdx != self.endIndex {
+#if swift(>=3.2)
+      s.append(String(self[curIdx..<self.endIndex]))
+#else
       s.append(self[curIdx..<self.endIndex])
+#endif
     }
 
     return s

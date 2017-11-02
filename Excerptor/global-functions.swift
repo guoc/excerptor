@@ -111,17 +111,16 @@ func JSONTextFromAnnotations(_ annotations: [PDFAnnotation]) -> String {
     return JSONTextFromJSONObject(JSONObjects as AnyObject)
 }
 
-// swiftlint:disable variable_name
 func JSONTextFromJSONObject(_ JSONObject: AnyObject) -> String {
     guard JSONSerialization.isValidJSONObject(JSONObject) else {
-        exitWithError("\(JSONObject.description) is not valid JSON object")
+        exitWithError("\(JSONObject) is not valid JSON object")
     }
 
     let JSONData: Data
     do {
         JSONData = try JSONSerialization.data(withJSONObject: JSONObject, options: .prettyPrinted)
     } catch let error as NSError {
-        exitWithError("\(error.localizedDescription) OR \(JSONObject.description) is not valid JSON object")
+        exitWithError("\(error.localizedDescription) OR \(JSONObject) is not valid JSON object")
     }
 
     guard let JSONString = String(data: JSONData, encoding: String.Encoding.utf8) else {
@@ -157,17 +156,14 @@ extension Annotation {
 }
 
 extension PDFAnnotation {
-    // swiftlint:disable variable_name
     var JSONObjectPresentation: AnyObject {
-        get {
-            let color = self.color
-            let colorSpaceName = color.colorSpaceName
-            let colorComponents = color.colorComponents
+        let color = self.color
+        let colorSpaceName = color.colorSpaceName
+        let colorComponents = color.colorComponents
 
-            let JSONObject = ["AnnotationText": annotationText, "NoteText": noteText, "TypeName": typeName, "Color": ["SpaceName": colorSpaceName, "Components": colorComponents], "Author": author, "PageIndex": pageIndex + 1, "Date": date.ISO8601String()] as [String : Any]
+        let JSONObject = ["AnnotationText": annotationText, "NoteText": noteText, "TypeName": typeName, "Color": ["SpaceName": colorSpaceName, "Components": colorComponents], "Author": author, "PageIndex": pageIndex + 1, "Date": date.ISO8601String()] as [String: Any]
 
-            return JSONObject as AnyObject
-        }
+        return JSONObject as AnyObject
     }
     // swiftlint:enable variable_name
 }

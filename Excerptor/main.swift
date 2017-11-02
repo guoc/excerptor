@@ -16,17 +16,17 @@ if CommandLine.argc == 1 || CommandLine.argc == 3 && CommandLine.arguments[1] ==
 }
 
 enum Operation: String {
-    case List = "list"
-    case Export = "export"
+    case list
+    case export
 }
 
 enum ExtractionType: String {
-    case Annotation = "annotation"
+    case annotation
 }
 
 enum Format: String {
-    case Text = "text"
-    case JSON = "JSON"
+    case text
+    case JSON
 }
 
 let operation = EnumOption<Operation>(longFlag: "operation", helpMessage: "'list' / 'export', 'list' by default.")
@@ -46,16 +46,16 @@ do {
     exit(EX_USAGE)
 }
 
-let unwrappedOperation = operation.value ?? Operation.List
+let unwrappedOperation = operation.value ?? Operation.list
 
-let unwrappedExtractionType = extractionType.value ?? ExtractionType.Annotation
+let unwrappedExtractionType = extractionType.value ?? ExtractionType.annotation
 
-let unwrappedFormat = format.value ?? Format.Text
+let unwrappedFormat = format.value ?? Format.text
 let outputFormat: OutputFormat = {
     switch unwrappedFormat {
     case .JSON:
         return .json
-    case .Text:
+    case .text:
         return .text
     }
 }()
@@ -69,10 +69,10 @@ guard let sourceFileURL = NSURL(fileURLWithPath: unwrappedSourceFilePath, isDire
 
 switch unwrappedOperation {
 
-case Operation.List:
+case Operation.list:
     printAnnotationsFrom(sourceFileURL, withFormat: outputFormat)
 
-case Operation.Export:
+case Operation.export:
     writePDFAnnotationsFrom(sourceFileURL)
 }
 

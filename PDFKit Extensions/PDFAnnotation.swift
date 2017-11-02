@@ -6,51 +6,35 @@ import Quartz
 extension PDFAnnotation {
 
     var annotationText: String {
-        get {
-            return (self as? PDFAnnotationMarkup)?.selectionText ?? ""
-        }
+        return (self as? PDFAnnotationMarkup)?.selectionText ?? ""
     }
 
     var noteText: String {
-        get {
-            return isSkimNote() ? string() : (contents ?? "")
-        }
+        return isSkimNote() ? string() : (contents ?? "")
     }
 
     var typeName: String {
-        get {
-            return type ?? "Unrecognized"
-        }
+        return type ?? "Unrecognized"
     }
 
     var author: String {
-        get {
-            return userName ?? ""
-        }
+        return userName ?? ""
     }
 
     var pageIndex: Int {
-        get {
-            return page!.pageIndex
-        }
+        return page!.pageIndex
     }
 
     var date: Date {
-        get {
-            return modificationDate!
-        }
+        return modificationDate!
     }
 
     var pdfFilePath: String {
-        get {
-            return self.page!.document!.documentURL!.path
-        }
+        return self.page!.document!.documentURL!.path
     }
 
     var pdfFileName: String {
-        get {
-            return URL(fileURLWithPath: pdfFilePath).lastPathComponent
-        }
+        return URL(fileURLWithPath: pdfFilePath).lastPathComponent
     }
 
 }

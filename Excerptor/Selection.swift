@@ -75,13 +75,13 @@ class Selection {
     }
 
     func writeToPasteboardWithTemplateString(_ richTextTemplate: String, plainTextTemplate: String) {
-        let pasteboard = NSPasteboard.general()
+        let pasteboard = NSPasteboard.general
         pasteboard.clearContents()
 
         let plainTextToWrite = plainTextTemplate.stringByReplacingWithDictionary(self.propertyGettersByPlaceholder)
 
         if Preferences.sharedPreferences.boolForSelectionLinkRichTextSameAsPlainText {
-            guard pasteboard.setString(plainTextToWrite, forType:NSPasteboardTypeString) else {
+            guard pasteboard.setString(plainTextToWrite, forType: NSPasteboard.PasteboardType.string) else {
                 exitWithError("Could not write into pasteboard (plain text: \(plainTextToWrite))")
             }
         } else {
@@ -89,27 +89,27 @@ class Selection {
             // swiftlint:disable force_try
             let regex = try! NSRegularExpression(pattern: pattern, options: [])
             // swiftlint:enable force_try
-            let range = NSMakeRange(0, richTextTemplate.characters.count)
+            let range = NSRange(location: 0, length: richTextTemplate.count)
             let matches = regex.matches(in: richTextTemplate, options: [], range: range)
             let richTextToWrite = Array(matches.map { (match: NSTextCheckingResult) -> (rangeToReplace: NSRange, text: String, link: String) in
                 func rangeFromNSRange(_ range: NSRange) -> Range<String.Index> {
-                    let start = richTextTemplate.characters.index(richTextTemplate.startIndex, offsetBy: range.location)
-                    let end = richTextTemplate.characters.index(start, offsetBy: range.length)
+                    let start = richTextTemplate.index(richTextTemplate.startIndex, offsetBy: range.location)
+                    let end = richTextTemplate.index(start, offsetBy: range.length)
                     return start..<end
                 }
 
                 let rangeToReplace = match.range
-                let text = richTextTemplate.substring(with: rangeFromNSRange(match.rangeAt(1))).stringByReplacingWithDictionary(self.propertyGettersByPlaceholder)
-                let link = richTextTemplate.substring(with: rangeFromNSRange(match.rangeAt(2))).stringByReplacingWithDictionary(self.propertyGettersByPlaceholder)
+                let text = String(richTextTemplate[rangeFromNSRange(match.range(at: 1))]).stringByReplacingWithDictionary(self.propertyGettersByPlaceholder)
+                let link = String(richTextTemplate[rangeFromNSRange(match.range(at: 2))]).stringByReplacingWithDictionary(self.propertyGettersByPlaceholder)
                 return (rangeToReplace: rangeToReplace, text: text, link: link)
             }.reversed()).reduce(NSMutableAttributedString(string: richTextTemplate)) { (attributedString: NSMutableAttributedString, linkStringInfo: (rangeToReplace: NSRange, text: String, link: String)) -> NSMutableAttributedString in
-                let linkAttributedString = NSAttributedString(string: linkStringInfo.text, attributes: [NSLinkAttributeName: linkStringInfo.link])
+                let linkAttributedString = NSAttributedString(string: linkStringInfo.text, attributes: [NSAttributedStringKey.link: linkStringInfo.link])
                 attributedString.replaceCharacters(in: linkStringInfo.rangeToReplace, with: linkAttributedString)
                 return attributedString
             }
 
             guard pasteboard.writeObjects([richTextToWrite])
-               && pasteboard.setString(plainTextToWrite, forType:NSPasteboardTypeString)
+                && pasteboard.setString(plainTextToWrite, forType: NSPasteboard.PasteboardType.string)
             else {
                 exitWithError("Could not write into pasteboard (rich text: \(richTextToWrite); plain text: \(plainTextToWrite))")
             }
