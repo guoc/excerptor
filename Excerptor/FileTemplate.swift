@@ -51,10 +51,14 @@ struct FileTemplate {
 
         let filePathWithoutExtension = URL(fileURLWithPath: folderPath).appendingPathComponent(fileName).path
         let expandedFilePathWithoutExtension = NSString(string: filePathWithoutExtension).expandingTildeInPath
-        let filePath = fileExtension.isEmpty ? filePathWithoutExtension : URL(fileURLWithPath: expandedFilePathWithoutExtension).appendingPathExtension(fileExtension).path
-
-        if FileManager.default.fileExists(atPath: filePath) {
-            exitWithError("\(filePath) exists")
+        var filePath = fileExtension.isEmpty ? filePathWithoutExtension : URL(fileURLWithPath: expandedFilePathWithoutExtension).appendingPathExtension(fileExtension).path
+        var serialNumber = 2 // if the filename exists, append serial number 2, 3, 4, ...
+        while FileManager.default.fileExists(atPath: filePath) {
+            filePath = fileExtension.isEmpty ? filePathWithoutExtension + " \(serialNumber)" : URL(fileURLWithPath: expandedFilePathWithoutExtension + " \(serialNumber)").appendingPathExtension(fileExtension).path
+            serialNumber += 1
+            if serialNumber > 10_000 {
+                exitWithError("Too many duplicated file names: \(filePath)")
+            }
         }
 
         do {
