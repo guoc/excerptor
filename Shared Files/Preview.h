@@ -11,7 +11,7 @@
 
 @import Quartz;
 
-@interface PVAnnotation : NSObject
+@interface PVAnnotation : PDFAnnotation
 
 @property(retain) NSDate *date;
 @property struct CGRect bounds;

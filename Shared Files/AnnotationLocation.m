@@ -36,29 +36,35 @@
         [pdfView goToPage:page];
         return YES;
     }
-    
+
     if ([pdfView isKindOfClass:NSClassFromString(@"PVPDFView")]) {
-        NSArray *annotations = [pdfView annotations];
+        NSArray *annotations = floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_12 ? [pdfView annotations] : [page annotations];
         PVAnnotation *annotation;
         for (annotation in annotations) {
-            if ([[annotation date] isEqualToDate:self.annotationDate]) {
+            NSDate *date = floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_12 ? [annotation date] : [annotation modificationDate];
+            if ([date isEqualToDate:self.annotationDate]) {
                 break;
             }
         }
-        if ([[annotation date] isEqualToDate:self.annotationDate]) {
-            CGRect rect = [annotation bounds];
-            [pdfView goToRect:rect onPage:page];
-            
-            BOOL modifyingExistingSelection = NO;
-            NSMethodSignature* signature = [[pdfView class] instanceMethodSignatureForSelector: @selector( selectAnnotation: byModifyingExistingSelection: )];
-            NSInvocation* invocation = [NSInvocation invocationWithMethodSignature: signature];
-            [invocation setTarget: pdfView];
-            [invocation setSelector: @selector( selectAnnotation: byModifyingExistingSelection: )];
-            [invocation setArgument: &annotation atIndex: 2];
-            [invocation setArgument: &modifyingExistingSelection atIndex: 3];
-            [invocation invoke];
-            return YES;
+        if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_12) {
+            if ([[annotation date] isEqualToDate:self.annotationDate]) {
+                CGRect rect = [annotation bounds];
+                [pdfView goToRect:rect onPage:page];
+
+                BOOL modifyingExistingSelection = NO;
+                NSMethodSignature* signature = [[pdfView class] instanceMethodSignatureForSelector: @selector( selectAnnotation: byModifyingExistingSelection: )];
+                NSInvocation* invocation = [NSInvocation invocationWithMethodSignature: signature];
+                [invocation setTarget: pdfView];
+                [invocation setSelector: @selector( selectAnnotation: byModifyingExistingSelection: )];
+                [invocation setArgument: &annotation atIndex: 2];
+                [invocation setArgument: &modifyingExistingSelection atIndex: 3];
+                [invocation invoke];
+                return YES;
+            }
+        } else {
+            [pdfView goToRect:[annotation bounds] onPage:[annotation page]];
         }
+
         return NO;
     } else {    // PDFAnnotation
         for (PDFAnnotation *annotation in [page annotations]) {
